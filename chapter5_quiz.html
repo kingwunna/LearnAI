@@ -1,0 +1,262 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Chapter 5 — Logarithmic & Exponential Functions | 60 Quiz</title>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+<style>
+:root{--bg:#f5f7fb;--card:#fff;--ink:#172033;--muted:#667085;--line:#dfe5ef;--accent:#3157d5;--ok:#137a4a;--bad:#b42318;--easy:#e8f7ee;--hard:#fff0e5}*{box-sizing:border-box}body{margin:0;font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink)}header{position:sticky;top:0;z-index:5;background:#111827;color:#fff;padding:14px 20px;box-shadow:0 2px 10px #0002}.top{max-width:1050px;margin:auto;display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap}h1{font-size:20px;margin:0}.stats{display:flex;gap:12px;align-items:center;font-size:14px}.bar{width:180px;height:9px;background:#374151;border-radius:99px;overflow:hidden}.bar i{display:block;height:100%;width:0;background:#8fb3ff}.wrap{max-width:1050px;margin:24px auto;padding:0 16px}.intro,.q{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:16px;box-shadow:0 2px 8px #1018280a}.intro h2{margin-top:0}.filters{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}button{border:0;border-radius:9px;padding:10px 14px;font-weight:650;cursor:pointer;background:#e8ecf5;color:#172033}button.primary{background:var(--accent);color:#fff}button.danger{background:#fee4e2;color:#912018}.meta{display:flex;gap:8px;margin-bottom:10px}.tag{font-size:12px;font-weight:750;padding:3px 8px;border-radius:99px;background:#eef2ff}.tag.easy{background:var(--easy);color:#146c43}.tag.hard{background:var(--hard);color:#a0440e}.prompt{font-weight:650;margin:8px 0 14px}.choices{display:grid;gap:8px}.choice{display:flex;gap:9px;align-items:flex-start;border:1px solid var(--line);padding:10px;border-radius:10px;cursor:pointer}.choice:hover{border-color:#9db0e9}.calc{width:min(320px,100%);padding:10px 12px;border:1px solid #b9c2d0;border-radius:9px;font-size:16px}.feedback{display:none;margin-top:12px;padding:10px 12px;border-radius:9px}.feedback.ok{display:block;background:#ecfdf3;color:#05603a}.feedback.bad{display:block;background:#fff1f0;color:#912018}.diagram{margin:12px 0;overflow:auto}.diagram svg{max-width:100%;height:auto;background:#fff;border:1px solid #e4e7ec;border-radius:10px}.actions{display:flex;gap:8px;margin-top:12px}.hidden{display:none}.summary{font-size:18px;font-weight:700}.foot{color:var(--muted);font-size:13px;margin:26px 0 50px}@media(max-width:600px){.bar{width:100px}.q{padding:14px}}
+</style></head><body><header><div class="top"><h1>Chapter 5: Logarithmic & Exponential Functions — 60 Quiz</h1><div class="stats"><span id="counter">0 / 60 answered</span><div class="bar"><i id="progress"></i></div><span id="score">Score: 0</span></div></div></header><main class="wrap"><section class="intro"><h2>Quiz setup</h2><p><b>60 questions:</b> 20 Easy + 40 Hard. <b>Types:</b> 40 MCQ + 20 Calculate-the-answer. Topics follow Chapter 5: logarithms, log laws, equations, change of base, natural logarithms, applications, graphs, transformations and inverses.</p><div class="filters"><button onclick="filterQ('all')">All 60</button><button onclick="filterQ('easy')">20 Easy</button><button onclick="filterQ('hard')">40 Hard</button><button class="primary" onclick="checkAll()">Check all answered</button><button class="danger" onclick="resetQuiz()">Reset</button></div><p class="summary" id="summary"></p></section><div id="quiz"></div><p class="foot">For numerical input questions, small rounding differences are accepted where appropriate. Use decimal answers unless the question asks for an exact form.</p></main>
+<style>
+:root{--bg:#f5f8fa;--card:#fff;--ink:#172033;--muted:#657386;--line:#dce3eb;--accent:#0f8f83;--ok:#16865f;--bad:#c94c5b;--easy:#eaf8f2;--hard:#fff8e8;--gold:#b78618;--gold-light:#f0ce72}
+html{min-height:100%;background:var(--bg);scroll-behavior:smooth}
+body{min-height:100vh;background:radial-gradient(circle at 12% 0%,rgba(15,143,131,.08),transparent 26%),radial-gradient(circle at 88% 0%,rgba(183,134,24,.10),transparent 24%),linear-gradient(180deg,#fff 0%,var(--bg) 45%,#f3f6fa 100%);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
+header{background:rgba(255,255,255,.97);color:var(--ink);border-bottom:1px solid var(--line);box-shadow:0 5px 20px rgba(23,32,51,.06);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+.top{max-width:1180px}
+h1{font-size:clamp(1.1rem,2vw,1.4rem);font-weight:900}
+.stats{font-weight:800;color:#344257}
+.bar{height:9px;background:#edf1f5;border:1px solid #e1e7ed}
+.bar i{background:linear-gradient(90deg,var(--accent),#d3a93f);transition:width .3s ease}
+.wrap{max-width:1180px;margin:24px auto;padding:0 18px}
+.intro,.q{border:1px solid #e1e7ee;border-radius:18px;padding:22px;margin-bottom:16px;box-shadow:0 12px 35px rgba(23,32,51,.07)}
+.intro{background:rgba(255,255,255,.97);padding:26px}
+.intro h2{font-size:1.55rem;margin:0 0 8px;color:var(--ink)}
+.intro p{color:var(--muted);line-height:1.65}
+.filters{gap:9px;margin-top:18px}
+button{min-height:44px;border:1px solid #cfd9e4;border-radius:11px;padding:10px 14px;background:#fff;color:#30455f;font-weight:850;transition:background .15s ease,border-color .15s ease,transform .15s ease}
+button:hover{border-color:#91aaa9;background:#f6fbfa}
+button:active{transform:translateY(1px)}
+button:focus-visible,.choice:focus-within,.calc:focus-visible{outline:3px solid rgba(15,143,131,.25);outline-offset:2px}
+button.primary{border-color:transparent;background:linear-gradient(135deg,#d4a437,#f0ce72);color:#172033;box-shadow:0 6px 16px rgba(183,134,24,.16)}
+button.danger{background:#fff3f4;border-color:#ecc4cb;color:#9f2f3e}
+.meta{align-items:center;gap:8px;margin-bottom:12px}
+.tag{background:#f1f5f9;color:#475569;border:1px solid #e4e9ef;font-size:.76rem;padding:4px 9px}
+.tag.easy{background:#effaf5;border-color:#cce9dc;color:#176b4e}
+.tag.hard{background:#fff8e8;border-color:#ecdcae;color:#8e6814}
+.prompt{font-size:1.15rem;font-weight:800;line-height:1.5;margin:8px 0 16px}
+.choices{gap:10px}
+.choice{align-items:center;gap:12px;min-height:52px;padding:12px 14px;border:1px solid #d7e0e8;border-radius:13px;background:#fff;box-shadow:0 3px 10px rgba(31,41,55,.025);transition:border-color .15s ease,background .15s ease,transform .15s ease}
+.choice:hover{border-color:#8fb3d2;background:#f8fbff;transform:translateY(-1px)}
+.choice:has(input:checked){border-color:#78bea4;background:#effaf5}
+.choice input{width:18px;height:18px;margin:0;flex:0 0 18px;accent-color:var(--accent)}
+.calc{border-color:#cfd9e4;border-radius:11px;background:#fff}
+.actions{margin-top:13px}
+.actions button{background:linear-gradient(135deg,#0f8f83,#2db6a6);border-color:transparent;color:#fff}
+.feedback{border:1px solid #d8e1e9;border-radius:13px;padding:13px 15px;line-height:1.6}
+.feedback.ok{background:#effaf5;border-color:#b8dfcd;color:#176b4e}
+.feedback.bad{background:#fff3f4;border-color:#ecc4cb;color:#9f2f3e}
+.diagram{margin:14px 0;padding:12px;border:1px solid #e0e6ed;border-radius:14px;background:#fbfcfe;overflow:auto}
+.diagram svg{max-width:100%;height:auto}
+.summary{font-weight:850;color:var(--accent)}
+.foot{color:var(--muted);line-height:1.6}
+.hidden{display:none!important}
+.questionNavigator{margin:0 0 16px;padding:18px;border:1px solid #dce3eb;border-radius:18px;background:rgba(255,255,255,.97);box-shadow:0 10px 28px rgba(23,32,51,.06)}
+.navigatorHead{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px}
+.navigatorHead h2{font-size:1.05rem;margin:0;font-weight:900}
+.navigatorToggle{width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:0;border:0;background:transparent;color:#172033;text-align:left;box-shadow:none}
+.navigatorToggle:hover,.navigatorToggle:active{background:transparent;transform:none}
+.navigatorTitle{font-size:1.05rem;font-weight:900}
+.navigatorSummary{display:flex;align-items:center;gap:12px;color:#657386;font-size:.9rem;font-weight:800}
+.navChevron{width:10px;height:10px;border-right:2px solid #0f8f83;border-bottom:2px solid #0f8f83;transform:rotate(45deg);transition:transform .18s ease}
+.navigatorToggle[aria-expanded="false"] .navChevron{transform:rotate(-45deg)}
+.navigatorContent{margin-top:12px}
+.questionNavigator.collapsed{padding-bottom:18px}
+.navigatorCount{color:#657386;font-size:.9rem;font-weight:800;font-variant-numeric:tabular-nums}
+.navigatorLegend{display:flex;flex-wrap:wrap;gap:8px 14px;margin:0 0 12px;color:#657386;font-size:.82rem}
+.legendItem{display:inline-flex;align-items:center;gap:6px}
+.legendDot{width:12px;height:12px;border-radius:4px;border:1px solid #cfd9e4;background:#fff}
+.legendDot.correct{background:#eaf8f2;border-color:#9dd4bf}.legendDot.wrong{background:#fff0f2;border-color:#e4a6b0}.legendDot.current{background:#eef8f6;border:2px solid #0f8f83}
+.navigatorGrid{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:7px}
+.navQ{min-width:0;min-height:39px;padding:4px 2px;border-radius:9px;font-variant-numeric:tabular-nums}
+.navQ.correct{background:#edf9f4;border-color:#a9d8c7;color:#126147}.navQ.wrong{background:#fff2f4;border-color:#e4a6b0;color:#a13243}.navQ.current{outline:3px solid rgba(15,143,131,.2);border:2px solid #0f8f83}
+.questionPager{display:flex;justify-content:space-between;gap:10px;margin-top:16px}
+.questionPager button{min-width:120px}
+.questionPager .nextQuestion{background:linear-gradient(135deg,#d4a437,#f0ce72);border-color:transparent;color:#172033}
+.teacherBadge{position:fixed;right:16px;bottom:14px;z-index:20;display:flex;align-items:center;gap:9px;padding:9px 13px;border:1px solid rgba(15,143,131,.2);border-radius:999px;background:rgba(255,255,255,.97);box-shadow:0 10px 26px rgba(0,0,0,.14);color:#172033}
+.teacherName{font-size:.87rem;font-weight:900;white-space:nowrap}.teacherStatus{width:9px;height:9px;flex:0 0 9px;border-radius:50%;background:#22a06b;box-shadow:0 0 0 3px #eaf8f2}
+@media(max-width:640px){.teacherBadge{position:static;margin:12px 10px 16px auto;width:max-content}}
+.wrap{padding-bottom:100px}
+@media(max-width:760px){.navigatorGrid{grid-template-columns:repeat(6,minmax(0,1fr))}.questionNavigator{padding:15px}}
+@media(max-width:430px){.navigatorGrid{grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}.navQ{min-height:42px}.teacherBadge{right:8px;bottom:8px;padding:7px 9px}.teacherAvatar{width:32px;height:32px;flex-basis:32px}.teacherName{font-size:.8rem}.teacherLabel{font-size:.68rem}.questionPager button{min-width:0;flex:1}}
+@media(prefers-reduced-motion:reduce){.navQ,.teacherBadge{transition:none}}
+@media(max-width:640px){header{padding:12px 14px}.top{gap:10px}.stats{width:100%;justify-content:space-between;gap:8px}.bar{flex:1;max-width:180px}.wrap{margin:16px auto;padding:0 10px}.intro,.q{padding:17px;border-radius:15px}.intro h2{font-size:1.3rem}.filters button{flex:1 1 calc(50% - 8px)}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.bar i,button,.choice{transition:none}}
+</style>
+<script>
+const qs=[]; const add=(d,t,p,a,o=null,ex='',diag='')=>qs.push({d,t,p,a,o,ex,diag});
+// 20 EASY: 15 MCQ + 5 CALC
+add('easy','mcq','Convert \\(10^3=1000\\) to logarithmic form.','log10(1000)=3',['\\(\\log_{10}1000=3\\)','\\(\\log_3 1000=10\\)','\\(\\log_{1000}10=3\\)','\\(\\log_{10}3=1000\\)'],'Use \\(a^x=y\\iff\\log_a y=x\\).');
+add('easy','mcq','Convert \\(\\log_{10}x=2\\) to exponential form.','x=100',['\\(x=20\\)','\\(x=100\\)','\\(x=0.01\\)','\\(x=1000\\)'],'\\(x=10^2=100\\).');
+add('easy','mcq','Evaluate \\(\\log_2 16\\).','4',['2','4','8','16'],'Because \\(2^4=16\\).');
+add('easy','mcq','Evaluate \\(\\log_3 27\\).','3',['2','3','6','9'],'Because \\(3^3=27\\).');
+add('easy','mcq','Which is equal to \\(\\log_a x+\\log_a y\\)?','log_a(xy)',['\\(\\log_a(x+y)\\)','\\(\\log_a(xy)\\)','\\(\\log_a(x/y)\\)','\\(xy\\log_a a\\)'],'Product law.');
+add('easy','mcq','Which is equal to \\(\\log_a x-\\log_a y\\)?','log_a(x/y)',['\\(\\log_a(x-y)\\)','\\(\\log_a(xy)\\)','\\(\\log_a(x/y)\\)','\\(\\log_a(y/x)\\)'],'Quotient law.');
+add('easy','mcq','Simplify \\(2\\log_a x\\).','log_a(x^2)',['\\(\\log_a(2x)\\)','\\(\\log_a(x^2)\\)','\\(\\log_a x+2\\)','\\(\\log_{2a}x\\)'],'Power law.');
+add('easy','mcq','What does \\(\\ln x\\) mean?','log_e x',['\\(\\log_{10}x\\)','\\(\\log_2x\\)','\\(\\log_e x\\)','\\(e\\log x\\)'],'Natural logarithm means logarithm to base \\(e\\).');
+add('easy','mcq','Which statement is true?','ln(e^x)=x',['\\(\\ln(e^x)=e\\)','\\(\\ln(e^x)=x\\)','\\(e^{\\ln x}=e\\)','\\(\\ln x=x\\)'],'\\(e^x\\) and \\(\\ln x\\) are inverse functions.');
+add('easy','mcq','The graph \\(y=e^x\\) crosses the y-axis at:','(0,1)',['(0,0)','(0,1)','(1,0)','(1,1)'],'At \\(x=0\\), \\(e^0=1\\).','exp');
+add('easy','mcq','The graph \\(y=\\ln x\\) crosses the x-axis at:','(1,0)',['(0,1)','(0,0)','(1,0)','(e,0)'],'\\(\\ln1=0\\).','ln');
+add('easy','mcq','The horizontal asymptote of \\(y=e^x\\) is:','y=0',['\\(x=0\\)','\\(y=0\\)','\\(y=1\\)','\\(x=1\\)'],'As \\(x\\to-\\infty\\), \\(e^x\\to0\\).','exp');
+add('easy','mcq','The vertical asymptote of \\(y=\\ln x\\) is:','x=0',['\\(x=0\\)','\\(y=0\\)','\\(x=1\\)','\\(y=1\\)'],'The domain is \\(x>0\\).','ln');
+add('easy','mcq','The graphs of \\(y=e^x\\) and \\(y=\\ln x\\) are reflections in:','y=x',['\\(x=0\\)','\\(y=0\\)','\\(y=x\\)','\\(y=-x\\)'],'Inverse functions reflect in \\(y=x\\).','inverse');
+add('easy','mcq','Which is the change-of-base formula for \\(\\log_b a\\)?','ln(a)/ln(b)',['\\(\\ln b/\\ln a\\)','\\(\\ln a/\\ln b\\)','\\(\\ln(ab)\\)','\\(a\\ln b\\)'],'Any common new base can be used.');
+add('easy','calc','Calculate \\(\\log_{10}100000\\).','5',null,'\\(10^5=100000\\).');
+add('easy','calc','Calculate \\(\\log_5 125\\).','3',null,'\\(5^3=125\\).');
+add('easy','calc','Solve \\(2^x=32\\).','5',null,'\\(32=2^5\\).');
+add('easy','calc','Solve \\(\\log_2 x=6\\).','64',null,'\\(x=2^6=64\\).');
+add('easy','calc','For \\(y=3e^x+2\\), find y when \\(x=0\\).','5',null,'\\(y=3e^0+2=5\\).');
+// 40 HARD: 25 MCQ + 15 CALC
+add('hard','mcq','Simplify \\(\\log_a 12+\\log_a 3-\\log_a 4\\).','log_a 9',['\\(\\log_a9\\)','\\(\\log_a11\\)','\\(\\log_a36\\)','\\(\\log_a1\\)'],'Combine to \\(\\log_a(12\\times3/4)=\\log_a9\\).');
+add('hard','mcq','If \\(\\log_2 x+\\log_2(x-2)=3\\), which equation must x satisfy?','x(x-2)=8',['\\(2x-2=8\\)','\\(x(x-2)=8\\)','\\(x/(x-2)=8\\)','\\(x(x+2)=3\\)'],'Combine logs first.');
+add('hard','mcq','Solve \\(\\log_3(x-1)=2\\).','10',['7','9','10','28'],'\\(x-1=9\\).');
+add('hard','mcq','Solve \\(\\log_2x+\\log_2(x-2)=3\\).','4',['-2','2','4','6'],'\\(x^2-2x=8\\Rightarrow x=4,-2\\); domain gives \\(x=4\\).');
+add('hard','mcq','Which value is excluded from the domain of \\(\\ln(2x-6)\\)?','x<=3',['\\(x<0\\)','\\(x\\le3\\)','\\(x>3\\)','\\(x\\ne3\\)'],'Need \\(2x-6>0\\Rightarrow x>3\\).');
+add('hard','mcq','If \\(3^{2x-1}=7\\), then x equals:','(1+ln7/ln3)/2',['\\(\\ln7/(2\\ln3)\\)','\\((1+\\ln7/\\ln3)/2\\)','\\(1+\\ln7/\\ln3\\)','\\(\\ln21/2\\)'],'Take logs: \\(2x-1=\\ln7/\\ln3\\).');
+add('hard','mcq','Solve \\(5^{x+1}=25^{2x-1}\\).','1',['0','1','2','3'],'Write \\(25=5^2\\): \\(x+1=4x-2\\).');
+add('hard','mcq','Which is equivalent to \\(\\log_4 7\\)?','ln7/ln4',['\\(\\ln4/\\ln7\\)','\\(\\ln7/\\ln4\\)','\\(4\\ln7\\)','\\(7\\ln4\\)'],'Change of base.');
+add('hard','mcq','If \\(\\ln x=2\\), then x is:','e^2',['2e','\\(e^2\\)','\\(2^e\\)','\\(\\ln2\\)'],'Convert to exponential form.');
+add('hard','mcq','For \\(f(x)=2e^{-4x}+3\\), the range is:','y>3',['\\(y>0\\)','\\(y<3\\)','\\(y>3\\)','all real y'],'The exponential part is always positive.','shiftExp');
+add('hard','mcq','For \\(y=2e^{3x}+1\\), the horizontal asymptote is:','y=1',['\\(x=1\\)','\\(y=1\\)','\\(y=2\\)','\\(x=0\\)'],'Vertical translation by +1.','shiftExp');
+add('hard','mcq','For \\(y=3\\ln(2x-4)\\), the vertical asymptote is:','x=2',['\\(x=-2\\)','\\(x=0\\)','\\(x=2\\)','\\(y=2\\)'],'Set log argument boundary: \\(2x-4=0\\).','shiftLn');
+add('hard','mcq','The domain of \\(y=3\\ln(2x-4)\\) is:','x>2',['\\(x<2\\)','\\(x>2\\)','\\(x\\ne2\\)','all real x'],'Need \\(2x-4>0\\).');
+add('hard','mcq','Which function is the inverse of \\(f(x)=e^x+4\\)?','ln(x-4)',['\\(e^{x-4}\\)','\\(\\ln x+4\\)','\\(\\ln(x-4)\\)','\\(4-e^x\\)'],'Swap x,y and solve: \\(x=e^y+4\\Rightarrow y=\\ln(x-4)\\).','inverse');
+add('hard','mcq','If \\(f(x)=2e^{-4x}+3\\), which expression is \\(f^{-1}(x)\\)?','-1/4 ln((x-3)/2)',['\\(-4\\ln((x-3)/2)\\)','\\(-\\tfrac14\\ln((x-3)/2)\\)','\\(\\tfrac14\\ln((x+3)/2)\\)','\\(2e^{-4x}-3\\)'],'Rearrange \\(x=2e^{-4y}+3\\).');
+add('hard','mcq','If \\(f(x)=3\\ln(2x-4)\\), the domain of \\(f^{-1}\\) is:','all real numbers',['\\(x>2\\)','\\(x>0\\)','all real numbers','\\(x\\ne0\\)'],'The range of a logarithmic function is all real numbers.');
+add('hard','mcq','Which graph best describes \\(y=e^{-x}\\)?','decreasing positive',['Increasing, crossing (0,1)','Decreasing and always positive','Decreasing and crosses x-axis','A straight line'],'Negative exponent makes exponential decay.','decay');
+add('hard','mcq','For \\(T=75e^{-0.02t}+20\\), what is the limiting temperature as \\(t\\to\\infty\\)?','20',['0°C','20°C','75°C','95°C'],'The exponential term tends to 0.','cool');
+add('hard','mcq','For \\(T=75e^{-0.02t}+20\\), the initial temperature is:','95',['20°C','75°C','95°C','97°C'],'At \\(t=0\\), \\(T=75+20=95\\).');
+add('hard','mcq','A population follows \\(P=500e^{0.04t}\\). Which equation gives the time when P=800?','t=ln(1.6)/0.04',['\\(t=\\ln800/0.04\\)','\\(t=\\ln1.6/0.04\\)','\\(t=0.04\\ln1.6\\)','\\(t=\\ln300/0.04\\)'],'Divide by 500, then take ln.');
+add('hard','mcq','If \\(\\log_a 8=3/2\\), then a equals:','4',['2','4','6','16'],'\\(a^{3/2}=8\\Rightarrow a=8^{2/3}=4\\).');
+add('hard','mcq','Given \\(\\log_2 3=p\\), express \\(\\log_2 27\\).','3p',['p+3','2p','3p','p^3'],'\\(27=3^3\\).');
+add('hard','mcq','If \\(\\log_3x=2+\\log_3 4\\), x is:','36',['12','18','24','36'],'\\(2=\\log_39\\), so \\(\\log_3x=\\log_336\\).');
+add('hard','mcq','Solve \\(\\ln(x+1)-\\ln(x-1)=\\ln2\\).','3',['2','3','4','No solution'],'\\((x+1)/(x-1)=2\\Rightarrow x=3\\), valid for \\(x>1\\).');
+add('hard','mcq','Which point on \\(y=e^x\\) corresponds under reflection in \\(y=x\\) to \\((1,0)\\) on \\(y=\\ln x\\)?','(0,1)',['(0,1)','(1,0)','(1,e)','(e,1)'],'Inverse graphs swap coordinates.','inverse');
+// calc 15
+add('hard','calc','Solve \\(\\log_3(x+5)=4\\).','76',null,'\\(x+5=3^4=81\\Rightarrow x=76\\).');
+add('hard','calc','Solve \\(\\log_5x+\\log_5(x-4)=2\\).','5',null,'\\(x(x-4)=25\\Rightarrow x^2-4x-25=0\\). Positive-domain root is \\(2+\\sqrt{29}\\approx7.385\\).','', 'expr');
+// correct special answer override later
+qs[46].a='7.385'; qs[46].tol=.002;
+add('hard','calc','Solve \\(2^{x+1}=10\\). Give x to 3 d.p.','2.322',null,'\\(x=\\log_2 10-1=\\ln10/\\ln2-1\\approx2.322\\).');
+add('hard','calc','Solve \\(7^{2x}=20\\). Give x to 3 d.p.','0.770',null,'\\(x=\\ln20/(2\\ln7)\\approx0.770\\).');
+add('hard','calc','Calculate \\(\\log_7 50\\) to 3 d.p.','2.011',null,'Use \\(\\ln50/\\ln7\\approx2.011\\).');
+add('hard','calc','Solve \\(e^{3x}=12\\). Give x to 3 d.p.','0.828',null,'\\(3x=\\ln12\\Rightarrow x=\\ln12/3\\approx0.828\\).');
+add('hard','calc','Solve \\(\\ln(2x-1)=2\\). Give x to 3 d.p.','4.195',null,'\\(2x-1=e^2\\Rightarrow x=(e^2+1)/2\\approx4.195\\).');
+add('hard','calc','For \\(T=75e^{-0.02t}+20\\), calculate T when t=6. Give 1 d.p.','86.5',null,'\\(T=75e^{-0.12}+20\\approx86.5\\).','cool');
+add('hard','calc','For \\(P=500e^{0.04t}\\), find t when P=1000. Give 1 d.p.','17.3',null,'\\(2=e^{0.04t}\\Rightarrow t=\\ln2/0.04\\approx17.3\\).');
+add('hard','calc','Find the x-intercept of \\(y=2e^{3x}-5\\). Give x to 3 d.p.','0.305',null,'\\(e^{3x}=2.5\\Rightarrow x=\\ln2.5/3\\approx0.305\\).','shiftExp');
+add('hard','calc','Find the x-intercept of \\(y=2\\ln(3x-1)\\).','0.667',null,'Set \\(\\ln(3x-1)=0\\Rightarrow3x-1=1\\Rightarrow x=2/3\\approx0.667\\).','shiftLn');
+add('hard','calc','If \\(f(x)=2e^{-4x}+3\\), calculate \\(f(0.5)\\) to 3 d.p.','3.271',null,'\\(2e^{-2}+3\\approx3.271\\).','shiftExp');
+add('hard','calc','Solve \\(3\\ln(2x-4)=6\\). Give x to 3 d.p.','5.695',null,'\\(\\ln(2x-4)=2\\Rightarrow x=(e^2+4)/2\\approx5.695\\).');
+add('hard','calc','Solve \\(\\log_2x=\\log_4 25\\). Give x exactly as an integer.','5',null,'\\(\\log_4 25=\\log_2 5\\), hence \\(x=5\\).');
+add('hard','calc','Solve \\(3^x+3^{x+1}=108\\).','3',null,'\\(3^x(1+3)=108\\Rightarrow3^x=27\\Rightarrow x=3\\).');
+function diagram(kind){if(!kind)return'';let curve='';if(kind==='exp'||kind==='inverse')curve='<path d="M28 142 C70 140 105 132 132 108 C158 83 174 49 184 20" fill="none" stroke="#3157d5" stroke-width="3"/>';if(kind==='ln'||kind==='inverse')curve+='<path d="M102 152 C105 110 120 82 150 61 C171 47 194 39 220 34" fill="none" stroke="#137a4a" stroke-width="3"/>';if(kind==='decay')curve='<path d="M30 25 C62 55 88 80 116 104 C145 126 176 137 220 141" fill="none" stroke="#3157d5" stroke-width="3"/>';if(kind==='shiftExp')curve='<path d="M28 126 C72 126 105 122 136 104 C165 85 186 53 204 20" fill="none" stroke="#3157d5" stroke-width="3"/><line x1="20" y1="126" x2="225" y2="126" stroke="#b42318" stroke-dasharray="5 4"/>';if(kind==='shiftLn')curve='<path d="M112 150 C114 111 128 83 154 62 C176 45 198 37 222 32" fill="none" stroke="#137a4a" stroke-width="3"/><line x1="110" y1="15" x2="110" y2="155" stroke="#b42318" stroke-dasharray="5 4"/>';if(kind==='cool')curve='<path d="M28 25 C68 55 102 82 135 103 C165 119 192 126 220 129" fill="none" stroke="#3157d5" stroke-width="3"/><line x1="20" y1="132" x2="225" y2="132" stroke="#b42318" stroke-dasharray="5 4"/>';let diag=kind==='inverse'?'<line x1="25" y1="150" x2="220" y2="15" stroke="#98a2b3" stroke-dasharray="5 4"/>':'';return `<div class="diagram"><svg viewBox="0 0 245 170" width="360" aria-label="graph diagram"><line x1="20" y1="145" x2="228" y2="145" stroke="#667085"/><line x1="100" y1="158" x2="100" y2="12" stroke="#667085"/>${diag}${curve}<text x="226" y="160" font-size="11">x</text><text x="88" y="14" font-size="11">y</text></svg></div>`}
+const quizContainer=document.getElementById('quiz');
+let currentQuestion=0,activeFilter='all',done=new Set(),points=0,firstResults=new Map();
+function norm(s){return String(s).replace(/\s/g,'').toLowerCase()}
+function eligibleQuestions(){return qs.map((q,i)=>({q,i})).filter(({q})=>activeFilter==='all'||q.d===activeFilter).map(({i})=>i)}
+function ensureExtraUi(){
+	if(!document.getElementById('questionNavigator')){
+		const panel=document.createElement('section');
+		panel.className='questionNavigator';
+		panel.id='questionNavigator';
+		panel.setAttribute('aria-label','Question Navigator');
+		panel.innerHTML='<button class="navigatorToggle" id="navigatorToggle" type="button" aria-expanded="true" aria-controls="navigatorContent"><span class="navigatorTitle">Question Navigator</span><span class="navigatorSummary"><span class="navigatorCount" id="navigatorCount"></span><span class="navChevron" aria-hidden="true"></span></span></button><div class="navigatorContent" id="navigatorContent"><div class="navigatorLegend"><span class="legendItem"><span class="legendDot correct"></span>Correct</span><span class="legendItem"><span class="legendDot wrong"></span>Incorrect</span><span class="legendItem"><span class="legendDot current"></span>Current</span><span class="legendItem"><span class="legendDot"></span>Unanswered</span></div><div class="navigatorGrid" id="navigatorGrid"></div></div>';
+		quizContainer.before(panel);
+	}
+	if(!document.getElementById('teacherBadge')){
+		const badge=document.createElement('div');
+		badge.className='teacherBadge';
+		badge.id='teacherBadge';
+		badge.setAttribute('role','group');
+		badge.setAttribute('aria-label','Dr King Wunna badge');
+		badge.innerHTML='<span class="teacherStatus" aria-hidden="true"></span><span class="teacherName">Dr King Wunna</span>';
+		document.body.append(badge);
+	}
+	const checkButton=document.querySelector('.filters button.primary');
+	if(checkButton)checkButton.textContent='Check current answer';
+}
+function toggleNavigator(){
+	const toggle=document.getElementById('navigatorToggle');
+	const content=document.getElementById('navigatorContent');
+	const expanded=toggle.getAttribute('aria-expanded')==='true';
+	toggle.setAttribute('aria-expanded',String(!expanded));
+	content.classList.toggle('hidden',expanded);
+	document.getElementById('questionNavigator').classList.toggle('collapsed',expanded);
+}
+document.addEventListener('click',event=>{
+	if(event.target.closest('#navigatorToggle')) toggleNavigator();
+});
+function buildNavigator(){
+	const grid=document.getElementById('navigatorGrid');
+	grid.replaceChildren();
+	qs.forEach((q,i)=>{
+		const button=document.createElement('button');
+		button.type='button';
+		button.className='navQ';
+		button.textContent=i+1;
+		button.setAttribute('aria-label',`Go to question ${i+1}`);
+		button.onclick=()=>goToQuestion(i);
+		grid.append(button);
+	});
+	updateNavigator();
+}
+function updateNavigator(){
+	const eligible=new Set(eligibleQuestions());
+	document.querySelectorAll('.navQ').forEach((button,i)=>{
+		button.classList.toggle('hidden',!eligible.has(i));
+		button.classList.toggle('current',i===currentQuestion);
+		button.classList.toggle('correct',firstResults.get(i)===true);
+		button.classList.toggle('wrong',firstResults.get(i)===false);
+		if(i===currentQuestion)button.setAttribute('aria-current','step');
+		else button.removeAttribute('aria-current');
+	});
+	const count=document.getElementById('navigatorCount');
+	if(count)count.textContent=`Question ${currentQuestion+1} of ${qs.length}`;
+}
+function render(){
+	ensureExtraUi();
+	quizContainer.replaceChildren();
+	qs.forEach((q,i)=>{
+		const options=q.t==='mcq'?`<div class="choices">${q.o.map((option,j)=>`<label class="choice"><input type="radio" name="q${i}" value="${j}"><span>${option}</span></label>`).join('')}</div>`:`<input class="calc" id="in${i}" inputmode="decimal" placeholder="Type your answer">`;
+		quizContainer.insertAdjacentHTML('beforeend',`<section class="q ${q.d} hidden" data-i="${i}" aria-label="Question ${i+1} of ${qs.length}"><div class="meta"><span class="tag ${q.d}">${q.d.toUpperCase()}</span><span class="tag">${q.t==='mcq'?'MCQ':'CALCULATE'}</span><span class="tag">Q${i+1}</span></div><div class="prompt">${q.p}</div>${diagram(q.diag)}${options}<div class="actions"><button onclick="check(${i})">Check answer</button></div><div class="feedback" id="fb${i}"></div><div class="questionPager"><button class="prevQuestion" type="button" onclick="moveQuestion(-1)">Previous</button><button class="nextQuestion" type="button" onclick="moveQuestion(1)">Next question</button></div></section>`);
+	});
+	buildNavigator();
+	showQuestion(currentQuestion,false);
+	if(window.MathJax?.typesetPromise)MathJax.typesetPromise();
+}
+function showQuestion(index,scroll=true){
+	const eligible=eligibleQuestions();
+	if(!eligible.length)return;
+	currentQuestion=eligible.includes(index)?index:eligible[0];
+	document.querySelectorAll('.q').forEach(card=>card.classList.toggle('hidden',Number(card.dataset.i)!==currentQuestion));
+	const position=eligible.indexOf(currentQuestion),card=document.querySelector(`.q[data-i="${currentQuestion}"]`);
+	card.querySelector('.prevQuestion').disabled=position===0;
+	card.querySelector('.nextQuestion').disabled=position===eligible.length-1;
+	updateNavigator();
+	if(scroll)card.scrollIntoView({behavior:'smooth',block:'start'});
+}
+function goToQuestion(index){if(eligibleQuestions().includes(index))showQuestion(index)}
+function moveQuestion(direction){const eligible=eligibleQuestions(),position=eligible.indexOf(currentQuestion),next=eligible[position+direction];if(next!==undefined)showQuestion(next)}
+function check(i){
+	const q=qs[i];let user='';
+	if(q.t==='mcq'){const selected=document.querySelector(`input[name=q${i}]:checked`);if(!selected)return;user=q.o[+selected.value];}
+	else{user=document.getElementById('in'+i).value;if(!user.trim())return;}
+	const ok=q.t==='calc'?Number.isFinite(Number(user))&&Math.abs(Number(user)-Number(q.a))<=(q.tol??Math.max(.001,Math.abs(Number(q.a))*.0006)):norm(user).replace(/\\\(|\\\)/g,'')===norm(q.a).replace(/\\\(|\\\)/g,'');
+	const feedback=document.getElementById(`fb${i}`);
+	feedback.className=`feedback ${ok?'ok':'bad'}`;
+	feedback.innerHTML=(ok?'✓ Correct. ':'✗ Not quite. ')+q.ex;
+	if(!done.has(i)){done.add(i);firstResults.set(i,ok);if(ok)points++;}
+	update();
+	if(window.MathJax?.typesetPromise)MathJax.typesetPromise([feedback]);
+}
+function update(){
+	counter.textContent=`${done.size} / ${qs.length} answered`;
+	progress.style.width=(done.size/qs.length*100)+'%';
+	score.textContent=`Score: ${points} / ${done.size}`;
+	if(done.size===qs.length)summary.textContent=`Finished: ${points}/${qs.length} (${Math.round(points/qs.length*100)}%). Review the explanations below any missed questions.`;
+	updateNavigator();
+}
+function checkAll(){check(currentQuestion)}
+function filterQ(filter){activeFilter=filter;showQuestion(eligibleQuestions()[0]??0,false)}
+function resetQuiz(){
+	if(!confirm('Reset all answers and score?'))return;
+	done.clear();firstResults.clear();points=0;currentQuestion=0;activeFilter='all';summary.textContent='';render();update();
+}
+render();update();
+</script></body></html>

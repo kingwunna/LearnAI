@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Percentage & Compound Interest Quiz</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f4f7fb;
+    color: #1f2937;
+}
+
+header {
+    background: linear-gradient(135deg, #2563eb, #4f46e5);
+    color: white;
+    padding: 35px 20px;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0 0 8px;
+    font-size: 32px;
+}
+
+header p {
+    margin: 0;
+    opacity: 0.9;
+}
+
+.stats {
+    max-width: 900px;
+    margin: -20px auto 25px;
+    padding: 0 20px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+.stat {
+    background: white;
+    padding: 15px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 5px 18px rgba(0,0,0,0.08);
+}
+
+.stat strong {
+    display: block;
+    font-size: 22px;
+    color: #2563eb;
+}
+
+.container {
+    max-width: 900px;
+    margin: auto;
+    padding: 0 20px 50px;
+}
+
+.question {
+    background: white;
+    margin-bottom: 20px;
+    padding: 24px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+}
+
+.question-number {
+    display: inline-block;
+    background: #e0e7ff;
+    color: #3730a3;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-weight: bold;
+    margin-bottom: 12px;
+}
+
+.question p {
+    line-height: 1.7;
+    font-size: 17px;
+}
+
+.answer-row {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+input {
+    flex: 1;
+    padding: 12px 14px;
+    border: 2px solid #d1d5db;
+    border-radius: 9px;
+    font-size: 16px;
+    outline: none;
+}
+
+input:focus {
+    border-color: #2563eb;
+}
+
+button {
+    border: none;
+    border-radius: 9px;
+    padding: 11px 17px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.check-btn {
+    background: #2563eb;
+    color: white;
+}
+
+.check-btn:hover {
+    background: #1d4ed8;
+}
+
+.hint-btn {
+    background: #f3f4f6;
+    color: #374151;
+    margin-top: 12px;
+}
+
+.feedback {
+    margin-top: 12px;
+    font-weight: bold;
+}
+
+.correct {
+    color: #15803d;
+}
+
+.wrong {
+    color: #dc2626;
+}
+
+.hint {
+    display: none;
+    margin-top: 12px;
+    background: #fff7ed;
+    border-left: 4px solid #f59e0b;
+    padding: 12px;
+    line-height: 1.6;
+}
+
+.solution {
+    display: none;
+    margin-top: 12px;
+    background: #eff6ff;
+    border-left: 4px solid #2563eb;
+    padding: 15px;
+    line-height: 1.7;
+}
+
+.bottom {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.submit-all {
+    background: #16a34a;
+    color: white;
+    padding: 14px 25px;
+    font-size: 17px;
+}
+
+.reset {
+    background: #e5e7eb;
+    margin-left: 8px;
+}
+
+#finalScore {
+    margin-top: 20px;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+@media(max-width:600px) {
+    .stats {
+        grid-template-columns: 1fr;
+    }
+
+    .answer-row {
+        flex-direction: column;
+    }
+
+    header h1 {
+        font-size: 25px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>📈 Percentage & Compound Interest Quiz</h1>
+    <p>10 exam-style practice questions</p>
+</header>
+
+<div class="stats">
+    <div class="stat">
+        <strong id="score">0</strong>
+        Correct
+    </div>
+
+    <div class="stat">
+        <strong id="attempted">0</strong>
+        Attempted
+    </div>
+
+    <div class="stat">
+        <strong>10</strong>
+        Questions
+    </div>
+</div>
+
+<div class="container" id="quiz"></div>
+
+<div class="bottom">
+    <button class="submit-all" onclick="submitAll()">Check All Answers</button>
+    <button class="reset" onclick="resetQuiz()">Reset Quiz</button>
+
+    <div id="finalScore"></div>
+</div>
+
+<script>
+
+const questions = [
+
+{
+q: `A house increases in value by 4% during the first year.
+During the second year, its value increases by another 5%.
+At the end of the second year, the house is worth $65,520.
+Calculate the original value of the house.`,
+answer: 60000,
+tolerance: 0.01,
+hint: `Work backwards. Divide the final value by 1.05 and then by 1.04.`,
+solution: `
+Original value × 1.04 × 1.05 = 65,520<br><br>
+Original value = 65,520 ÷ (1.04 × 1.05)<br>
+= 65,520 ÷ 1.092<br>
+= <b>$60,000</b>
+`
+},
+
+{
+q: `A car increases in value by 6% during the first year and by 4% during the second year.
+Its value at the end of the second year is $55,120.
+Find its original value.`,
+answer: 50000,
+tolerance: 0.01,
+hint: `Use: Original × 1.06 × 1.04 = Final value.`,
+solution: `
+Original × 1.06 × 1.04 = 55,120<br><br>
+Original = 55,120 ÷ 1.1024<br>
+= <b>$50,000</b>
+`
+},
+
+{
+q: `A piece of land is bought for a certain price.
+Its value increases by 10% in the first year and by 5% in the second year.
+After two years it is worth $92,400.
+Calculate the original price.`,
+answer: 80000,
+tolerance: 0.01,
+hint: `The multipliers are 1.10 and 1.05.`,
+solution: `
+Original × 1.10 × 1.05 = 92,400<br><br>
+Original = 92,400 ÷ 1.155<br>
+= <b>$80,000</b>
+`
+},
+
+{
+q: `A shop is valued at $40,000.
+Its value increases by 8% in the first year and 6% in the second year.
+Calculate its value at the end of the second year.`,
+answer: 45792,
+tolerance: 0.01,
+hint: `This time you are going forward. Multiply by 1.08 and then 1.06.`,
+solution: `
+40,000 × 1.08 × 1.06<br>
+= 43,200 × 1.06<br>
+= <b>$45,792</b>
+`
+},
+
+{
+q: `An investment of $800 earns compound interest at 3% per year.
+Calculate its value after 5 years.
+Give your answer to the nearest cent.`,
+answer: 927.42,
+tolerance: 0.01,
+hint: `Use A = P(1 + r/100)ⁿ.`,
+solution: `
+A = 800(1.03)⁵<br>
+= 927.419...<br>
+= <b>$927.42</b>
+`
+},
+
+{
+q: `Maria invests $1,000 at 4% compound interest per year.
+Calculate the value of the investment after 6 years.
+Give your answer to the nearest cent.`,
+answer: 1265.32,
+tolerance: 0.01,
+hint: `Use 1000(1.04)⁶.`,
+solution: `
+A = 1000(1.04)⁶<br>
+= 1265.319...<br>
+= <b>$1,265.32</b>
+`
+},
+
+{
+q: `Daniel invests $500 at r% compound interest per year.
+After 4 years, the investment is worth $607.75.
+Find r.
+Give your answer as a percentage.`,
+answer: 5,
+tolerance: 0.02,
+hint: `Start with 607.75 = 500(1 + r/100)⁴.`,
+solution: `
+607.75 = 500(1 + r/100)⁴<br><br>
+607.75 ÷ 500 = (1 + r/100)⁴<br><br>
+Take the fourth root:<br>
+1 + r/100 ≈ 1.05<br><br>
+<b>r ≈ 5%</b>
+`
+},
+
+{
+q: `Sara invests $2,000 at r% compound interest per year.
+After 5 years, her investment is worth $2,552.56.
+Find r.
+Give your answer as a percentage.`,
+answer: 5,
+tolerance: 0.02,
+hint: `Divide by 2000 first, then take the fifth root.`,
+solution: `
+2552.56 = 2000(1 + r/100)⁵<br><br>
+2552.56 ÷ 2000 = (1 + r/100)⁵<br><br>
+Take the fifth root:<br>
+1 + r/100 ≈ 1.05<br><br>
+<b>r ≈ 5%</b>
+`
+},
+
+{
+q: `A house originally costs $75,000.
+Its value increases by 7% in the first year and by 3% in the second year.
+Calculate its value after two years.`,
+answer: 82657.50,
+tolerance: 0.01,
+hint: `Calculate 75,000 × 1.07 × 1.03.`,
+solution: `
+75,000 × 1.07 × 1.03<br>
+= 80,250 × 1.03<br>
+= <b>$82,657.50</b>
+`
+},
+
+{
+q: `An investment grows from $1,200 to $1,459.22 in 5 years at r% compound interest per year.
+Find r.
+Give your answer as a percentage.`,
+answer: 4,
+tolerance: 0.02,
+hint: `Use 1459.22 = 1200(1 + r/100)⁵.`,
+solution: `
+1459.22 = 1200(1 + r/100)⁵<br><br>
+1459.22 ÷ 1200 = (1 + r/100)⁵<br><br>
+Take the fifth root:<br>
+1 + r/100 ≈ 1.04<br><br>
+<b>r ≈ 4%</b>
+`
+}
+
+];
+
+let answered = new Array(questions.length).fill(false);
+
+function buildQuiz() {
+
+    const quiz = document.getElementById("quiz");
+
+    questions.forEach((item, index) => {
+
+        const div = document.createElement("div");
+        div.className = "question";
+
+        div.innerHTML = `
+            <div class="question-number">Question ${index + 1}</div>
+
+            <p>${item.q.replace(/\n/g,"<br>")}</p>
+
+            <div class="answer-row">
+                <input
+                    type="number"
+                    step="any"
+                    id="answer${index}"
+                    placeholder="Enter your answer"
+                >
+
+                <button
+                    class="check-btn"
+                    onclick="checkAnswer(${index})">
+                    Check
+                </button>
+            </div>
+
+            <button
+                class="hint-btn"
+                onclick="showHint(${index})">
+                💡 Hint
+            </button>
+
+            <button
+                class="hint-btn"
+                onclick="showSolution(${index})">
+                Show Solution
+            </button>
+
+            <div class="hint" id="hint${index}">
+                ${item.hint}
+            </div>
+
+            <div class="feedback" id="feedback${index}"></div>
+
+            <div class="solution" id="solution${index}">
+                ${item.solution}
+            </div>
+        `;
+
+        quiz.appendChild(div);
+    });
+}
+
+function checkAnswer(index) {
+
+    const input = document.getElementById("answer" + index);
+    const feedback = document.getElementById("feedback" + index);
+
+    const userAnswer = parseFloat(input.value);
+
+    if (isNaN(userAnswer)) {
+        feedback.className = "feedback wrong";
+        feedback.innerHTML = "Please enter an answer first.";
+        return false;
+    }
+
+    answered[index] = true;
+
+    const difference =
+        Math.abs(userAnswer - questions[index].answer);
+
+    if (difference <= questions[index].tolerance) {
+
+        feedback.className = "feedback correct";
+        feedback.innerHTML = "✓ Correct!";
+
+        input.style.borderColor = "#16a34a";
+
+        updateScore();
+
+        return true;
+
+    } else {
+
+        feedback.className = "feedback wrong";
+        feedback.innerHTML = "✗ Not quite. Try again.";
+
+        input.style.borderColor = "#dc2626";
+
+        updateScore();
+
+        return false;
+    }
+}
+
+function showHint(index) {
+
+    const hint = document.getElementById("hint" + index);
+
+    hint.style.display =
+        hint.style.display === "block"
+        ? "none"
+        : "block";
+}
+
+function showSolution(index) {
+
+    const solution =
+        document.getElementById("solution" + index);
+
+    solution.style.display =
+        solution.style.display === "block"
+        ? "none"
+        : "block";
+}
+
+function updateScore() {
+
+    let score = 0;
+    let attempted = 0;
+
+    questions.forEach((q,index) => {
+
+        const value =
+            parseFloat(
+                document.getElementById("answer"+index).value
+            );
+
+        if (!isNaN(value)) {
+
+            attempted++;
+
+            if (
+                Math.abs(value-q.answer)
+                <= q.tolerance
+            ) {
+                score++;
+            }
+        }
+    });
+
+    document.getElementById("score").textContent = score;
+    document.getElementById("attempted").textContent = attempted;
+}
+
+function submitAll() {
+
+    let score = 0;
+
+    questions.forEach((q,index) => {
+
+        if(checkAnswer(index)) {
+            score++;
+        }
+    });
+
+    const final =
+        document.getElementById("finalScore");
+
+    let message = "";
+
+    if(score === 10)
+        message = "🏆 Excellent! Perfect score!";
+    else if(score >= 8)
+        message = "🌟 Great work!";
+    else if(score >= 6)
+        message = "👍 Good job — keep practising!";
+    else
+        message = "📚 Keep practising. You can do it!";
+
+    final.innerHTML =
+        `Your Score: ${score}/10<br>${message}`;
+}
+
+function resetQuiz() {
+
+    questions.forEach((q,index) => {
+
+        document.getElementById("answer"+index).value = "";
+        document.getElementById("feedback"+index).innerHTML = "";
+        document.getElementById("hint"+index).style.display = "none";
+        document.getElementById("solution"+index).style.display = "none";
+        document.getElementById("answer"+index).style.borderColor = "#d1d5db";
+    });
+
+    document.getElementById("score").textContent = "0";
+    document.getElementById("attempted").textContent = "0";
+    document.getElementById("finalScore").innerHTML = "";
+
+    answered.fill(false);
+
+    window.scrollTo({top:0, behavior:"smooth"});
+}
+
+buildQuiz();
+
+</script>
+
+</body>
+</html>

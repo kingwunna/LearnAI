@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="theme-color" content="#f4f8ff" />
+<title>Cambridge IGCSE Physics 0625 — Chapter 1: Making Measurements</title>
+<style>
+:root{
+  --bg:#f4f8ff;--panel:#ffffff;--ink:#172033;--muted:#667085;--line:#dce5f2;
+  --blue:#2459e0;--blue2:#eaf0ff;--teal:#07877f;--teal2:#e7f8f6;
+  --green:#1f8a55;--green2:#e9f8ef;--orange:#df7b18;--orange2:#fff4e6;
+  --red:#c84646;--red2:#fff0f0;--purple:#7446c8;--purple2:#f2edff;
+  --shadow:0 14px 36px rgba(24,53,95,.10);--radius:20px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:linear-gradient(180deg,#f6f9ff 0,#f4f8ff 45%,#eef6fb 100%);
+color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+button,input{font:inherit}
+button{cursor:pointer}
+.app{min-height:100vh}
+.sidebar{
+  position:fixed;left:0;top:0;bottom:0;width:275px;padding:22px 18px;background:rgba(255,255,255,.94);
+  backdrop-filter:blur(16px);border-right:1px solid var(--line);z-index:20;overflow:auto
+}
+.brand{display:flex;align-items:center;gap:12px;padding:5px 8px 20px}
+.logo{
+  width:48px;height:48px;border-radius:16px;background:linear-gradient(145deg,#2f64e9,#19a29a);
+  display:grid;place-items:center;color:#fff;font-weight:900;box-shadow:0 10px 25px rgba(47,100,233,.25)
+}
+.brand h1{font-size:15px;line-height:1.25;margin:0}.brand small{color:var(--muted);font-size:11px}
+.nav-title{font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:#98a2b3;padding:12px 11px 7px}
+.nav a{display:flex;align-items:center;gap:10px;text-decoration:none;color:#3f4a5a;padding:10px 12px;border-radius:12px;margin:3px 0;font-size:13px;font-weight:700}
+.nav a:hover,.nav a.active{background:var(--blue2);color:var(--blue)}
+.nav .ico{width:25px;text-align:center;font-size:16px}
+.side-card{margin-top:18px;padding:14px;border-radius:16px;background:linear-gradient(145deg,#eef4ff,#eefcf9);border:1px solid #dce9ff}
+.side-card b{font-size:13px}.side-card p{font-size:12px;color:var(--muted);margin:6px 0 10px}
+.bar{height:8px;background:#dfe7f3;border-radius:999px;overflow:hidden}.bar>span{display:block;height:100%;width:0;background:linear-gradient(90deg,#2f64e9,#16a39a);transition:.35s}
+.main{margin-left:275px}
+.topbar{
+  position:sticky;top:0;z-index:15;display:flex;justify-content:space-between;align-items:center;
+  padding:14px 28px;background:rgba(244,248,255,.86);backdrop-filter:blur(14px);border-bottom:1px solid rgba(220,229,242,.8)
+}
+.topbar .crumb{font-size:12px;color:var(--muted)}.topbar strong{color:var(--ink)}
+.tools{display:flex;gap:8px;align-items:center}
+.icon-btn{border:1px solid var(--line);background:#fff;border-radius:12px;padding:9px 11px;color:#49566a}
+.content{max-width:1180px;margin:0 auto;padding:30px}
+.hero{
+  padding:32px;border-radius:28px;color:#fff;background:
+  radial-gradient(circle at 88% 20%,rgba(255,255,255,.24),transparent 17%),
+  radial-gradient(circle at 72% 72%,rgba(255,255,255,.13),transparent 22%),
+  linear-gradient(135deg,#2557dc 0%,#3d73ed 45%,#0e9b91 100%);box-shadow:0 20px 45px rgba(43,91,190,.22)
+}
+.hero-grid{display:grid;grid-template-columns:1.35fr .65fr;gap:24px;align-items:center}
+.kicker{font-weight:900;letter-spacing:.11em;text-transform:uppercase;font-size:12px;opacity:.88}
+.hero h2{font-size:36px;line-height:1.08;margin:8px 0 12px}.hero p{max-width:720px;line-height:1.65;margin:0;opacity:.93}
+.hero-badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}.badge{padding:8px 12px;border-radius:999px;background:rgba(255,255,255,.16);font-size:12px;font-weight:800}
+.hero-art{min-height:210px;display:grid;place-items:center}
+.atom{
+  width:180px;height:180px;border-radius:50%;position:relative;background:rgba(255,255,255,.10);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.18)
+}
+.atom:before,.atom:after{content:"";position:absolute;inset:37px 18px;border:2px solid rgba(255,255,255,.72);border-radius:50%;transform:rotate(28deg)}
+.atom:after{transform:rotate(-28deg)}
+.atom .core{position:absolute;width:38px;height:38px;border-radius:50%;background:#fff;left:71px;top:71px;box-shadow:0 8px 30px rgba(0,0,0,.12)}
+.atom .dot{position:absolute;width:14px;height:14px;background:#dffbff;border-radius:50%;left:22px;top:76px;box-shadow:118px 24px 0 #fff,73px -57px 0 #dffbff}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:18px 0 30px}
+.stat{background:var(--panel);border:1px solid var(--line);box-shadow:var(--shadow);padding:17px;border-radius:18px}
+.stat .n{font-weight:900;font-size:24px}.stat .l{font-size:12px;color:var(--muted);margin-top:3px}
+.section{scroll-margin-top:85px;margin:34px 0}
+.section-head{display:flex;justify-content:space-between;gap:20px;align-items:flex-end;margin-bottom:16px}
+.section-head h3{font-size:25px;margin:0}.section-head p{color:var(--muted);font-size:13px;margin:6px 0 0}
+.topic-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);box-shadow:0 8px 25px rgba(33,62,103,.06);padding:20px}
+.card h4{font-size:17px;margin:0 0 10px}.card p,.card li{font-size:13.5px;line-height:1.65;color:#465366}
+.card ul,.card ol{padding-left:20px;margin-bottom:0}
+.pill{display:inline-block;padding:5px 9px;border-radius:999px;font-size:11px;font-weight:900;margin-bottom:10px}
+.p-blue{background:var(--blue2);color:var(--blue)}.p-teal{background:var(--teal2);color:var(--teal)}
+.p-orange{background:var(--orange2);color:var(--orange)}.p-green{background:var(--green2);color:var(--green)}
+.formula{font-family:Georgia,serif;font-weight:800;font-size:21px;background:#f8faff;border:1px dashed #b9c9ee;border-radius:14px;padding:12px 14px;margin:10px 0;color:#263f77;text-align:center}
+.callout{padding:14px;border-radius:14px;margin-top:12px;font-size:13px;line-height:1.55}
+.exam{background:var(--orange2);border-left:4px solid var(--orange)}.safe{background:var(--green2);border-left:4px solid var(--green)}
+.danger{background:var(--red2);border-left:4px solid var(--red)}
+.instrument-table{width:100%;border-collapse:collapse;font-size:13px}.instrument-table th,.instrument-table td{padding:11px 12px;border-bottom:1px solid var(--line);text-align:left}.instrument-table th{background:#f7f9fc;color:#4d5b70}
+.accordion{border:1px solid var(--line);border-radius:16px;background:#fff;overflow:hidden;margin:10px 0}
+.acc-btn{width:100%;text-align:left;padding:15px 17px;border:0;background:#fff;font-weight:850;display:flex;justify-content:space-between;align-items:center;color:#26344a}
+.acc-body{display:none;padding:0 17px 17px;color:#465366;font-size:13.5px;line-height:1.65}.accordion.open .acc-body{display:block}.accordion.open .chev{transform:rotate(180deg)}
+.chev{transition:.2s}
+.diagram-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.diagram-card{background:#fff;border:1px solid var(--line);border-radius:22px;overflow:hidden;box-shadow:var(--shadow)}
+.diagram-top{padding:18px 18px 5px}.diagram-top h4{margin:0;font-size:16px}.diagram-top p{font-size:12.5px;color:var(--muted)}
+.diagram-wrap{margin:12px 18px;padding:16px;border-radius:16px;background:linear-gradient(180deg,#fbfdff,#f2f7fc);border:1px solid #e0e8f2;overflow:auto;text-align:center}
+.diagram-wrap svg{max-width:100%;height:auto}
+.qbox{padding:0 18px 18px}.qbox .q{font-size:13.5px;line-height:1.65;margin:8px 0}
+.answer-btn{border:0;background:#253e72;color:#fff;border-radius:11px;padding:9px 12px;font-weight:800;font-size:12px}
+.answer{display:none;background:var(--green2);border-left:4px solid var(--green);padding:12px 14px;margin-top:10px;border-radius:10px;font-size:13px;line-height:1.55}.answer.show{display:block}
+.quiz-layout{display:grid;grid-template-columns:1fr 290px;gap:18px}
+.quiz-card{background:#fff;border:1px solid var(--line);border-radius:22px;padding:23px;box-shadow:var(--shadow)}
+.qnum{font-size:11px;color:var(--muted);font-weight:900;text-transform:uppercase;letter-spacing:.09em}.quiz-q{font-size:18px;font-weight:850;margin:7px 0 16px;line-height:1.4}
+.options{display:grid;gap:9px}.option{border:1px solid var(--line);background:#fff;border-radius:13px;padding:12px 14px;text-align:left;color:#344054}.option:hover{border-color:#a9bde8;background:#f8faff}.option.selected{border-color:var(--blue);background:var(--blue2);color:var(--blue)}.option.correct{border-color:var(--green);background:var(--green2);color:#176b45}.option.wrong{border-color:var(--red);background:var(--red2);color:#9f3333}
+.quiz-actions{display:flex;justify-content:space-between;gap:10px;margin-top:18px}.btn{border:0;border-radius:12px;padding:10px 15px;font-weight:850}.btn-primary{background:var(--blue);color:#fff}.btn-secondary{background:#eef2f7;color:#3e4b60}
+.quiz-side{background:#fff;border:1px solid var(--line);border-radius:22px;padding:18px;height:max-content;position:sticky;top:85px}
+.quiz-side h4{margin:0 0 10px}.dots{display:grid;grid-template-columns:repeat(5,1fr);gap:7px}.dot{aspect-ratio:1;border-radius:9px;border:1px solid var(--line);display:grid;place-items:center;font-size:11px;font-weight:800;color:#667085}.dot.done{background:var(--blue2);border-color:#b8c8ee;color:var(--blue)}.dot.here{outline:2px solid var(--blue)}
+.result{display:none;margin-top:15px;padding:14px;border-radius:14px;background:#f7f9fc;border:1px solid var(--line)}.result.show{display:block}
+.flashcards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.flash{height:160px;perspective:800px;cursor:pointer}.flash-inner{position:relative;width:100%;height:100%;transition:.55s;transform-style:preserve-3d}.flash.flipped .flash-inner{transform:rotateY(180deg)}.face{position:absolute;inset:0;backface-visibility:hidden;border:1px solid var(--line);border-radius:18px;padding:20px;display:grid;place-items:center;text-align:center;background:#fff;box-shadow:0 8px 25px rgba(33,62,103,.06);font-weight:800}.back{transform:rotateY(180deg);background:linear-gradient(145deg,#edf3ff,#ebfaf7);color:#24405c;font-weight:700;font-size:13px;line-height:1.55}
+.cheat{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.formula-card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:18px}.formula-card b{display:block;margin-bottom:6px}.formula-card code{font-family:Georgia,serif;font-size:18px;color:#294885}
+.footer{color:#8791a3;text-align:center;font-size:11px;padding:25px}
+.mobile-menu{display:none}
+@media(max-width:980px){.sidebar{transform:translateX(-100%);transition:.25s}.sidebar.open{transform:none}.main{margin-left:0}.mobile-menu{display:inline-block}.hero-grid{grid-template-columns:1fr}.hero-art{display:none}.topic-grid,.flashcards{grid-template-columns:1fr 1fr}.diagram-grid{grid-template-columns:1fr}.quiz-layout{grid-template-columns:1fr}.quiz-side{position:static}.stats{grid-template-columns:1fr 1fr}}
+@media(max-width:640px){.content{padding:18px}.topbar{padding:12px 16px}.hero{padding:24px}.hero h2{font-size:29px}.topic-grid,.flashcards,.cheat{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}.section-head{align-items:flex-start;flex-direction:column}.diagram-wrap{margin:10px}.card{padding:16px}}
+@media print{.sidebar,.topbar,.quiz-side,.tools,.answer-btn,.quiz-actions{display:none!important}.main{margin:0}.content{max-width:none;padding:0}.hero{box-shadow:none}.answer{display:block}.section{break-inside:avoid}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar" id="sidebar">
+  <div class="brand">
+    <div class="logo">P</div>
+    <div><h1>IGCSE Physics 0625</h1><small>Chapter 1 Study Lab</small></div>
+  </div>
+  <div class="nav">
+    <div class="nav-title">Study</div>
+    <a href="#overview" class="active"><span class="ico">⌂</span>Overview</a>
+    <a href="#length"><span class="ico">📏</span>1.1 Length & Volume</a>
+    <a href="#density"><span class="ico">⚖</span>1.2 Density</a>
+    <a href="#time"><span class="ico">⏱</span>1.3 Measuring Time</a>
+    <div class="nav-title">Practice</div>
+    <a href="#diagrams"><span class="ico">◫</span>Diagram Lab</a>
+    <a href="#quiz"><span class="ico">✓</span>Quick Test</a>
+    <a href="#flashcards"><span class="ico">▣</span>Flashcards</a>
+    <a href="#formulas"><span class="ico">ƒ</span>Formula Sheet</a>
+  </div>
+  <div class="side-card">
+    <b>Study progress</b>
+    <p id="progressText">0 of 15 quiz questions answered</p>
+    <div class="bar"><span id="progressBar"></span></div>
+  </div>
+</aside>
+
+<main class="main">
+<header class="topbar">
+  <div>
+    <button class="icon-btn mobile-menu" id="menuBtn">☰</button>
+    <span class="crumb"><strong>Physics</strong> / Chapter 1 / Making Measurements</span>
+  </div>
+  <div class="tools">
+    <button class="icon-btn" onclick="window.print()">Print / PDF</button>
+    <button class="icon-btn" id="resetBtn">Reset</button>
+  </div>
+</header>
+
+<div class="content">
+<section class="hero section" id="overview">
+  <div class="hero-grid">
+    <div>
+      <div class="kicker">Cambridge IGCSE Physics (0625)</div>
+      <h2>Chapter 1: Making Measurements</h2>
+      <p>Exam-focused revision and interactive practice for measuring length and volume, density, and measuring time — including common Paper 2, Paper 4 and Paper 6 ideas.</p>
+      <div class="hero-badges">
+        <span class="badge">1.1 Length & Volume</span>
+        <span class="badge">1.2 Density</span>
+        <span class="badge">1.3 Time</span>
+        <span class="badge">Diagram Questions</span>
+      </div>
+    </div>
+    <div class="hero-art"><div class="atom"><span class="core"></span><span class="dot"></span></div></div>
+  </div>
+</section>
+
+<div class="stats">
+  <div class="stat"><div class="n">3</div><div class="l">Core subtopics</div></div>
+  <div class="stat"><div class="n">5</div><div class="l">Diagram exam questions</div></div>
+  <div class="stat"><div class="n">15</div><div class="l">Quick-test questions</div></div>
+  <div class="stat"><div class="n">9</div><div class="l">Memory flashcards</div></div>
+</div>
+
+<section class="section" id="length">
+  <div class="section-head"><div><h3>1.1 Measuring Length & Volume</h3><p>Choose the correct instrument, measure accurately, and use displacement for irregular objects.</p></div><span class="pill p-blue">Paper 2 + Paper 6</span></div>
+  <div class="card" style="margin-bottom:16px">
+    <h4>Choosing the correct instrument</h4>
+    <div style="overflow:auto"><table class="instrument-table">
+      <tr><th>Instrument</th><th>Smallest division / precision</th><th>Typical use</th></tr>
+      <tr><td><b>Metre rule / ruler</b></td><td>1 mm (0.1 cm)</td><td>General lengths up to about 1 m</td></tr>
+      <tr><td><b>Vernier calipers</b></td><td>0.1 mm (0.01 cm)</td><td>Internal/external diameters and depth</td></tr>
+      <tr><td><b>Micrometer screw gauge</b></td><td>0.01 mm (0.001 cm)</td><td>Thin wire, paper or glass thickness</td></tr>
+      <tr><td><b>Measuring cylinder</b></td><td>Read scale carefully</td><td>Liquid volume and irregular solid volume</td></tr>
+    </table></div>
+  </div>
+  <div class="topic-grid">
+    <div class="card">
+      <span class="pill p-teal">Thin objects</span>
+      <h4>Measure many, then divide</h4>
+      <p>If one sheet or one wire turn is too thin to measure accurately, measure a large number together.</p>
+      <div class="formula">average thickness = total thickness ÷ N</div>
+      <div class="exam callout"><b>Exam phrase:</b> wind wire turns closely with no gaps or overlaps.</div>
+    </div>
+    <div class="card">
+      <span class="pill p-blue">Regular solids</span>
+      <h4>Volume formulae</h4>
+      <ul>
+        <li>Cuboid: <b>V = l × w × h</b></li>
+        <li>Cube: <b>V = s³</b></li>
+        <li>Cylinder: <b>V = πr²h</b></li>
+        <li>Sphere: <b>V = 4/3 πr³</b></li>
+      </ul>
+    </div>
+    <div class="card">
+      <span class="pill p-orange">Irregular solids</span>
+      <h4>Water displacement</h4>
+      <ol>
+        <li>Record initial water volume <b>V₁</b>.</li>
+        <li>Fully submerge the object using thin thread.</li>
+        <li>Record final volume <b>V₂</b>.</li>
+        <li>Object volume = <b>V₂ − V₁</b>.</li>
+      </ol>
+    </div>
+  </div>
+  <div class="accordion"><button class="acc-btn">Paper 6 accuracy checklist <span class="chev">⌄</span></button><div class="acc-body">
+    <b>Parallax:</b> view the scale at eye level / at right angles. For a normal liquid in a measuring cylinder, read the bottom of the meniscus.<br>
+    <b>Zero error:</b> check calipers or micrometer reads zero before measurement and correct if needed.<br>
+    <b>Ruler alignment:</b> keep the ruler adjacent and parallel to the object.
+  </div></div>
+</section>
+
+<section class="section" id="density">
+  <div class="section-head"><div><h3>1.2 Density</h3><p>Connect mass, volume, floating and sinking.</p></div><span class="pill p-green">Core equation</span></div>
+  <div class="topic-grid">
+    <div class="card">
+      <span class="pill p-green">Equation</span>
+      <h4>Density</h4>
+      <div class="formula">ρ = m / V</div>
+      <p><b>SI unit:</b> kg/m³<br><b>Alternative:</b> g/cm³</p>
+      <div class="safe callout">1 g/cm³ = 1000 kg/m³ &nbsp; • &nbsp; 1 cm³ = 1 mL</div>
+    </div>
+    <div class="card">
+      <span class="pill p-blue">Regular solid</span>
+      <h4>Experimental method</h4>
+      <ol><li>Measure mass using a balance.</li><li>Measure dimensions.</li><li>Calculate volume.</li><li>Use ρ = m/V.</li></ol>
+    </div>
+    <div class="card">
+      <span class="pill p-orange">Irregular solid</span>
+      <h4>Experimental method</h4>
+      <ol><li>Measure the <b>dry</b> object's mass first.</li><li>Find volume by displacement.</li><li>Use ρ = m/V.</li></ol>
+      <div class="danger callout"><b>Trap:</b> water clinging to the object can increase the measured mass.</div>
+    </div>
+  </div>
+  <div class="topic-grid" style="margin-top:16px">
+    <div class="card">
+      <h4>Density of a liquid</h4>
+      <p>Measure empty cylinder mass <b>m₁</b>, then cylinder + liquid mass <b>m₂</b>. The liquid mass is <b>m₂ − m₁</b>. Measure liquid volume <b>V</b>, then calculate density.</p>
+    </div>
+    <div class="card">
+      <h4>Floating & sinking</h4>
+      <p>An object <b>floats</b> if its density is less than the liquid density. It <b>sinks</b> if its density is greater than the liquid density.</p>
+    </div>
+    <div class="card">
+      <h4>Immiscible liquids</h4>
+      <p>Liquids that do not mix form layers. The <b>lowest density</b> liquid is on top; the <b>highest density</b> liquid is at the bottom.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="time">
+  <div class="section-head"><div><h3>1.3 Measuring Time</h3><p>Measure oscillations more accurately and understand period and frequency.</p></div><span class="pill p-purple">Paper 6 favourite</span></div>
+  <div class="topic-grid">
+    <div class="card">
+      <h4>Period & frequency</h4>
+      <p><b>Period T:</b> time for one complete oscillation.</p>
+      <div class="formula">T = t / N</div>
+      <p><b>Frequency f:</b> oscillations per second.</p>
+      <div class="formula">f = 1 / T</div>
+    </div>
+    <div class="card">
+      <h4>Accurate pendulum timing</h4>
+      <ol>
+        <li>Use a fiducial mark at the centre of swing.</li>
+        <li>Release from a small angle.</li>
+        <li>Time 10 or 20 complete oscillations.</li>
+        <li>Divide total time by number of oscillations.</li>
+        <li>Repeat and average.</li>
+      </ol>
+    </div>
+    <div class="card">
+      <h4>Why time many oscillations?</h4>
+      <p>Human reaction time becomes a smaller percentage of the total measured time, so the calculated period is more accurate.</p>
+      <div class="safe callout">Light gates / data loggers remove human reaction-time error for fast events.</div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="diagrams">
+  <div class="section-head"><div><h3>Diagram Lab</h3><p>Use the diagrams first. Reveal the model answer only after you try.</p></div><span class="pill p-blue">5 exam-style sets</span></div>
+  <div class="diagram-grid">
+
+    <article class="diagram-card">
+      <div class="diagram-top"><h4>Q1 — Water displacement</h4><p>Irregular stone volume and accurate cylinder reading.</p></div>
+      <div class="diagram-wrap">
+        <svg width="450" height="220" viewBox="0 0 450 220" xmlns="http://www.w3.org/2000/svg">
+          <g transform="translate(60,20)">
+            <rect x="30" y="20" width="60" height="150" fill="#f5fbff" stroke="#263238" stroke-width="2" rx="3"/>
+            <g stroke="#263238" stroke-width="1.3" font-size="10" font-family="sans-serif">
+              <line x1="30" y1="150" x2="45" y2="150"/><line x1="30" y1="120" x2="45" y2="120"/><line x1="30" y1="90" x2="45" y2="90"/><line x1="30" y1="60" x2="45" y2="60"/><line x1="30" y1="30" x2="45" y2="30"/>
+            </g>
+            <g font-size="10" font-family="sans-serif"><text x="18" y="154">10</text><text x="18" y="124">20</text><text x="18" y="94">30</text><text x="18" y="64">40</text><text x="18" y="34">50</text></g>
+            <path d="M30 90 Q60 95 90 90 L90 170 L30 170Z" fill="#82c8f4" opacity=".72"/><path d="M30 90 Q60 95 90 90" fill="none" stroke="#1976d2" stroke-width="2"/>
+            <text x="26" y="194" font-size="12" font-weight="bold">Water only</text>
+          </g>
+          <g transform="translate(250,20)">
+            <rect x="30" y="20" width="60" height="150" fill="#f5fbff" stroke="#263238" stroke-width="2" rx="3"/>
+            <g stroke="#263238" stroke-width="1.3"><line x1="30" y1="150" x2="45" y2="150"/><line x1="30" y1="120" x2="45" y2="120"/><line x1="30" y1="90" x2="45" y2="90"/><line x1="30" y1="60" x2="45" y2="60"/><line x1="30" y1="30" x2="45" y2="30"/></g>
+            <g font-size="10"><text x="18" y="154">10</text><text x="18" y="124">20</text><text x="18" y="94">30</text><text x="18" y="64">40</text><text x="18" y="34">50</text></g>
+            <path d="M30 54 Q60 59 90 54 L90 170 L30 170Z" fill="#82c8f4" opacity=".72"/><path d="M30 54 Q60 59 90 54" fill="none" stroke="#1976d2" stroke-width="2"/>
+            <path d="M50 145 C45 130 75 130 70 145 C75 160 45 160 50 145Z" fill="#7b8794" stroke="#404b57"/>
+            <line x1="60" y1="20" x2="60" y2="135" stroke="#667085" stroke-dasharray="2 2"/>
+            <text x="16" y="194" font-size="12" font-weight="bold">Water + stone</text>
+          </g>
+        </svg>
+      </div>
+      <div class="qbox">
+        <div class="q"><b>(a)</b> State V₁ and V₂. <b>(b)</b> Calculate the stone volume. <b>(c)</b> State two reading precautions.</div>
+        <button class="answer-btn">Reveal answer</button>
+        <div class="answer">V₁ = 30 cm³, V₂ = 42 cm³. Stone volume = 42 − 30 = <b>12 cm³</b>. Read at eye level / perpendicular to the scale, read the bottom of the meniscus, and keep the cylinder on a level surface.</div>
+      </div>
+    </article>
+
+    <article class="diagram-card">
+      <div class="diagram-top"><h4>Q2 — Micrometer screw gauge</h4><p>Read main scale + thimble scale.</p></div>
+      <div class="diagram-wrap">
+        <svg width="450" height="150" viewBox="0 0 450 150">
+          <rect x="50" y="40" width="180" height="60" fill="#e9edf2" stroke="#333" stroke-width="2"/>
+          <line x1="50" y1="70" x2="230" y2="70" stroke="#333" stroke-width="2"/>
+          <g stroke="#333" stroke-width="1.5">
+            <line x1="70" y1="70" x2="70" y2="50"/><line x1="100" y1="70" x2="100" y2="50"/><line x1="130" y1="70" x2="130" y2="50"/><line x1="160" y1="70" x2="160" y2="50"/>
+            <line x1="85" y1="70" x2="85" y2="85"/><line x1="115" y1="70" x2="115" y2="85"/><line x1="145" y1="70" x2="145" y2="85"/>
+          </g>
+          <g font-size="10"><text x="67" y="45">0</text><text x="97" y="45">1</text><text x="127" y="45">2</text><text x="157" y="45">3</text></g>
+          <path d="M175 30 L230 30 L230 110 L175 110 Z" fill="#c6cbd1" stroke="#333" stroke-width="2"/>
+          <line x1="175" y1="95" x2="195" y2="95" stroke="#333"/><text x="200" y="98" font-size="10">30</text>
+          <line x1="175" y1="82.5" x2="195" y2="82.5" stroke="#333"/><text x="200" y="85.5" font-size="10">35</text>
+          <line x1="175" y1="70" x2="195" y2="70" stroke="#d64242" stroke-width="2"/><text x="200" y="73" font-size="11" fill="#d64242" font-weight="bold">38</text>
+          <line x1="175" y1="57.5" x2="195" y2="57.5" stroke="#333"/><text x="200" y="60.5" font-size="10">40</text>
+          <line x1="175" y1="45" x2="195" y2="45" stroke="#333"/><text x="200" y="48" font-size="10">45</text>
+        </svg>
+      </div>
+      <div class="qbox">
+        <div class="q"><b>(a)</b> Main sleeve reading? <b>(b)</b> Thimble reading? <b>(c)</b> Total wire diameter?</div>
+        <button class="answer-btn">Reveal answer</button>
+        <div class="answer">Main scale = <b>2.50 mm</b>. Thimble = 38 × 0.01 mm = <b>0.38 mm</b>. Total = <b>2.88 mm</b>.</div>
+      </div>
+    </article>
+
+    <article class="diagram-card">
+      <div class="diagram-top"><h4>Q3 — Density of glass marbles</h4><p>Use balance and water displacement data.</p></div>
+      <div class="diagram-wrap">
+        <svg width="550" height="180" viewBox="0 0 550 180">
+          <g transform="translate(25,18)">
+            <rect x="20" y="90" width="120" height="50" fill="#e6e9ee" stroke="#333" stroke-width="2" rx="4"/><rect x="35" y="105" width="90" height="25" fill="#17202a" rx="2"/><text x="50" y="122" font-size="14" fill="#70f39a" font-family="monospace" font-weight="bold">30.8 g</text><rect x="40" y="80" width="80" height="10" fill="#a3aab3"/><rect x="50" y="30" width="60" height="50" fill="none" stroke="#3d73ed" stroke-width="2"/><text x="35" y="160" font-size="11" font-weight="bold">Empty beaker</text>
+          </g>
+          <g transform="translate(195,18)">
+            <rect x="20" y="90" width="120" height="50" fill="#e6e9ee" stroke="#333" stroke-width="2" rx="4"/><rect x="35" y="105" width="90" height="25" fill="#17202a" rx="2"/><text x="50" y="122" font-size="14" fill="#70f39a" font-family="monospace" font-weight="bold">64.3 g</text><rect x="40" y="80" width="80" height="10" fill="#a3aab3"/><rect x="50" y="30" width="60" height="50" fill="none" stroke="#3d73ed" stroke-width="2"/>
+            <g fill="#5ec7ed" stroke="#108aac"><circle cx="65" cy="70" r="8"/><circle cx="80" cy="70" r="8"/><circle cx="95" cy="70" r="8"/><circle cx="72" cy="55" r="8"/><circle cx="88" cy="55" r="8"/></g><text x="28" y="160" font-size="11" font-weight="bold">Beaker + 5 marbles</text>
+          </g>
+          <g transform="translate(385,8)">
+            <rect x="30" y="10" width="50" height="130" fill="#f6fdff" stroke="#333" stroke-width="2" rx="2"/><path d="M30 52 L80 52 L80 140 L30 140Z" fill="#75d9df" opacity=".55"/><line x1="30" y1="52" x2="80" y2="52" stroke="#07877f" stroke-width="2"/>
+            <g fill="#19a9bd"><circle cx="45" cy="130" r="6"/><circle cx="58" cy="130" r="6"/><circle cx="70" cy="130" r="6"/><circle cx="50" cy="118" r="6"/><circle cx="64" cy="118" r="6"/></g>
+            <text x="85" y="56" font-size="10" font-weight="bold" fill="#07877f">V₂ = 38 cm³</text><line x1="30" y1="88" x2="80" y2="88" stroke="#df7b18" stroke-dasharray="2 2"/><text x="85" y="92" font-size="10" font-weight="bold" fill="#df7b18">V₁ = 26 cm³</text>
+          </g>
+        </svg>
+      </div>
+      <div class="qbox">
+        <div class="q">Find average mass and volume of one marble, then calculate the glass density.</div>
+        <button class="answer-btn">Reveal answer</button>
+        <div class="answer">Mass of 5 marbles = 64.3 − 30.8 = 33.5 g → one marble = <b>6.7 g</b>. Volume of 5 marbles = 38 − 26 = 12 cm³ → one marble = <b>2.4 cm³</b>. Density = 6.7 ÷ 2.4 = <b>2.79 g/cm³</b> (≈ 2.8 g/cm³).</div>
+      </div>
+    </article>
+
+    <article class="diagram-card">
+      <div class="diagram-top"><h4>Q4 — Immiscible liquids</h4><p>Predict layers using density.</p></div>
+      <div class="diagram-wrap">
+        <svg width="350" height="230" viewBox="0 0 350 230">
+          <rect x="100" y="20" width="120" height="180" fill="none" stroke="#333" stroke-width="2.5" rx="5"/>
+          <rect x="102" y="22" width="116" height="50" fill="#fff29d" opacity=".9"/><text x="125" y="52" font-size="12" font-weight="bold" fill="#a96a10">Olive oil 0.90</text>
+          <rect x="102" y="72" width="116" height="60" fill="#77d3df" opacity=".7"/><text x="135" y="105" font-size="12" font-weight="bold" fill="#07646b">Water 1.00</text>
+          <rect x="102" y="132" width="116" height="66" fill="#d7c8bd" opacity=".9"/><text x="132" y="168" font-size="12" font-weight="bold" fill="#5d4037">Syrup 1.40</text>
+          <rect x="140" y="12" width="40" height="25" fill="#a98975" stroke="#503429"/><text x="230" y="28" font-size="11">Wood 0.60</text>
+          <path d="M150 185 L170 185 L165 195 L155 195Z" fill="#626870" stroke="#222"/><text x="230" y="192" font-size="11">Steel 7.80</text>
+        </svg>
+      </div>
+      <div class="qbox">
+        <div class="q">Where does a bead of density 1.15 g/cm³ come to rest? Explain.</div>
+        <button class="answer-btn">Reveal answer</button>
+        <div class="answer">At the <b>boundary between water and syrup</b>. Its density is greater than water, so it sinks through water, but less than syrup, so it floats on syrup.</div>
+      </div>
+    </article>
+
+    <article class="diagram-card">
+      <div class="diagram-top"><h4>Q5 — Simple pendulum</h4><p>Read stopwatch and calculate period.</p></div>
+      <div class="diagram-wrap">
+        <svg width="500" height="210" viewBox="0 0 500 210">
+          <g transform="translate(60,10)">
+            <rect x="20" y="10" width="12" height="170" fill="#757575"/><rect x="10" y="170" width="100" height="10" fill="#424242"/><rect x="20" y="25" width="60" height="10" fill="#616161"/><rect x="70" y="23" width="15" height="14" fill="#a1887f"/>
+            <line x1="77" y1="37" x2="77" y2="140" stroke="#212121" stroke-width="1.8"/><line x1="105" y1="37" x2="105" y2="148" stroke="#2459e0" stroke-width="1.5"/><line x1="100" y1="37" x2="110" y2="37" stroke="#2459e0"/><line x1="100" y1="148" x2="110" y2="148" stroke="#2459e0"/><text x="115" y="98" font-size="14" font-weight="bold" fill="#2459e0">d = 50.0 cm</text><circle cx="77" cy="148" r="10" fill="#b0bec5" stroke="#263238" stroke-width="2"/><path d="M50 145 Q77 152 104 145" fill="none" stroke="#c8468b" stroke-dasharray="3 3"/>
+          </g>
+          <g transform="translate(280,25)">
+            <rect x="20" y="10" width="130" height="150" fill="#37474f" rx="25" stroke="#212121" stroke-width="3"/><rect x="55" y="0" width="60" height="10" fill="#78909c"/><rect x="35" y="35" width="100" height="45" fill="#c8e6c9" stroke="#1b5e20" stroke-width="2" rx="4"/><text x="42" y="65" font-size="18" font-weight="bold" fill="#1b5e20" font-family="monospace">00:14.20</text><text x="34" y="115" font-size="11" fill="#fff" font-weight="bold">Digital Stopwatch</text><text x="32" y="132" font-size="10" fill="#b0bec5">Time for 10 swings</text>
+          </g>
+        </svg>
+      </div>
+      <div class="qbox">
+        <div class="q">Find t for 10 oscillations, period T and T². Why is timing 10 swings better?</div>
+        <button class="answer-btn">Reveal answer</button>
+        <div class="answer">t = <b>14.20 s</b>. T = 14.20 ÷ 10 = <b>1.42 s</b>. T² = <b>2.02 s²</b>. Timing many oscillations reduces the percentage effect of human reaction-time error.</div>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<section class="section" id="quiz">
+  <div class="section-head"><div><h3>Quick Test</h3><p>15 questions. Your answers are saved in this browser.</p></div><span class="pill p-green">Instant marking</span></div>
+  <div class="quiz-layout">
+    <div class="quiz-card">
+      <div class="qnum" id="qNum">Question 1 of 15</div>
+      <div class="quiz-q" id="qText"></div>
+      <div class="options" id="options"></div>
+      <div class="result" id="feedback"></div>
+      <div class="quiz-actions">
+        <button class="btn btn-secondary" id="prevBtn">← Previous</button>
+        <button class="btn btn-primary" id="nextBtn">Next →</button>
+      </div>
+    </div>
+    <aside class="quiz-side">
+      <h4>Question map</h4>
+      <div class="dots" id="dots"></div>
+      <div style="height:1px;background:var(--line);margin:16px 0"></div>
+      <div style="font-size:12px;color:var(--muted)">Score</div>
+      <div style="font-size:28px;font-weight:900" id="scoreText">0 / 15</div>
+      <button class="btn btn-secondary" style="width:100%;margin-top:10px" id="submitBtn">Mark all</button>
+    </aside>
+  </div>
+</section>
+
+<section class="section" id="flashcards">
+  <div class="section-head"><div><h3>Flashcards</h3><p>Tap a card to flip it.</p></div></div>
+  <div class="flashcards">
+    <div class="flash"><div class="flash-inner"><div class="face">Density equation</div><div class="face back">ρ = m / V</div></div></div>
+    <div class="flash"><div class="flash-inner"><div class="face">1 g/cm³ in kg/m³</div><div class="face back">1000 kg/m³</div></div></div>
+    <div class="flash"><div class="flash-inner"><div class="face">Irregular solid volume</div><div class="face back">V = V₂ − V₁ using water displacement</div></div></div>
+    <div class="flash"><div class="flash-inner"><div class="face">How to reduce parallax?</div><div class="face back">View the scale at eye level / perpendicular to the scale.</div></div></div>
+    <div class="flash"><div class="flash-inner"><div class="face">Where read a normal liquid meniscus?</div><div class="face back">At the bottom of the meniscus.</div></div></div>
+    <div class="flash"><div class="flash-inner"><div class="face">Period equation</div><div class="face back">T = total time t ÷ number of oscillations N</div></div></div>
+    <div class="flash"><div class="flash-inner"><div class="face">Frequency equation</div><div class="face back">f = 1 / T</div></div></div>
+    <div class="flash"><div class="flash-inner"><div class="face">Object floats when…</div><div class="face back">Its density is less than the liquid density.</div></div></div>
+    <div class="flash"><div class="flash-inner"><div class="face">Why time 10 or 20 swings?</div><div class="face back">Reaction-time error becomes a smaller percentage of the total time.</div></div></div>
+  </div>
+</section>
+
+<section class="section" id="formulas">
+  <div class="section-head"><div><h3>Formula Sheet</h3><p>Chapter 1 equations and unit conversions.</p></div></div>
+  <div class="cheat">
+    <div class="formula-card"><b>Density</b><code>ρ = m / V</code></div>
+    <div class="formula-card"><b>Period</b><code>T = t / N</code></div>
+    <div class="formula-card"><b>Frequency</b><code>f = 1 / T</code></div>
+    <div class="formula-card"><b>Displacement volume</b><code>V = V₂ − V₁</code></div>
+    <div class="formula-card"><b>Cuboid</b><code>V = lwh</code></div>
+    <div class="formula-card"><b>Cylinder</b><code>V = πr²h</code></div>
+    <div class="formula-card"><b>Sphere</b><code>V = 4/3 πr³</code></div>
+    <div class="formula-card"><b>Density conversion</b><code>1 g/cm³ = 1000 kg/m³</code></div>
+  </div>
+</section>
+
+<div class="footer">Cambridge IGCSE Physics (0625) • Chapter 1: Making Measurements • Interactive revision tool</div>
+</div>
+</main>
+</div>
+
+<script>
+const quiz = [
+ {q:"Which instrument is most suitable for measuring the diameter of a thin wire accurately?",o:["Metre rule","Measuring cylinder","Micrometer screw gauge","Stopwatch"],a:2,e:"A micrometer screw gauge has a smallest division of about 0.01 mm and is used for very small dimensions."},
+ {q:"A ruler normally has a smallest division of:",o:["1 cm","1 mm","0.1 mm","0.01 mm"],a:1,e:"The source gives 1 mm (0.1 cm) for a metre rule / ruler."},
+ {q:"Why is the thickness of 100 sheets measured together?",o:["To make the paper heavier","To reduce percentage measurement uncertainty","To change the density","To avoid zero error only"],a:1,e:"A larger total thickness can be measured more accurately; divide by 100 to find one sheet."},
+ {q:"The initial water volume is 30 cm³ and final volume is 42 cm³. What is the object's volume?",o:["12 cm³","30 cm³","42 cm³","72 cm³"],a:0,e:"Volume = V₂ − V₁ = 42 − 30 = 12 cm³."},
+ {q:"How should a measuring cylinder be read to reduce parallax error?",o:["From above","From below","At eye level","With the cylinder tilted"],a:2,e:"The line of sight should be perpendicular to the scale, at eye level."},
+ {q:"For a normal liquid in a measuring cylinder, read:",o:["Top of meniscus","Bottom of meniscus","Middle of meniscus","Any point"],a:1,e:"The source specifies the bottom of the liquid meniscus."},
+ {q:"Which equation defines density?",o:["ρ = V/m","ρ = m/V","ρ = m×V","ρ = V−m"],a:1,e:"Density equals mass divided by volume."},
+ {q:"1 g/cm³ is equal to:",o:["10 kg/m³","100 kg/m³","1000 kg/m³","10 000 kg/m³"],a:2,e:"1 g/cm³ = 1000 kg/m³."},
+ {q:"A block has mass 120 g and volume 200 cm³. Its density is:",o:["0.60 g/cm³","1.67 g/cm³","60 g/cm³","320 g/cm³"],a:0,e:"ρ = 120 / 200 = 0.60 g/cm³."},
+ {q:"A 0.60 g/cm³ wooden block placed in water (1.0 g/cm³) will:",o:["Sink","Float","Have the same density","Always stay halfway"],a:1,e:"An object floats when its density is less than the liquid density."},
+ {q:"For immiscible liquids, which liquid is at the top?",o:["Highest density","Lowest density","Largest volume","Darkest colour"],a:1,e:"The lowest density liquid floats on top."},
+ {q:"A pendulum takes 34.0 s for 20 oscillations. Its period is:",o:["0.59 s","1.70 s","20.0 s","34.0 s"],a:1,e:"T = t/N = 34.0/20 = 1.70 s."},
+ {q:"Why time 10 or 20 pendulum oscillations instead of one?",o:["To make the string longer","To reduce the percentage effect of reaction time","To increase the frequency","To eliminate gravity"],a:1,e:"Reaction-time uncertainty becomes a smaller fraction of the total timed interval."},
+ {q:"Which instrument can eliminate human reaction-time error for fast events?",o:["Metre rule","Light gate with timer/data logger","Micrometer","Measuring cylinder"],a:1,e:"Light gates and digital timers / data loggers remove manual start/stop reaction time."},
+ {q:"Before measuring the mass of an irregular solid for density, the object should be:",o:["Wet","Heated","Completely dry","Floating in water"],a:2,e:"Water clinging to the object would increase the measured mass."}
+];
+
+let current=0;
+let answers=JSON.parse(localStorage.getItem("ch1answers")||"{}");
+let marked=false;
+
+const qNum=document.getElementById("qNum"),qText=document.getElementById("qText"),options=document.getElementById("options"),feedback=document.getElementById("feedback");
+const dots=document.getElementById("dots"),scoreText=document.getElementById("scoreText"),progressText=document.getElementById("progressText"),progressBar=document.getElementById("progressBar");
+
+function renderDots(){
+  dots.innerHTML="";
+  quiz.forEach((_,i)=>{
+    const d=document.createElement("button");d.className="dot"+(answers[i]!==undefined?" done":"")+(i===current?" here":"");d.textContent=i+1;
+    d.onclick=()=>{current=i;render()};dots.appendChild(d);
+  });
+}
+function render(){
+  const item=quiz[current];
+  qNum.textContent=`Question ${current+1} of ${quiz.length}`;qText.textContent=item.q;options.innerHTML="";
+  item.o.forEach((opt,i)=>{
+    const b=document.createElement("button");b.className="option";b.textContent=String.fromCharCode(65+i)+". "+opt;
+    if(answers[current]===i)b.classList.add("selected");
+    if(marked){if(i===item.a)b.classList.add("correct");else if(answers[current]===i)b.classList.add("wrong")}
+    b.onclick=()=>{answers[current]=i;localStorage.setItem("ch1answers",JSON.stringify(answers));marked=false;updateProgress();render()};
+    options.appendChild(b);
+  });
+  feedback.className="result"+(marked?" show":"");
+  if(marked){
+    const ok=answers[current]===item.a;
+    feedback.innerHTML=`<b>${ok?"Correct ✓":"Check this ✦"}</b><br>${item.e}`;
+  }
+  document.getElementById("prevBtn").disabled=current===0;
+  document.getElementById("nextBtn").textContent=current===quiz.length-1?"Mark this →":"Next →";
+  renderDots();updateScore();
+}
+function updateProgress(){
+  const n=Object.keys(answers).length;
+  progressText.textContent=`${n} of ${quiz.length} quiz questions answered`;
+  progressBar.style.width=(n/quiz.length*100)+"%";
+}
+function updateScore(){
+  let s=0;quiz.forEach((x,i)=>{if(answers[i]===x.a)s++});scoreText.textContent=`${s} / ${quiz.length}`;
+}
+document.getElementById("prevBtn").onclick=()=>{if(current>0){current--;marked=false;render()}};
+document.getElementById("nextBtn").onclick=()=>{if(current<quiz.length-1){current++;marked=false;render()}else{marked=true;render()}};
+document.getElementById("submitBtn").onclick=()=>{marked=true;render();updateScore()};
+document.getElementById("resetBtn").onclick=()=>{localStorage.removeItem("ch1answers");answers={};marked=false;current=0;render();updateProgress()};
+document.querySelectorAll(".answer-btn").forEach(btn=>btn.onclick=()=>{
+  const a=btn.nextElementSibling;a.classList.toggle("show");btn.textContent=a.classList.contains("show")?"Hide answer":"Reveal answer";
+});
+document.querySelectorAll(".acc-btn").forEach(btn=>btn.onclick=()=>btn.parentElement.classList.toggle("open"));
+document.querySelectorAll(".flash").forEach(f=>f.onclick=()=>f.classList.toggle("flipped"));
+document.getElementById("menuBtn").onclick=()=>document.getElementById("sidebar").classList.toggle("open");
+document.querySelectorAll(".nav a").forEach(a=>a.onclick=()=>{document.querySelectorAll(".nav a").forEach(x=>x.classList.remove("active"));a.classList.add("active");document.getElementById("sidebar").classList.remove("open")});
+const sections=[...document.querySelectorAll(".section")], navLinks=[...document.querySelectorAll(".nav a")];
+window.addEventListener("scroll",()=>{
+  let id="overview";sections.forEach(s=>{if(window.scrollY>=s.offsetTop-120)id=s.id});
+  navLinks.forEach(a=>a.classList.toggle("active",a.getAttribute("href")==="#"+id));
+});
+updateProgress();render();
+</script>
+</body>
+</html>

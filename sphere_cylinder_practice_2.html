@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sphere in Cylinder – Practice Problems</title>
+<style>
+  :root{
+    --bg:#f4f7fb;
+    --paper:#ffffff;
+    --ink:#172033;
+    --muted:#667085;
+    --line:#d9e1ec;
+    --accent:#315efb;
+    --water:#cfe8ff;
+    --water-line:#4b8fd8;
+    --good:#0f8a5f;
+    --shadow:0 14px 35px rgba(20,34,66,.10);
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:Arial, Helvetica, sans-serif;
+  }
+  .wrap{
+    max-width:1100px;
+    margin:0 auto;
+    padding:34px 18px 60px;
+  }
+  .header{
+    margin-bottom:24px;
+  }
+  h1{
+    margin:0 0 8px;
+    font-size:clamp(28px,4vw,42px);
+  }
+  .subtitle{
+    margin:0;
+    color:var(--muted);
+    font-size:16px;
+  }
+  .problem{
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:20px;
+    box-shadow:var(--shadow);
+    padding:24px;
+    margin:22px 0;
+  }
+  .problem-grid{
+    display:grid;
+    grid-template-columns:minmax(330px, 1fr) minmax(320px, 1fr);
+    gap:30px;
+    align-items:center;
+  }
+  h2{
+    margin:0 0 14px;
+    font-size:25px;
+  }
+  p{
+    line-height:1.6;
+    margin:8px 0;
+  }
+  .marks{
+    color:var(--muted);
+    font-weight:700;
+  }
+  .formula{
+    background:#f8fafc;
+    border-left:4px solid var(--accent);
+    padding:12px 14px;
+    margin:14px 0;
+    border-radius:10px;
+  }
+  .diagram{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+  }
+  svg{
+    width:100%;
+    max-width:410px;
+    height:auto;
+  }
+  .buttons{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-top:18px;
+  }
+  button{
+    border:0;
+    border-radius:10px;
+    padding:10px 14px;
+    font-size:15px;
+    font-weight:700;
+    cursor:pointer;
+    background:var(--accent);
+    color:white;
+  }
+  button.secondary{
+    background:#e9eefc;
+    color:#2341a1;
+  }
+  .panel{
+    display:none;
+    margin-top:14px;
+    padding:14px 16px;
+    border-radius:12px;
+    background:#f8fafc;
+    border:1px solid var(--line);
+  }
+  .answer{
+    border-left:4px solid var(--good);
+  }
+  .answer strong{
+    color:var(--good);
+  }
+  .small{
+    font-size:13px;
+    color:var(--muted);
+  }
+  @media (max-width:760px){
+    .problem-grid{grid-template-columns:1fr}
+    .problem{padding:18px}
+  }
+  @media print{
+    body{background:white}
+    .problem{box-shadow:none; break-inside:avoid}
+    .buttons,.panel{display:none !important}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="header">
+    <h1>Sphere in a Cylinder – Practice</h1>
+    <p class="subtitle">Two questions similar to the Cambridge-style displaced-water problem.</p>
+  </div>
+
+  <!-- Problem 1 -->
+  <section class="problem">
+    <div class="problem-grid">
+      <div>
+        <h2>Problem 1</h2>
+        <p>A cylinder contains water. A solid metal sphere is touching the base of the cylinder.</p>
+        <p><strong>Half of the sphere is in the water.</strong></p>
+        <p>The radius of the cylinder is <strong>8 cm</strong> and the radius of the sphere is <strong>4 cm</strong>.</p>
+        <p>The sphere is removed from the cylinder and the level of the water decreases by <em>h</em> cm.</p>
+        <p><strong>Calculate h.</strong> Give your answer exactly and as a decimal. <span class="marks">[3]</span></p>
+
+        <div class="formula">
+          Volume of a sphere:
+          <strong>V = 4/3 × πr³</strong>
+        </div>
+
+        <div class="buttons">
+          <button onclick="toggle('hint1')">Show Hint</button>
+          <button class="secondary" onclick="toggle('ans1')">Show Answer</button>
+        </div>
+
+        <div id="hint1" class="panel">
+          Only half the sphere is underwater, so the displaced volume is
+          <strong>½ × sphere volume</strong>. Set this equal to
+          <strong>π(8²)h</strong>.
+        </div>
+
+        <div id="ans1" class="panel answer">
+          <p>Half-sphere volume = ½ × 4/3 × π × 4³ = 128π/3.</p>
+          <p>Decrease in cylinder water volume = π × 8² × h = 64πh.</p>
+          <p>So 64πh = 128π/3.</p>
+          <p><strong>h = 128π/3 ÷ 64π = 2/3 cm = 0.67 cm (to 2 d.p.).</strong></p>
+        </div>
+      </div>
+
+      <div class="diagram">
+        <svg viewBox="0 0 420 470" role="img" aria-label="Cylinder containing water and a half-submerged sphere">
+          <!-- Cylinder -->
+          <ellipse cx="210" cy="65" rx="125" ry="34" fill="none" stroke="#26354d" stroke-width="3"/>
+          <line x1="85" y1="65" x2="85" y2="380" stroke="#26354d" stroke-width="3"/>
+          <line x1="335" y1="65" x2="335" y2="380" stroke="#26354d" stroke-width="3"/>
+          <ellipse cx="210" cy="380" rx="125" ry="34" fill="#f6fbff" stroke="#26354d" stroke-width="3"/>
+
+          <!-- Water -->
+          <rect x="87" y="310" width="246" height="70" fill="#cfe8ff"/>
+          <ellipse cx="210" cy="310" rx="123" ry="32" fill="#cfe8ff" stroke="#4b8fd8" stroke-width="2"/>
+          <ellipse cx="210" cy="380" rx="123" ry="32" fill="#cfe8ff" opacity=".65"/>
+
+          <!-- Sphere touching base; water line through middle -->
+          <circle cx="210" cy="310" r="70" fill="#ffffff" stroke="#26354d" stroke-width="3"/>
+          <path d="M140 310 A70 70 0 0 0 280 310 A70 70 0 0 1 140 310" fill="#b7dafa" opacity=".95"/>
+          <ellipse cx="210" cy="310" rx="70" ry="13" fill="none" stroke="#4b8fd8" stroke-width="2"/>
+
+          <!-- Initial water height -->
+          <line x1="80" y1="310" x2="100" y2="310" stroke="#26354d" stroke-width="2"/>
+          <line x1="80" y1="310" x2="80" y2="380" stroke="#26354d" stroke-width="2" stroke-dasharray="6 6"/>
+          <text x="38" y="347" font-size="18" fill="#26354d">4 cm</text>
+
+          <!-- Cylinder radius -->
+          <circle cx="210" cy="65" r="4" fill="#26354d"/>
+          <line x1="210" y1="65" x2="335" y2="65" stroke="#26354d" stroke-width="2"/>
+          <polygon points="335,65 324,60 324,70" fill="#26354d"/>
+          <text x="252" y="53" font-size="18" fill="#26354d">8 cm</text>
+
+          <!-- Sphere radius -->
+          <circle cx="210" cy="310" r="4" fill="#26354d"/>
+          <line x1="210" y1="310" x2="280" y2="310" stroke="#26354d" stroke-width="2"/>
+          <polygon points="280,310 270,305 270,315" fill="#26354d"/>
+          <text x="230" y="298" font-size="18" fill="#26354d">4 cm</text>
+
+          <text x="290" y="215" font-size="15" fill="#667085">NOT TO SCALE</text>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- Problem 2 -->
+  <section class="problem">
+    <div class="problem-grid">
+      <div>
+        <h2>Problem 2</h2>
+        <p>A cylindrical tank contains water. A solid sphere rests on the base.</p>
+        <p><strong>Exactly half of the sphere is below the water surface.</strong></p>
+        <p>The radius of the cylinder is <strong>15 cm</strong> and the radius of the sphere is <strong>6 cm</strong>.</p>
+        <p>The sphere is taken out. The water level falls by <em>x</em> cm.</p>
+        <p><strong>Calculate x.</strong> Give your answer exactly and as a decimal. <span class="marks">[3]</span></p>
+
+        <div class="formula">
+          Volume of a sphere:
+          <strong>V = 4/3 × πr³</strong>
+        </div>
+
+        <div class="buttons">
+          <button onclick="toggle('hint2')">Show Hint</button>
+          <button class="secondary" onclick="toggle('ans2')">Show Answer</button>
+        </div>
+
+        <div id="hint2" class="panel">
+          Find the volume of the submerged half of the sphere, then divide by the
+          cylinder's cross-sectional area <strong>π(15²)</strong>.
+        </div>
+
+        <div id="ans2" class="panel answer">
+          <p>Half-sphere volume = ½ × 4/3 × π × 6³ = 144π.</p>
+          <p>Decrease in cylinder water volume = π × 15² × x = 225πx.</p>
+          <p>225πx = 144π.</p>
+          <p><strong>x = 144/225 = 16/25 = 0.64 cm.</strong></p>
+        </div>
+      </div>
+
+      <div class="diagram">
+        <svg viewBox="0 0 420 470" role="img" aria-label="Cylinder containing water and a half-submerged sphere">
+          <!-- Cylinder -->
+          <ellipse cx="210" cy="65" rx="135" ry="34" fill="none" stroke="#26354d" stroke-width="3"/>
+          <line x1="75" y1="65" x2="75" y2="390" stroke="#26354d" stroke-width="3"/>
+          <line x1="345" y1="65" x2="345" y2="390" stroke="#26354d" stroke-width="3"/>
+          <ellipse cx="210" cy="390" rx="135" ry="34" fill="#f6fbff" stroke="#26354d" stroke-width="3"/>
+
+          <!-- Water -->
+          <rect x="77" y="300" width="266" height="90" fill="#cfe8ff"/>
+          <ellipse cx="210" cy="300" rx="133" ry="32" fill="#cfe8ff" stroke="#4b8fd8" stroke-width="2"/>
+          <ellipse cx="210" cy="390" rx="133" ry="32" fill="#cfe8ff" opacity=".65"/>
+
+          <!-- Sphere -->
+          <circle cx="210" cy="300" r="90" fill="#ffffff" stroke="#26354d" stroke-width="3"/>
+          <path d="M120 300 A90 90 0 0 0 300 300 A90 90 0 0 1 120 300" fill="#b7dafa" opacity=".95"/>
+          <ellipse cx="210" cy="300" rx="90" ry="15" fill="none" stroke="#4b8fd8" stroke-width="2"/>
+
+          <!-- Initial water height -->
+          <line x1="72" y1="300" x2="92" y2="300" stroke="#26354d" stroke-width="2"/>
+          <line x1="72" y1="300" x2="72" y2="390" stroke="#26354d" stroke-width="2" stroke-dasharray="6 6"/>
+          <text x="28" y="350" font-size="18" fill="#26354d">6 cm</text>
+
+          <!-- Cylinder radius -->
+          <circle cx="210" cy="65" r="4" fill="#26354d"/>
+          <line x1="210" y1="65" x2="345" y2="65" stroke="#26354d" stroke-width="2"/>
+          <polygon points="345,65 334,60 334,70" fill="#26354d"/>
+          <text x="255" y="53" font-size="18" fill="#26354d">15 cm</text>
+
+          <!-- Sphere radius -->
+          <circle cx="210" cy="300" r="4" fill="#26354d"/>
+          <line x1="210" y1="300" x2="300" y2="300" stroke="#26354d" stroke-width="2"/>
+          <polygon points="300,300 290,295 290,305" fill="#26354d"/>
+          <text x="245" y="288" font-size="18" fill="#26354d">6 cm</text>
+
+          <text x="286" y="190" font-size="15" fill="#667085">NOT TO SCALE</text>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <p class="small">Tip: Volume displaced by the submerged part of the sphere = decrease in water volume after the sphere is removed.</p>
+</div>
+
+<script>
+function toggle(id){
+  const el = document.getElementById(id);
+  el.style.display = (el.style.display === 'block') ? 'none' : 'block';
+}
+</script>
+</body>
+</html>

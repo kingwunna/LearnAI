@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Chapter 4 Quiz — Equations, Inequalities and Graphs</title>
+<style>
+:root{--ink:#18212f;--muted:#667085;--line:#d9e0e8;--panel:#fff;--bg:#f4f7fb;--easy:#e9f8ef;--hard:#fff0e8;--accent:#3157c8;--ok:#16794b;--bad:#b42318}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5}.wrap{width:100%;max-width:none;margin:0;padding:28px 18px 70px}.hero{background:linear-gradient(135deg,#172554,#3157c8);color:white;padding:34px;border-radius:20px;box-shadow:0 14px 40px #23387622}.hero h1{margin:0 0 8px;font-size:2rem}.hero p{margin:6px 0;opacity:.93}.stats{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.pill{background:#ffffff20;border:1px solid #ffffff38;padding:7px 11px;border-radius:999px;font-size:.9rem}.toolbar{position:sticky;top:0;z-index:4;background:#f4f7fbeF;backdrop-filter:blur(8px);padding:12px 0;display:flex;gap:10px;flex-wrap:wrap}.toolbar button{border:0;border-radius:10px;padding:11px 16px;font-weight:700;cursor:pointer}.primary{background:var(--accent);color:white}.secondary{background:white;border:1px solid var(--line)!important}.section-title{margin:28px 0 12px}.q{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px;margin:14px 0;box-shadow:0 3px 14px #2030500b}.qhead{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:10px}.num{font-weight:800;font-size:1.08rem}.tag{font-size:.78rem;font-weight:800;padding:4px 8px;border-radius:999px}.easy{background:var(--easy);color:#17633b}.hard{background:var(--hard);color:#9a3412}.type{background:#eef2ff;color:#3730a3}.prompt{font-size:1.03rem;margin:10px 0 14px}.options label{display:block;border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin:8px 0;cursor:pointer}.options label:hover{background:#f8faff}.calc{width:min(420px,100%);padding:11px 12px;border:1px solid #b9c3d0;border-radius:9px;font-size:1rem}.diagram{margin:12px 0;padding:10px;background:#fbfcfe;border:1px solid #e6eaf0;border-radius:12px;overflow:auto}.feedback{margin-top:10px;font-weight:700}.correct{color:var(--ok)}.wrong{color:var(--bad)}.answer{display:none;margin-top:10px;padding:10px 12px;background:#f7f9fc;border-left:4px solid var(--accent);border-radius:7px}.show .answer{display:block}.score{display:none;background:#ecfdf3;border:1px solid #abefc6;border-radius:14px;padding:16px;margin:14px 0;font-size:1.08rem;font-weight:800}.small{font-size:.9rem;color:var(--muted)}svg{max-width:100%;height:auto}footer{margin-top:30px;color:var(--muted);font-size:.9rem}@media print{body{background:white}.toolbar,.score{display:none!important}.q{break-inside:avoid;box-shadow:none}.hero{box-shadow:none}.answer{display:none!important}}
+</style>
+<style>
+.q{display:none;scroll-margin-top:120px}.q.active{display:block}
+.question-nav{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.question-nav .nav-count{min-width:105px;font-weight:700;color:var(--muted);text-align:center}
+.question-navigator{width:100%;padding:8px 0}
+.navigator-heading{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:10px}
+.navigator-heading strong{font-size:.95rem}
+.navigator-legend{display:flex;gap:12px;flex-wrap:wrap;color:var(--muted);font-size:.8rem}
+.navigator-legend span{display:inline-flex;align-items:center;gap:5px}
+.status-swatch{width:10px;height:10px;border-radius:50%;background:#fff;border:1px solid #98a2b3}
+.status-swatch.correct{background:var(--ok);border-color:var(--ok)}.status-swatch.wrong{background:var(--bad);border-color:var(--bad)}.status-swatch.skipped{background:#697586;border-color:#697586}
+.question-grid{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:6px;max-width:450px}
+.nav-question{aspect-ratio:1;padding:0;border:1px solid #cbd3dd;border-radius:6px;background:white;color:var(--ink);font-size:.82rem;font-weight:800;cursor:pointer}
+.nav-question.status-correct{background:var(--ok);border-color:var(--ok);color:white}.nav-question.status-wrong{background:var(--bad);border-color:var(--bad);color:white}.nav-question.status-skipped{background:#697586;border-color:#697586;color:white}
+.nav-question.current{outline:3px solid var(--accent);outline-offset:2px;z-index:1}.nav-question:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.glass-badge{position:fixed;right:18px;bottom:16px;z-index:8;padding:10px 15px;border:1px solid #ffffffb8;border-radius:14px;background:#ffffffb8;backdrop-filter:blur(12px);box-shadow:0 8px 28px #18212f24;color:var(--ink);font-size:.88rem;font-weight:800}
+.glass-badge::before{content:"";display:inline-block;width:9px;height:9px;margin-right:8px;border-radius:50%;background:#20b45a;box-shadow:0 0 0 3px #20b45a30;vertical-align:middle;animation:badge-pulse 1.2s ease-in-out infinite}
+@keyframes badge-pulse{50%{opacity:.35;transform:scale(.78)}}
+@media(prefers-reduced-motion:reduce){.glass-badge::before{animation:none}}
+@media(max-width:560px){.question-nav{width:100%}.question-nav .nav-count{min-width:auto}.navigator-heading{gap:8px}.question-grid{gap:5px}.glass-badge{right:10px;bottom:10px}}
+@media(orientation:landscape) and (min-width:900px){.wrap{display:grid;grid-template-columns:minmax(230px,24vw) minmax(0,1fr);column-gap:24px;padding:20px 24px 50px}.hero,.toolbar,footer{grid-column:1/-1}.question-navigator{grid-column:1;grid-row:3;position:sticky;top:130px;align-self:start}.question-grid{grid-template-columns:repeat(6,minmax(0,1fr));max-width:none}#score,#quiz{grid-column:2}.wrap.map-hidden{grid-template-columns:minmax(0,1fr)}.wrap.map-hidden #score,.wrap.map-hidden #quiz{grid-column:1}}
+@page{size:A4 landscape;margin:10mm}
+@media print{.q{display:block!important}.section-title[hidden]{display:block!important}.toolbar,.glass-badge,.question-navigator{display:none!important}.wrap{display:block;width:100%;max-width:none;padding:0}}
+</style>
+</head>
+<body><div class="wrap">
+<header class="hero"><h1>Chapter 4 Quiz</h1><p><b>Equations, Inequalities and Graphs</b></p><p>Absolute value • modulus inequalities • cubic graphs • cubic inequalities • equations reducible by substitution</p><div class="stats"><span class="pill">60 Questions</span><span class="pill">20 Easy</span><span class="pill">40 Hard</span><span class="pill">40 MCQ</span><span class="pill">20 Calculate</span></div></header>
+<div class="toolbar"><button class="primary" onclick="markQuiz()">Check Answers</button><button class="secondary" onclick="toggleAnswers()">Show / Hide Worked Answers</button><button class="secondary" onclick="window.print()">Print</button><button class="secondary" onclick="resetQuiz()">Reset</button><button class="secondary" id="toggleQuestionMap" onclick="toggleQuestionMap()" aria-controls="questionNavigator" aria-expanded="true">Hide Map</button><div class="question-nav"><button class="secondary" id="prevQuestion" onclick="moveQuestion(-1)" aria-label="Previous question">←</button><span class="nav-count" id="questionCount" aria-live="polite">Question 1 of 60</span><button class="secondary" id="nextQuestion" onclick="moveQuestion(1)" aria-label="Next question">→</button></div></div>
+<section id="questionNavigator" class="question-navigator" aria-label="Question navigator"><div class="navigator-heading"><strong>Question Navigator</strong><div class="navigator-legend" aria-label="Answer status legend"><span><i class="status-swatch correct"></i>Correct</span><span><i class="status-swatch wrong"></i>Wrong</span><span><i class="status-swatch skipped"></i>Skipped</span><span><i class="status-swatch"></i>Not checked</span></div></div><div id="questionGrid" class="question-grid"></div></section>
+<div id="score" class="score"></div><div id="quiz"></div>
+<footer>Generated practice quiz based on the Chapter 4 topic outline available in this conversation. Calculation answers accept common equivalent forms where implemented.</footer>
+</div>
+<div class="glass-badge">Dr King Wunna</div>
+<script>
+const qs=[];
+function mcq(n,d,p,o,a,exp,svg=''){qs.push({n,d,t:'MCQ',p,o,a,exp,svg})}
+function calc(n,d,p,a,exp,svg='',alts=[]){qs.push({n,d,t:'Calculate',p,a:String(a),exp,svg,alts:alts.map(String)})}
+const numberLine=(marks,highlight='')=>`<svg viewBox="0 0 560 90" aria-label="number line"><line x1="35" y1="45" x2="525" y2="45" stroke="#18212f" stroke-width="2"/><path d="M525 45l-10-6v12z" fill="#18212f"/>${marks.map(([x,l,open=false])=>`<line x1="${x}" y1="38" x2="${x}" y2="52" stroke="#18212f"/><${open?'circle':'circle'} cx="${x}" cy="45" r="5" fill="${open?'white':'#18212f'}" stroke="#18212f"/><text x="${x}" y="72" text-anchor="middle" font-size="14">${l}</text>`).join('')}${highlight}</svg>`;
+const axes=(path,labels='')=>`<svg viewBox="0 0 420 250" aria-label="graph"><line x1="30" y1="125" x2="395" y2="125" stroke="#667085"/><line x1="210" y1="15" x2="210" y2="235" stroke="#667085"/><text x="395" y="117">x</text><text x="217" y="22">y</text><path d="${path}" fill="none" stroke="#3157c8" stroke-width="3"/>${labels}</svg>`;
+// EASY 1-20: 15 MCQ + 5 calc
+mcq(1,'Easy','Solve |x − 3| = 5.',['x = 8 only','x = −2 only','x = 8 or x = −2','x = 2 or x = −8'],2,'|x−3|=5 gives x−3=±5, so x=8 or −2.');
+mcq(2,'Easy','Solve |2x + 1| = 7.',['x = 3 or −4','x = 4 or −3','x = 3 only','x = −4 only'],0,'2x+1=7 or −7, giving x=3 or −4.');
+mcq(3,'Easy','Which inequality is equivalent to |x| < 4?',['x < −4 or x > 4','−4 < x < 4','x ≤ 4','x ≥ −4'],1,'For a>0, |x|<a means −a<x<a.',numberLine([[120,'−4',true],[440,'4',true]],'<line x1="125" y1="45" x2="435" y2="45" stroke="#3157c8" stroke-width="6"/>'));
+mcq(4,'Easy','Solve |x + 2| ≤ 3.',['−5 ≤ x ≤ 1','−1 ≤ x ≤ 5','x ≤ −5 or x ≥ 1','−5 < x < 1'],0,'−3≤x+2≤3, hence −5≤x≤1.');
+mcq(5,'Easy','The roots of y=(x−1)(x−3)(x+2) are:',['−2, 1, 3','−3, −1, 2','−2, −1, 3','1, 2, 3'],0,'Set each factor equal to zero.');
+mcq(6,'Easy','For f(x)=x³−4x, what is f(0)?',['−4','0','4','1'],1,'f(0)=0³−4(0)=0.');
+mcq(7,'Easy','Which point is the y-intercept of y=x³+2x−5?',['(−5,0)','(0,−5)','(0,5)','(5,0)'],1,'At x=0, y=−5.');
+mcq(8,'Easy','If y=f(x) is reflected below the x-axis portions upward to form y=|f(x)|, then all y-values are:',['negative','non-negative','positive only','unchanged'],1,'Absolute value makes output values ≥0.');
+mcq(9,'Easy','Solve x³−x=0.',['x=0 only','x=±1 only','x=−1,0,1','x=1'],2,'x(x²−1)=x(x−1)(x+1)=0.');
+mcq(10,'Easy','Which substitution is natural for x⁴−5x²+4=0?',['u=x³','u=x²','u=√x','u=1/x'],1,'It is quadratic in x².');
+mcq(11,'Easy','After setting u=x² in x⁴−5x²+4=0, the equation becomes:',['u²−5u+4=0','u⁴−5u²+4=0','u²−5x+4=0','u−5u+4=0'],0,'x⁴=(x²)²=u².');
+mcq(12,'Easy','Solve |3x|=12.',['x=4','x=−4','x=±4','x=±3'],2,'|3x|=12 ⇒ |x|=4.');
+mcq(13,'Easy','Which interval solves |x−1|>2?',['−1<x<3','x<−1 or x>3','x≤−1 or x≥3','x>−1'],1,'Distance from 1 greater than 2 means outside (−1,3).',numberLine([[150,'−1',true],[410,'3',true]],'<line x1="35" y1="45" x2="145" y2="45" stroke="#3157c8" stroke-width="6"/><line x1="415" y1="45" x2="525" y2="45" stroke="#3157c8" stroke-width="6"/>'));
+mcq(14,'Easy','For y=(x+1)²(x−2), which root is repeated?',['−1','0','1','2'],0,'The factor (x+1)² gives a repeated root x=−1.');
+mcq(15,'Easy','At a simple real root, a typical cubic graph:',['crosses the x-axis','never meets the x-axis','must touch and turn','has a vertical asymptote'],0,'A simple root generally corresponds to crossing the x-axis.');
+calc(16,'Easy','Solve |x−4|=9. Enter the two solutions separated by a comma.','-5,13','x−4=±9, so x=13 or x=−5.','', ['13,-5','-5, 13','13, -5']);
+calc(17,'Easy','Solve |2x−3|=5. Enter the two solutions separated by a comma.','-1,4','2x−3=±5, so x=4 or x=−1.','', ['4,-1','-1, 4','4, -1']);
+calc(18,'Easy','Find the three roots of x³−4x=0. Enter them separated by commas.','-2,0,2','x³−4x=x(x−2)(x+2).','', ['-2, 0, 2']);
+calc(19,'Easy','Solve x⁴−5x²+4=0. Enter all real roots separated by commas.','-2,-1,1,2','Let u=x². Then (u−1)(u−4)=0, so x=±1,±2.','', ['-2, -1, 1, 2']);
+calc(20,'Easy','Find f(2) for f(x)=x³−3x+1.','3','8−6+1=3.');
+// HARD 21-60: 25 MCQ + 15 calc => totals 40 MCQ,20 calc
+mcq(21,'Hard','Solve |2x−5|=|x+1|.',['x=2 or 6','x=4/3 or 6','x=4/3 or 2','x=−2 or 6'],1,'Square or split cases: 2x−5=x+1 ⇒ x=6; 2x−5=−x−1 ⇒ 3x=4 ⇒ x=4/3.');
+mcq(22,'Hard','Solve |3x+2|=|x−4|.',['x=−3 or 1/2','x=−3 or 1','x=3 or −1/2','x=−1 or 3'],0,'3x+2=x−4 gives x=−3; 3x+2=−x+4 gives x=1/2.');
+mcq(23,'Hard','Solve |2x−1|<5.',['−2<x<3','x<−2 or x>3','−3<x<2','−2≤x≤3'],0,'−5<2x−1<5 ⇒ −4<2x<6 ⇒ −2<x<3.');
+mcq(24,'Hard','Solve |3x+1|≥7.',['−8/3≤x≤2','x≤−8/3 or x≥2','x<−2 or x>8/3','x≤−2 or x≥8/3'],1,'3x+1≤−7 or ≥7 gives x≤−8/3 or x≥2.');
+mcq(25,'Hard','Which expression has roots −2, 1 and 4 and positive leading coefficient?',['(x+2)(x−1)(x−4)','(x−2)(x+1)(x+4)','−(x+2)(x−1)(x−4)','(x+2)(x+1)(x−4)'],0,'A root r corresponds to factor (x−r).');
+mcq(26,'Hard','For f(x)=(x+2)(x−1)(x−3), on which interval is f(x)<0?',['x<−2 only','−2<x<1 only','x<−2 or 1<x<3','−2<x<1 or x>3'],2,'Sign alternates across three simple roots for a positive-leading cubic: −,+,−,+.');
+mcq(27,'Hard','For f(x)=(x+2)(x−1)(x−3), solve f(x)≥0.',['[−2,1]∪[3,∞)','[−2,1] only','[−2,1]∪[3,∞) with x=1 excluded','(−∞,−2]∪[1,3]'],0,'Positive intervals are [−2,1] and [3,∞), including roots.');
+mcq(28,'Hard','A cubic has roots −1, 2, 2. Which form matches?',['(x+1)(x−2)²','(x−1)(x+2)²','(x+1)²(x−2)','(x−1)²(x+2)'],0,'Root 2 has multiplicity 2.');
+mcq(29,'Hard','For y=(x−1)²(x+2), what happens at x=1?',['The graph crosses the axis','The graph touches the axis and turns','There is an asymptote','The graph is undefined'],1,'An even-multiplicity root touches rather than crosses.');
+mcq(30,'Hard','If f(x)<0 on an interval, the graph of y=|f(x)| on that interval is obtained by:',['shifting right','reflecting in the x-axis','reflecting in the y-axis','stretching vertically by 2'],1,'Negative y-values are reflected to positive y-values.');
+mcq(31,'Hard','How many real solutions can |f(x)|=2 have if a cubic f crosses y=2 three times and y=−2 once?',['1','2','3','4'],3,'|f|=2 means f=2 or f=−2, giving 3+1=4 intersections.');
+mcq(32,'Hard','Solve x⁶−5x³+4=0 using u=x³.',['x=1 only','x=∛4 only','x=1 or ∛4','x=±1 or ±2'],2,'u²−5u+4=(u−1)(u−4)=0; real cube roots give x=1 or ∛4.');
+mcq(33,'Hard','Solve x⁴−13x²+36=0.',['x=±2,±3','x=±3,±4','x=2,3 only','x=±6,±1'],0,'u²−13u+36=(u−4)(u−9), so x²=4 or 9.');
+mcq(34,'Hard','If u=x² and u satisfies u²−10u+9=0, the real x-values are:',['±1,±3','1,9','±1,±9','±3 only'],0,'u=1 or 9, so x=±1 or ±3.');
+mcq(35,'Hard','Which equation has no real solution?',['x⁴+5x²+4=0','x⁴−5x²+4=0','x⁴−10x²+9=0','x⁴−1=0'],0,'Let u=x²≥0. u²+5u+4=(u+1)(u+4), impossible for u≥0.');
+mcq(36,'Hard','Solve |x−2|≤|x+4|.',['x≤−1','x≥−1','x≤1','x≥1'],1,'These are distances from 2 and −4. Points at least as close to 2 as to −4 lie x≥−1; algebra gives same.');
+mcq(37,'Hard','Solve |2x+3|>|x−1|.',['x<−4/3 or x>−2/3','−4/3<x<−2/3','x<−2/3 or x>4/3','x>−4/3 only'],0,'Squaring: (2x+3)²>(x−1)² ⇒ (x+4)(3x+2)>0 ⇒ x<−4 or x>−2/3? Check factor: 4x²+12x+9 > x²−2x+1 ⇒ 3x²+14x+8>0=(3x+2)(x+4), so x<−4 or x>−2/3.', '',);
+// correct options for Q37 override
+qs[36].o=['x<−4 or x>−2/3','−4<x<−2/3','x<−2/3 or x>4','x>−4 only']; qs[36].a=0;
+mcq(38,'Hard','Which inequality corresponds to the highlighted number line?',['−2<x<3','x≤−2 or x≥3','x<−2 or x>3','−2≤x≤3'],1,'Filled endpoints and shading outward give x≤−2 or x≥3.',numberLine([[150,'−2'],[410,'3']],'<line x1="35" y1="45" x2="145" y2="45" stroke="#3157c8" stroke-width="6"/><line x1="415" y1="45" x2="525" y2="45" stroke="#3157c8" stroke-width="6"/>'));
+mcq(39,'Hard','The sketch shown has three simple roots at −2, 1 and 3. Which inequality is represented by the portions below the x-axis?',['x<−2 or 1<x<3','−2<x<1 or x>3','−2<x<3','x>1'],0,'For a positive-leading cubic with roots −2,1,3, the negative intervals are x<−2 and 1<x<3.',axes('M35 200 C95 220,105 125,145 125 C195 125,190 45,255 125 C300 175,325 125,370 55','<text x="140" y="145">−2</text><text x="250" y="145">1</text><text x="330" y="145">3</text>'));
+mcq(40,'Hard','If f(x)=(x−2)(x+1)(x−4), what is the sign of f(3)?',['positive','negative','zero','cannot be determined'],1,'At x=3: (1)(4)(−1)=−4.');
+mcq(41,'Hard','For f(x)=(x+3)(x−2)², which statement is true?',['f changes sign at both roots','f changes sign at −3 but not at 2','f changes sign at 2 but not at −3','f never changes sign'],1,'Odd multiplicity at −3 changes sign; even multiplicity at 2 does not.');
+mcq(42,'Hard','Solve (x²−1)(x²−9)=0.',['x=±1,±3','x=1,3','x=−1,−3','x=±8'],0,'Each factor gives x²=1 or 9.');
+mcq(43,'Hard','If x²+1/x²=14, what is (x+1/x)²?',['12','14','16','18'],2,'(x+1/x)²=x²+2+1/x²=16.');
+mcq(44,'Hard','For x≠0, x²+1/x²=7. Then (x−1/x)² equals:',['5','7','9','3'],0,'(x−1/x)²=x²−2+1/x²=5.');
+mcq(45,'Hard','Which transformation takes y=f(x) to y=|f(x)|?',['Reflect every point in y-axis','Reflect only portions below x-axis in x-axis','Reflect only portions above x-axis in x-axis','Translate upward'],1,'Only negative-output portions are reflected upward.');
+calc(46,'Hard','Solve |3x−7|=|x+5|. Enter both solutions separated by commas.','0.5,6','3x−7=x+5 gives x=6; 3x−7=−x−5 gives 4x=2, x=1/2.','', ['1/2,6','6,0.5','6,1/2','0.5, 6']);
+calc(47,'Hard','Solve |2x+1|≤7. Give the interval using inequalities, e.g. -2<=x<=3.','-4<=x<=3','−7≤2x+1≤7 ⇒ −8≤2x≤6 ⇒ −4≤x≤3.','', ['-4≤x≤3']);
+calc(48,'Hard','Solve |4x−3|>5. Enter in the form x<a or x>b.','x<-0.5 or x>2','4x−3<−5 or >5, so x<−1/2 or x>2.','', ['x<-1/2 or x>2','x<−1/2 or x>2']);
+calc(49,'Hard','Find all real roots of x⁴−17x²+16=0.','-4,-1,1,4','Let u=x²: u²−17u+16=(u−1)(u−16). Thus x=±1,±4.','', ['-4, -1, 1, 4']);
+calc(50,'Hard','Find all real roots of x⁴−10x²+9=0.','-3,-1,1,3','Let u=x²: (u−1)(u−9)=0.','', ['-3, -1, 1, 3']);
+calc(51,'Hard','Solve x⁶−9x³+8=0. Enter the real solutions.','1,2','Let u=x³: (u−1)(u−8)=0, so x=1 or 2.','', ['1, 2']);
+calc(52,'Hard','For f(x)=(x+2)(x−1)(x−4), calculate f(2).','-8','f(2)=4×1×(−2)=−8.');
+calc(53,'Hard','For f(x)=x³−6x²+11x−6, enter its three real roots.','1,2,3','f(x)=(x−1)(x−2)(x−3).','', ['1, 2, 3']);
+calc(54,'Hard','Solve (x−1)(x+2)(x−5)<0. Give the solution intervals.','x<-2 or 1<x<5','With simple roots −2,1,5 and positive leading coefficient, signs are −,+,−,+.','', ['x<−2 or 1<x<5']);
+calc(55,'Hard','Solve (x+3)(x−2)²≤0.','x<=-3','(x−2)²≥0 and does not change sign. Product is ≤0 only when x+3≤0, plus x=2 gives zero. Thus x≤−3 or x=2.');
+// fix Q55 answer
+qs[54].a='x<=-3 or x=2'; qs[54].alts=['x≤−3 or x=2'];
+calc(56,'Hard','Solve |x−4|=|2x+1|. Enter both solutions separated by commas.','1,5','x−4=2x+1 gives x=−5, while x−4=−2x−1 gives x=1.');
+qs[55].a='-5,1'; qs[55].alts=['1,-5','-5, 1','1, -5']; qs[55].exp='x−4=2x+1 gives x=−5; x−4=−2x−1 gives x=1.';
+calc(57,'Hard','If x+1/x=5, calculate x²+1/x².','23','Square: x²+2+1/x²=25, so the required value is 23.');
+calc(58,'Hard','If x−1/x=3, calculate x²+1/x².','11','Square: x²−2+1/x²=9, so x²+1/x²=11.');
+calc(59,'Hard','A cubic has roots −2, 1 and 4 and leading coefficient 2. Find f(0).','16','f(x)=2(x+2)(x−1)(x−4). f(0)=2·2·(−1)·(−4)=16.');
+calc(60,'Hard','For f(x)=(x−2)²(x+1), calculate f(0) and enter the number.','4','f(0)=(−2)²(1)=4.',axes('M35 205 C95 205,105 125,150 125 C210 125,240 35,275 125 C300 125,310 125,325 125 C345 125,355 90,385 55','<text x="145" y="145">−1</text><text x="320" y="145">2</text>'));
+function esc(s){return s.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;')}
+function render(){let html=''; qs.forEach((q,i)=>{if(i===0)html+='<h2 class="section-title">Part A — Easy (Questions 1–20)</h2>'; if(i===20)html+='<h2 class="section-title">Part B — Hard (Questions 21–60)</h2>'; html+=`<article class="q" id="q${q.n}"><div class="qhead"><span class="num">Q${q.n}</span><span class="tag ${q.d.toLowerCase()}">${q.d}</span><span class="tag type">${q.t}</span></div><div class="prompt">${q.p}</div>${q.svg?`<div class="diagram">${q.svg}</div>`:''}`; if(q.t==='MCQ'){html+='<div class="options">'+q.o.map((x,j)=>`<label><input type="radio" name="q${q.n}" value="${j}"> ${String.fromCharCode(65+j)}. ${x}</label>`).join('')+'</div>'}else{html+=`<input class="calc" id="in${q.n}" placeholder="Type your answer">`} html+=`<div class="feedback" id="fb${q.n}"></div><div class="answer"><b>Answer:</b> ${q.t==='MCQ'?String.fromCharCode(65+q.a)+'. '+q.o[q.a]:esc(q.a)}<br><span class="small">${q.exp}</span></div></article>`}); document.getElementById('quiz').innerHTML=html}
+function norm(s){return String(s).toLowerCase().replaceAll(' ','').replaceAll('−','-').replaceAll('≤','<=').replaceAll('≥','>=').replaceAll('½','1/2')}
+function markQuiz(){let score=0,answered=0;qs.forEach(q=>{let ok=false,got='',didAnswer=false;if(q.t==='MCQ'){let el=document.querySelector(`input[name=q${q.n}]:checked`);if(el){answered++;didAnswer=true;got=+el.value;ok=got===q.a}}else{got=document.getElementById('in'+q.n).value;if(got.trim()){answered++;didAnswer=true;let choices=[q.a,...(q.alts||[])].map(norm);ok=choices.includes(norm(got))}}let fb=document.getElementById('fb'+q.n);if(ok){score++;q.status='correct';fb.textContent='✓ Correct';fb.className='feedback correct'}else if(didAnswer){q.status='wrong';fb.textContent='✗ Check this answer';fb.className='feedback wrong'}else{q.status='skipped';fb.textContent='Not answered';fb.className='feedback wrong'}});syncQuestionGrid();let box=document.getElementById('score');box.style.display='block';box.textContent=`Score: ${score} / 60  •  Answered: ${answered} / 60  •  ${Math.round(score/60*100)}%`;window.scrollTo({top:0,behavior:'smooth'})}
+function toggleAnswers(){document.body.classList.toggle('show')}
+function toggleQuestionMap(){const map=document.getElementById('questionNavigator');const expanded=map.hidden;map.hidden=!expanded;document.getElementById('toggleQuestionMap').setAttribute('aria-expanded',String(expanded));document.getElementById('toggleQuestionMap').textContent=expanded?'Hide Map':'Show Map';document.querySelector('.wrap').classList.toggle('map-hidden',!expanded)}
+function resetQuiz(){document.querySelectorAll('input').forEach(x=>{if(x.type==='radio')x.checked=false;else x.value=''});document.querySelectorAll('.feedback').forEach(x=>{x.textContent='';x.className='feedback'});qs.forEach(q=>q.status='ungraded');syncQuestionGrid();document.getElementById('score').style.display='none';document.body.classList.remove('show')}
+let currentQuestion=1;
+function syncQuestionGrid(){qs.forEach(q=>{const button=document.getElementById(`navQ${q.n}`);const status=q.status||'ungraded';button.className=`nav-question status-${status}${q.n===currentQuestion?' current':''}`;button.setAttribute('aria-label',`Question ${q.n}, ${status==='ungraded'?'not checked':status}`);button.title=`Question ${q.n}: ${status==='ungraded'?'not checked':status}`;if(q.n===currentQuestion)button.setAttribute('aria-current','step');else button.removeAttribute('aria-current')})}
+function showQuestion(number){const index=Math.max(0,Math.min(qs.length-1,number-1));const active=qs[index];currentQuestion=active.n;document.querySelectorAll('.q').forEach(card=>card.classList.toggle('active',card.id===`q${active.n}`));document.querySelectorAll('.section-title').forEach(title=>{title.hidden=(index<20)!==title.textContent.includes('Easy')});document.getElementById('questionCount').textContent=`Question ${active.n} of ${qs.length}`;document.getElementById('prevQuestion').disabled=index===0;document.getElementById('nextQuestion').disabled=index===qs.length-1;syncQuestionGrid()}
+function navigateQuestion(number){showQuestion(number);document.querySelector('.q.active').scrollIntoView({behavior:'smooth',block:'start'})}
+function moveQuestion(offset){navigateQuestion(currentQuestion+offset)}
+function updateQuestionStatus(event){if(!event.target.matches('input'))return;const card=event.target.closest('.q');const question=qs.find(q=>q.n===Number(card.id.slice(1)));question.status='ungraded';const feedback=document.getElementById(`fb${question.n}`);feedback.textContent='';feedback.className='feedback';syncQuestionGrid()}
+function initQuestionNavigator(){document.getElementById('questionGrid').innerHTML=qs.map(q=>`<button type="button" id="navQ${q.n}" class="nav-question status-ungraded" onclick="navigateQuestion(${q.n})">${q.n}</button>`).join('');document.getElementById('quiz').addEventListener('change',updateQuestionStatus);document.getElementById('quiz').addEventListener('input',updateQuestionStatus);showQuestion(1)}
+render();initQuestionNavigator();
+</script></body></html>

@@ -1,0 +1,1264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Trigonometric Identity Step-Order Quiz</title>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['\\(','\\)'], ['$', '$']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<style>
+:root {
+  --bg1:#f9fcff;
+  --bg2:#eef5ff;
+  --card:#ffffff;
+  --accent:#2f6fff;
+  --accent-soft:#e8f0ff;
+  --good:#dff7e6;
+  --bad:#ffe3e3;
+  --text:#1d2a39;
+  --muted:#667587;
+  --border:#d7e4ff;
+  --shadow:0 14px 40px rgba(30, 74, 138, 0.12);
+}
+* { box-sizing:border-box; }
+body {
+  margin:0;
+  font-family: Inter, Arial, sans-serif;
+  background: linear-gradient(135deg, var(--bg1), var(--bg2));
+  color:var(--text);
+}
+button { font: inherit; }
+.app { display:flex; min-height:100vh; }
+.sidebar {
+  width:290px;
+  background:rgba(255,255,255,0.88);
+  border-right:1px solid var(--border);
+  backdrop-filter: blur(10px);
+  padding:18px 16px 24px;
+  position:fixed;
+  top:0; left:0; bottom:0;
+  overflow:auto;
+  transition:transform .28s ease;
+  z-index:20;
+}
+.sidebar.hidden { transform:translateX(-100%); }
+.brand { margin:8px 6px 18px; }
+.brand-heading { display:flex; align-items:center; justify-content:space-between; gap:8px; }
+.brand h2 { margin:0 0 6px; font-size:20px; }
+.sidebar-hide-btn {
+  flex:0 0 34px;
+  width:34px;
+  height:34px;
+  border:0;
+  border-radius:8px;
+  background:var(--accent-soft);
+  color:#27446c;
+  cursor:pointer;
+  font-size:22px;
+  line-height:1;
+}
+.sidebar-hide-btn:hover { background:#d7e5ff; }
+.brand p { margin:0; color:var(--muted); font-size:13px; line-height:1.35; }
+.sidebar h3 { margin:18px 6px 10px; font-size:15px; }
+.nav-grid {
+  display:grid;
+  grid-template-columns:repeat(5, 1fr);
+  gap:8px;
+}
+.nav-btn {
+  border:none;
+  background:var(--accent-soft);
+  border-radius:12px;
+  padding:10px 0;
+  color:#224;
+  font-weight:700;
+  cursor:pointer;
+}
+.nav-btn.active { background:var(--accent); color:white; }
+.nav-btn.done { box-shadow: inset 0 0 0 2px #1ba855; }
+.sidebar-stats {
+  margin:18px 6px 0;
+  padding:12px 14px;
+  border-radius:16px;
+  background:#f7fbff;
+  border:1px solid var(--border);
+  font-size:14px;
+  line-height:1.7;
+}
+.main {
+  flex:1;
+  margin-left:290px;
+  padding:24px 24px 96px;
+  transition:margin-left .28s ease;
+}
+.main.expanded { margin-left:0; }
+.topbar {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  margin-bottom:18px;
+}
+.toggle-btn {
+  border:none;
+  background:var(--accent);
+  color:white;
+  border-radius:999px;
+  padding:11px 16px;
+  cursor:pointer;
+  box-shadow:var(--shadow);
+}
+.title-group h1 { margin:0; font-size:28px; }
+.title-group p { margin:6px 0 0; color:var(--muted); }
+.card {
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:24px;
+  box-shadow:var(--shadow);
+  padding:24px;
+}
+.question-head {
+  display:flex;
+  flex-wrap:wrap;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:18px;
+}
+.badge {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-width:96px;
+  padding:10px 14px;
+  border-radius:999px;
+  background:var(--accent-soft);
+  color:var(--accent);
+  font-weight:700;
+}
+.question-box {
+  padding:18px 20px;
+  border-radius:18px;
+  background:linear-gradient(180deg, #ffffff, #f7fbff);
+  border:1px solid var(--border);
+  margin-bottom:18px;
+  font-size:21px;
+}
+.section-title {
+  font-size:15px;
+  font-weight:700;
+  margin:18px 0 10px;
+}
+.bank {
+  min-height:120px;
+  padding:12px;
+  border:1px solid var(--border);
+  border-radius:18px;
+  background:#fbfdff;
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+}
+.dropzone {
+  min-height:160px;
+  padding:14px;
+  border:2px dashed #9fbcff;
+  border-radius:18px;
+  background:#f9fbff;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+.dropzone.dragover { background:#eef5ff; border-color:var(--accent); }
+.step-card {
+  position:relative;
+  background:white;
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:12px 14px 12px 36px;
+  cursor:grab;
+  user-select:none;
+  box-shadow:0 4px 14px rgba(69,103,163,0.08);
+}
+.step-card:hover { transform:translateY(-1px); }
+.step-label {
+  position:absolute;
+  left:9px;
+  top:9px;
+  width:18px;
+  height:18px;
+  border-radius:50%;
+  background:var(--accent-soft);
+  color:var(--accent);
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  font-size:10px;
+  font-weight:800;
+  line-height:1;
+}
+.step-math { display:inline-block; }
+.answer-card {
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:12px 14px;
+  background:white;
+  border:1px solid var(--border);
+  border-radius:16px;
+  box-shadow:0 4px 14px rgba(69,103,163,0.08);
+  cursor:grab;
+  transition:all 0.2s ease;
+}
+.answer-card.dragging { opacity:.45; }
+.answer-card.correct {
+  border-color:#3dbf72;
+  background:linear-gradient(180deg, #f2fff7 0%, #eafaf0 100%);
+  box-shadow:0 0 0 3px rgba(61, 191, 114, 0.12), 0 10px 22px rgba(61, 191, 114, 0.18);
+}
+.answer-card.incorrect {
+  border-color:#ef6d6d;
+  background:linear-gradient(180deg, #fff7f7 0%, #fff1f1 100%);
+}
+.answer-index {
+  min-width:28px;
+  height:28px;
+  border-radius:50%;
+  background:var(--accent-soft);
+  color:var(--accent);
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  font-size:13px;
+  font-weight:700;
+}
+.answer-math { flex:1; }
+.order-controls { display:flex; gap:4px; }
+.order-btn {
+  width:30px;
+  height:30px;
+  border:0;
+  border-radius:50%;
+  background:#f2f6ff;
+  color:#38577e;
+  cursor:pointer;
+  font-size:15px;
+}
+.order-btn:disabled { opacity:.4; cursor:default; }
+.remove-btn {
+  border:none;
+  background:#f2f6ff;
+  color:#5c6d86;
+  width:30px;
+  height:30px;
+  border-radius:50%;
+  cursor:pointer;
+  font-size:17px;
+  line-height:1;
+}
+.controls {
+  margin-top:18px;
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:flex-start;
+  gap:10px;
+}
+.action-row {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  margin-top:14px;
+}
+.math-controls {
+  margin-top:14px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+}
+.action-btn {
+  border:none;
+  border-radius:999px;
+  padding:12px 18px;
+  cursor:pointer;
+  font-weight:700;
+}
+.primary { background:var(--accent); color:white; }
+.secondary { background:#eef4ff; color:#27446c; }
+.status {
+  margin-top:18px;
+  padding:14px 16px;
+  border-radius:16px;
+  display:none;
+  border:1px solid transparent;
+}
+.status.show { display:block; }
+.status.good { background:var(--good); border-color:#b8e7c6; }
+.status.bad { background:var(--bad); border-color:#f3b9b9; }
+.mode-row,
+.panel-row {
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:14px;
+}
+.panel-row {
+  justify-content:flex-end;
+}
+.mode-menu {
+  position:relative;
+  display:flex;
+  align-items:center;
+}
+.mode-menu-button {
+  border:none;
+  border-radius:999px;
+  background:var(--accent);
+  color:white;
+  padding:10px 16px;
+  font-weight:700;
+  cursor:pointer;
+  box-shadow:var(--shadow);
+}
+.mode-dropdown {
+  position:absolute;
+  right:0;
+  top:calc(100% + 10px);
+  display:flex;
+  flex-direction:column;
+  min-width:180px;
+  background:white;
+  border:1px solid var(--border);
+  border-radius:16px;
+  box-shadow:var(--shadow);
+  overflow:hidden;
+  z-index:25;
+}
+.mode-dropdown.hidden { display:none; }
+.mode-dropdown-item {
+  border:none;
+  background:white;
+  color:#2b3d55;
+  text-align:left;
+  padding:12px 14px;
+  font-weight:700;
+  cursor:pointer;
+}
+.mode-dropdown-item.active {
+  background:var(--accent-soft);
+  color:var(--accent);
+}
+.mode-dropdown-item:hover {
+  background:#f5f9ff;
+}
+.inline-btn {
+  background:#f3f7ff;
+  color:#21476f;
+  border:none;
+  border-radius:999px;
+  padding:10px 14px;
+  font-weight:700;
+  cursor:pointer;
+  transition:all 0.2s ease;
+}
+.progress-shell {
+  margin-top:18px;
+  padding:14px 16px;
+  border-radius:18px;
+  background:#f7fbff;
+  border:1px solid var(--border);
+}
+.progress-bar {
+  width:100%;
+  height:12px;
+  background:#e8efff;
+  border-radius:999px;
+  overflow:hidden;
+  border:1px solid #dfeaff;
+}
+.progress-fill {
+  display:block;
+  height:100%;
+  width:0%;
+  background:linear-gradient(90deg, #2f6fff, #54b6ff);
+  border-radius:inherit;
+  transition:width 0.25s ease;
+}
+.progress-meta {
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  margin-top:10px;
+  color:var(--muted);
+  font-size:13px;
+  flex-wrap:wrap;
+}
+.feedback-panel {
+  margin-top:18px;
+  background:#f8fbff;
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:16px 18px;
+}
+.feedback-panel.hidden { display:none; }
+.feedback-title {
+  font-size:16px;
+  font-weight:800;
+  margin-bottom:8px;
+}
+.feedback-text,
+.feedback-hint {
+  color:#324864;
+  line-height:1.6;
+}
+.feedback-hint {
+  margin-top:8px;
+  padding:10px 12px;
+  background:#edf5ff;
+  border-radius:12px;
+  border:1px solid #dfeafe;
+}
+.study-solution {
+  margin-top:12px;
+  padding:10px 12px;
+  border-radius:12px;
+  background:#f3fff8;
+  border:1px solid #d7efdf;
+}
+.solution-line {
+  display:flex;
+  gap:10px;
+  align-items:flex-start;
+  margin-top:8px;
+  color:#1d2a39;
+}
+.retry-strip {
+  margin-top:16px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+.retry-pill {
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:8px 12px;
+  border-radius:999px;
+  background:#fff3f2;
+  border:1px solid #f7d0d0;
+  color:#903737;
+  font-size:12px;
+  font-weight:700;
+  cursor:pointer;
+}
+.clear-answer-btn {
+  border:none;
+  background:#eef4ff;
+  color:#27446c;
+  border-radius:999px;
+  padding:10px 14px;
+  font-weight:700;
+  cursor:pointer;
+  align-self:flex-end;
+  margin-top:8px;
+}
+.legend { margin-top:10px; color:var(--muted); font-size:13px; }
+.footer-note { margin-top:12px; color:var(--muted); font-size:13px; }
+.signature-badge {
+  position:fixed;
+  right:20px;
+  bottom:20px;
+  z-index:30;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:11px 15px;
+  color:#173329;
+  font-size:14px;
+  font-weight:700;
+  background:rgba(255,255,255,0.76);
+  border:1px solid rgba(255,255,255,0.9);
+  border-radius:10px;
+  box-shadow:0 8px 28px rgba(25,52,42,0.16);
+  backdrop-filter:blur(14px) saturate(150%);
+  -webkit-backdrop-filter:blur(14px) saturate(150%);
+}
+.badge-light {
+  width:9px;
+  height:9px;
+  flex:0 0 9px;
+  border-radius:50%;
+  background:#20bf55;
+  box-shadow:0 0 0 3px rgba(32,191,85,0.14), 0 0 12px rgba(32,191,85,0.75);
+  animation:green-pulse 1.5s ease-in-out infinite;
+}
+@keyframes green-pulse {
+  50% { opacity:.38; box-shadow:0 0 0 5px rgba(32,191,85,0.08), 0 0 5px rgba(32,191,85,0.35); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .badge-light { animation:none; }
+}
+@media (max-width: 900px) {
+  .sidebar { transform:translateX(-100%); }
+  .sidebar.mobile-open { transform:translateX(0); }
+  .main { margin-left:0; padding:16px 16px 88px; }
+  .title-group h1 { font-size:22px; }
+  .question-box { font-size:19px; }
+  .signature-badge { right:12px; bottom:12px; padding:10px 13px; }
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar hidden" id="sidebar">
+    <div class="brand">
+      <div class="brand-heading">
+        <h2>Trig Identity Quiz</h2>
+        <button class="sidebar-hide-btn" id="sidebarHideBtn" type="button" aria-label="Hide questions panel" title="Hide questions panel">‹</button>
+      </div>
+      <p>Drag only the correct mathematical expressions into the answer box in the correct order.</p>
+    </div>
+    <h3>Question Navigator</h3>
+    <div class="nav-grid" id="navGrid"></div>
+    <div class="sidebar-stats">
+      <div><strong>Total:</strong> <span id="totalCount"></span></div>
+      <div><strong>Completed:</strong> <span id="doneCount">0</span></div>
+      <div><strong>Score:</strong> <span id="scoreCount">0</span></div>
+    </div>
+  </aside>
+
+  <main class="main expanded" id="mainArea">
+    <div class="topbar">
+      <button class="toggle-btn" id="toggleBtn">☰ Questions</button>
+      <div class="title-group">
+        <h1>Step Order Quiz</h1>
+        <p>Mathematical expressions only • one-time drag cards • proper stacked fractions</p>
+      </div>
+      <div class="mode-menu">
+        <button class="mode-menu-button" id="modeMenuButton" type="button" aria-expanded="false" aria-controls="modeDropdown">Mode: Quiz mode ▾</button>
+        <div class="mode-dropdown hidden" id="modeDropdown">
+          <button class="mode-dropdown-item active" type="button" data-mode="quiz">Quiz mode</button>
+          <button class="mode-dropdown-item" type="button" data-mode="study">Study mode</button>
+          <button class="mode-dropdown-item" type="button" data-mode="challenge">Challenge mode</button>
+        </div>
+      </div>
+    </div>
+
+    <section class="card">
+      <div class="question-head">
+        <div class="badge" id="questionBadge">Question 1</div>
+      </div>
+
+      <div class="question-box" id="questionBox"></div>
+
+      <div class="section-title">Given Steps</div>
+      <div class="bank" id="bank"></div>
+
+      <div class="section-title">Answer Order</div>
+      <div class="dropzone" id="dropzone"></div>
+      <div class="action-row">
+        <button class="clear-answer-btn" id="clearAnswerBtn" type="button">Clear</button>
+        <button class="action-btn primary" id="checkBtn">Check Answer</button>
+      </div>
+      <div class="legend">Each step can be used only once. Click × to return a step to the given steps box.</div>
+
+      <div class="controls">
+        <button class="action-btn secondary" id="prevBtn">Previous</button>
+        <button class="action-btn secondary" id="nextBtn">Next</button>
+      </div>
+
+      <div class="panel-row">
+        <button class="inline-btn" id="hintBtn" type="button">Hint</button>
+        <button class="inline-btn" id="showSolutionBtn" type="button">Show solution</button>
+      </div>
+
+      <div class="progress-shell" aria-live="polite">
+        <div class="progress-bar"><span class="progress-fill" id="progressFill"></span></div>
+        <div class="progress-meta">
+          <span id="progressText">0/0</span>
+          <span id="streakText">Streak 0</span>
+        </div>
+      </div>
+
+      <div class="feedback-panel hidden" id="feedbackPanel"></div>
+      <div class="retry-strip" id="retryStrip"></div>
+
+      <div class="math-controls">
+        <button class="action-btn secondary" id="fontDownBtn" type="button">A−</button>
+        <button class="action-btn secondary" id="fontUpBtn" type="button">A+</button>
+      </div>
+
+      <div class="status" id="statusBox"></div>
+      <div class="footer-note">Only mathematical expressions are shown in the steps.</div>
+    </section>
+  </main>
+</div>
+
+<div class="signature-badge" aria-label="Dr King Wunna">
+  <span class="badge-light" aria-hidden="true"></span>
+  <span>Dr King Wunna</span>
+</div>
+
+<script>
+const questions = [{"title": "\\((\\sin x+\\cos x)^2 \\equiv 1+2\\sin x\\cos x\\)", "answer": ["(\\sin x+\\cos x)^2", "\\sin^2x+2\\sin x\\cos x+\\cos^2x", "(\\sin^2x+\\cos^2x)+2\\sin x\\cos x", "1+2\\sin x\\cos x"], "distractors": ["\\sin^2x-2\\sin x\\cos x+\\cos^2x", "\\tan^2x+1"]}, {"title": "\\((\\sin x-\\cos x)^2 \\equiv 1-2\\sin x\\cos x\\)", "answer": ["(\\sin x-\\cos x)^2", "\\sin^2x-2\\sin x\\cos x+\\cos^2x", "(\\sin^2x+\\cos^2x)-2\\sin x\\cos x", "1-2\\sin x\\cos x"], "distractors": ["\\sin^2x+2\\sin x\\cos x+\\cos^2x", "\\sec^2x-1"]}, {"title": "\\(\\dfrac{1-\\cos^2x}{\\sin x}\\equiv \\sin x\\)", "answer": ["\\dfrac{1-\\cos^2x}{\\sin x}", "\\dfrac{\\sin^2x}{\\sin x}", "\\sin x"], "distractors": ["\\dfrac{\\cos^2x}{\\sin x}", "\\dfrac{1}{\\sin x\\cos x}"]}, {"title": "\\(\\dfrac{1-\\sin^2x}{\\cos x}\\equiv \\cos x\\)", "answer": ["\\dfrac{1-\\sin^2x}{\\cos x}", "\\dfrac{\\cos^2x}{\\cos x}", "\\cos x"], "distractors": ["\\dfrac{\\sin^2x}{\\cos x}", "\\dfrac{\\cos x}{\\sin x}"]}, {"title": "\\(\\dfrac{\\sin x}{\\cos x}-\\dfrac{\\cos x}{\\sin x}\\equiv\\dfrac{\\sin^2x-\\cos^2x}{\\sin x\\cos x}\\)", "answer": ["\\dfrac{\\sin x}{\\cos x}-\\dfrac{\\cos x}{\\sin x}", "\\dfrac{\\sin^2x}{\\sin x\\cos x}-\\dfrac{\\cos^2x}{\\sin x\\cos x}", "\\dfrac{\\sin^2x-\\cos^2x}{\\sin x\\cos x}"], "distractors": ["\\dfrac{\\sin^2x+\\cos^2x}{\\sin x\\cos x}", "\\dfrac{\\sin x-\\cos x}{\\sin x\\cos x}"]}, {"title": "\\(\\dfrac{1}{\\sin x}-\\sin x\\equiv\\dfrac{\\cos^2x}{\\sin x}\\)", "answer": ["\\dfrac{1}{\\sin x}-\\sin x", "\\dfrac{1-\\sin^2x}{\\sin x}", "\\dfrac{\\cos^2x}{\\sin x}"], "distractors": ["\\dfrac{\\sin^2x}{\\sin x}", "\\dfrac{1+\\sin^2x}{\\sin x}"]}, {"title": "\\(\\dfrac{1}{\\cos x}-\\cos x\\equiv\\dfrac{\\sin^2x}{\\cos x}\\)", "answer": ["\\dfrac{1}{\\cos x}-\\cos x", "\\dfrac{1-\\cos^2x}{\\cos x}", "\\dfrac{\\sin^2x}{\\cos x}"], "distractors": ["\\dfrac{\\cos^2x}{\\cos x}", "\\dfrac{1+\\cos^2x}{\\cos x}"]}, {"title": "\\(\\dfrac{\\sin x}{1+\\cos x}\\equiv\\dfrac{1-\\cos x}{\\sin x}\\)", "answer": ["\\dfrac{\\sin x}{1+\\cos x}", "\\dfrac{\\sin x(1-\\cos x)}{(1+\\cos x)(1-\\cos x)}", "\\dfrac{\\sin x(1-\\cos x)}{1-\\cos^2x}", "\\dfrac{\\sin x(1-\\cos x)}{\\sin^2x}", "\\dfrac{1-\\cos x}{\\sin x}"], "distractors": ["\\dfrac{1+\\cos x}{\\sin x}", "\\dfrac{\\sin x(1+\\cos x)}{1-\\cos^2x}"]}, {"title": "\\(\\dfrac{\\cos x}{1+\\sin x}\\equiv\\dfrac{1-\\sin x}{\\cos x}\\)", "answer": ["\\dfrac{\\cos x}{1+\\sin x}", "\\dfrac{\\cos x(1-\\sin x)}{(1+\\sin x)(1-\\sin x)}", "\\dfrac{\\cos x(1-\\sin x)}{1-\\sin^2x}", "\\dfrac{\\cos x(1-\\sin x)}{\\cos^2x}", "\\dfrac{1-\\sin x}{\\cos x}"], "distractors": ["\\dfrac{1+\\sin x}{\\cos x}", "\\dfrac{\\cos x(1+\\sin x)}{1-\\sin^2x}"]}, {"title": "\\(\\tan x+\\cot x\\equiv\\dfrac{1}{\\sin x\\cos x}\\)", "answer": ["\\tan x+\\cot x", "\\dfrac{\\sin x}{\\cos x}+\\dfrac{\\cos x}{\\sin x}", "\\dfrac{\\sin^2x+\\cos^2x}{\\sin x\\cos x}", "\\dfrac{1}{\\sin x\\cos x}"], "distractors": ["\\dfrac{\\sin^2x-\\cos^2x}{\\sin x\\cos x}", "\\dfrac{\\sin x+\\cos x}{\\sin x\\cos x}"]}, {"title": "\\(\\sec^2x-\\tan^2x\\equiv 1\\)", "answer": ["\\sec^2x-\\tan^2x", "(1+\\tan^2x)-\\tan^2x", "1"], "distractors": ["\\sec^2x-1", "\\tan^2x+1"]}, {"title": "\\(\\csc^2x-\\cot^2x\\equiv 1\\)", "answer": ["\\csc^2x-\\cot^2x", "(1+\\cot^2x)-\\cot^2x", "1"], "distractors": ["\\csc^2x-1", "\\cot^2x+1"]}, {"title": "\\(\\dfrac{\\tan x}{\\sec x}\\equiv\\sin x\\)", "answer": ["\\dfrac{\\tan x}{\\sec x}", "\\dfrac{\\frac{\\sin x}{\\cos x}}{\\frac{1}{\\cos x}}", "\\sin x"], "distractors": ["\\cos x", "\\dfrac{1}{\\sin x}"]}, {"title": "\\(\\dfrac{\\cot x}{\\csc x}\\equiv\\cos x\\)", "answer": ["\\dfrac{\\cot x}{\\csc x}", "\\dfrac{\\frac{\\cos x}{\\sin x}}{\\frac{1}{\\sin x}}", "\\cos x"], "distractors": ["\\sin x", "\\dfrac{1}{\\cos x}"]}, {"title": "\\(\\sin^2x(1+\\cot^2x)\\equiv 1\\)", "answer": ["\\sin^2x(1+\\cot^2x)", "\\sin^2x\\csc^2x", "\\sin^2x\\cdot\\dfrac{1}{\\sin^2x}", "1"], "distractors": ["\\sin^2x\\sec^2x", "\\sin^2x+\\cot^2x"]}, {"title": "\\(\\cos^2x(1+\\tan^2x)\\equiv 1\\)", "answer": ["\\cos^2x(1+\\tan^2x)", "\\cos^2x\\sec^2x", "\\cos^2x\\cdot\\dfrac{1}{\\cos^2x}", "1"], "distractors": ["\\cos^2x\\csc^2x", "\\cos^2x+\\tan^2x"]}, {"title": "\\(\\dfrac{\\sec x-\\cos x}{\\tan x}\\equiv\\sin x\\)", "answer": ["\\dfrac{\\sec x-\\cos x}{\\tan x}", "\\dfrac{\\frac{1}{\\cos x}-\\cos x}{\\frac{\\sin x}{\\cos x}}", "\\dfrac{\\frac{1-\\cos^2x}{\\cos x}}{\\frac{\\sin x}{\\cos x}}", "\\dfrac{\\sin^2x}{\\sin x}", "\\sin x"], "distractors": ["\\dfrac{1-\\sin^2x}{\\sin x}", "\\cos x"]}, {"title": "\\(\\dfrac{\\csc x-\\sin x}{\\cot x}\\equiv\\cos x\\)", "answer": ["\\dfrac{\\csc x-\\sin x}{\\cot x}", "\\dfrac{\\frac{1}{\\sin x}-\\sin x}{\\frac{\\cos x}{\\sin x}}", "\\dfrac{\\frac{1-\\sin^2x}{\\sin x}}{\\frac{\\cos x}{\\sin x}}", "\\dfrac{\\cos^2x}{\\cos x}", "\\cos x"], "distractors": ["\\dfrac{1-\\cos^2x}{\\cos x}", "\\sin x"]}, {"title": "\\(\\cos^4x-\\sin^4x\\equiv\\cos^2x-\\sin^2x\\)", "answer": ["\\cos^4x-\\sin^4x", "(\\cos^2x-\\sin^2x)(\\cos^2x+\\sin^2x)", "(\\cos^2x-\\sin^2x)\\cdot1", "\\cos^2x-\\sin^2x"], "distractors": ["(\\cos^2x-\\sin^2x)^2", "\\cos^2x+\\sin^2x"]}, {"title": "\\(1-2\\sin^2x\\equiv 2\\cos^2x-1\\)", "answer": ["1-2\\sin^2x", "(\\sin^2x+\\cos^2x)-2\\sin^2x", "\\cos^2x-\\sin^2x", "2\\cos^2x-1"], "distractors": ["1-2\\cos^2x", "2\\sin^2x-1"]}, {"title": "\\((\\cos x+\\sin x)^2-(\\cos x-\\sin x)^2\\equiv4\\sin x\\cos x\\)", "answer": ["(\\cos x+\\sin x)^2-(\\cos x-\\sin x)^2", "(\\cos^2x+2\\sin x\\cos x+\\sin^2x)-(\\cos^2x-2\\sin x\\cos x+\\sin^2x)", "4\\sin x\\cos x"], "distractors": ["2(\\cos^2x+\\sin^2x)", "4(\\cos^2x-\\sin^2x)"]}, {"title": "\\((\\cos x+\\sin x)^2+(\\cos x-\\sin x)^2\\equiv2\\)", "answer": ["(\\cos x+\\sin x)^2+(\\cos x-\\sin x)^2", "(\\cos^2x+2\\sin x\\cos x+\\sin^2x)+(\\cos^2x-2\\sin x\\cos x+\\sin^2x)", "2\\cos^2x+2\\sin^2x", "2(\\cos^2x+\\sin^2x)", "2"], "distractors": ["4\\sin x\\cos x", "\\cos^2x-\\sin^2x"]}, {"title": "\\(\\sin^2x\\cos^2y-\\cos^2x\\sin^2y\\equiv\\sin^2x-\\sin^2y\\)", "answer": ["\\sin^2x\\cos^2y-\\cos^2x\\sin^2y", "\\sin^2x(1-\\sin^2y)-(1-\\sin^2x)\\sin^2y", "\\sin^2x-\\sin^2x\\sin^2y-\\sin^2y+\\sin^2x\\sin^2y", "\\sin^2x-\\sin^2y"], "distractors": ["\\sin^2x+\\sin^2y", "\\cos^2y-\\cos^2x"]}, {"title": "\\(\\dfrac{\\cos^2x-\\sin^2x}{\\cos^2x}\\equiv1-\\tan^2x\\)", "answer": ["\\dfrac{\\cos^2x-\\sin^2x}{\\cos^2x}", "\\dfrac{\\cos^2x}{\\cos^2x}-\\dfrac{\\sin^2x}{\\cos^2x}", "1-\\tan^2x"], "distractors": ["1+\\tan^2x", "\\cot^2x-1"]}, {"title": "\\(\\dfrac{\\cos^2x-\\sin^2x}{\\sin^2x}\\equiv\\cot^2x-1\\)", "answer": ["\\dfrac{\\cos^2x-\\sin^2x}{\\sin^2x}", "\\dfrac{\\cos^2x}{\\sin^2x}-\\dfrac{\\sin^2x}{\\sin^2x}", "\\cot^2x-1"], "distractors": ["1-\\cot^2x", "\\tan^2x-1"]}, {"title": "\\(\\dfrac{\\tan x}{1+\\tan^2x}\\equiv\\sin x\\cos x\\)", "answer": ["\\dfrac{\\tan x}{1+\\tan^2x}", "\\dfrac{\\tan x}{\\sec^2x}", "\\dfrac{\\frac{\\sin x}{\\cos x}}{\\frac{1}{\\cos^2x}}", "\\sin x\\cos x"], "distractors": ["\\dfrac{\\sin x}{\\cos^2x}", "\\sin^2x\\cos x"]}, {"title": "\\(\\dfrac{1-\\tan^2x}{1+\\tan^2x}\\equiv\\cos 2x\\)", "answer": ["\\dfrac{1-\\tan^2x}{1+\\tan^2x}", "\\dfrac{1-\\frac{\\sin^2x}{\\cos^2x}}{1+\\frac{\\sin^2x}{\\cos^2x}}", "\\dfrac{\\cos^2x-\\sin^2x}{\\cos^2x+\\sin^2x}", "\\cos^2x-\\sin^2x", "\\cos 2x"], "distractors": ["\\sin 2x", "\\dfrac{\\cos^2x+\\sin^2x}{\\cos^2x-\\sin^2x}"]}, {"title": "\\(\\dfrac{2\\tan x}{1+\\tan^2x}\\equiv\\sin 2x\\)", "answer": ["\\dfrac{2\\tan x}{1+\\tan^2x}", "\\dfrac{2\\frac{\\sin x}{\\cos x}}{\\frac{\\sin^2x+\\cos^2x}{\\cos^2x}}", "2\\sin x\\cos x", "\\sin 2x"], "distractors": ["2\\tan x\\cos^2x", "\\cos 2x"]}, {"title": "\\(\\dfrac{1+\\cos x}{\\sin x}\\equiv\\dfrac{\\sin x}{1-\\cos x}\\)", "answer": ["\\dfrac{1+\\cos x}{\\sin x}", "\\dfrac{(1+\\cos x)(1-\\cos x)}{\\sin x(1-\\cos x)}", "\\dfrac{1-\\cos^2x}{\\sin x(1-\\cos x)}", "\\dfrac{\\sin^2x}{\\sin x(1-\\cos x)}", "\\dfrac{\\sin x}{1-\\cos x}"], "distractors": ["\\dfrac{1-\\cos x}{\\sin x}", "\\dfrac{\\sin x}{1+\\cos x}"]}, {"title": "\\(\\dfrac{1+\\sin x}{\\cos x}\\equiv\\dfrac{\\cos x}{1-\\sin x}\\)", "answer": ["\\dfrac{1+\\sin x}{\\cos x}", "\\dfrac{(1+\\sin x)(1-\\sin x)}{\\cos x(1-\\sin x)}", "\\dfrac{1-\\sin^2x}{\\cos x(1-\\sin x)}", "\\dfrac{\\cos^2x}{\\cos x(1-\\sin x)}", "\\dfrac{\\cos x}{1-\\sin x}"], "distractors": ["\\dfrac{1-\\sin x}{\\cos x}", "\\dfrac{\\cos x}{1+\\sin x}"]}, {"title": "\\(\\sin x(\\tan x+\\cot x)\\equiv \\sec x\\)", "answer": ["\\sin x(\\tan x+\\cot x)", "\\sin x\\left(\\dfrac{\\sin x}{\\cos x}+\\dfrac{\\cos x}{\\sin x}\\right)", "\\sin x\\left(\\dfrac{\\sin^2x+\\cos^2x}{\\sin x\\cos x}\\right)", "\\sin x\\left(\\dfrac{1}{\\sin x\\cos x}\\right)", "\\dfrac{1}{\\cos x}", "\\sec x"], "distractors": ["\\dfrac{1}{\\sin x}", "\\tan x"]}];
+questions.push(...[
+  {
+    title: "\\(\\dfrac{\\sin x}{1-\\cos x}-\\dfrac{\\sin x}{1+\\cos x}\\equiv 2\\cot x\\)",
+    answer: [
+      "\\dfrac{\\sin x}{1-\\cos x}-\\dfrac{\\sin x}{1+\\cos x}",
+      "\\dfrac{\\sin x(1+\\cos x)-\\sin x(1-\\cos x)}{(1-\\cos x)(1+\\cos x)}",
+      "\\dfrac{\\sin x+\\sin x\\cos x-\\sin x+\\sin x\\cos x}{1-\\cos^2x}",
+      "\\dfrac{2\\sin x\\cos x}{\\sin^2x}",
+      "\\dfrac{2\\cos x}{\\sin x}",
+      "2\\cot x"
+    ],
+    distractors: ["2\\csc x", "\\dfrac{2\\sin x}{\\cos x}", "\\dfrac{2\\cos x}{\\sin^2x}"]
+  },
+  {
+    title: "\\(\\dfrac{1}{1-\\sin x}-\\dfrac{1}{1+\\sin x}\\equiv 2\\sec x\\tan x\\)",
+    answer: [
+      "\\dfrac{1}{1-\\sin x}-\\dfrac{1}{1+\\sin x}",
+      "\\dfrac{(1+\\sin x)-(1-\\sin x)}{(1-\\sin x)(1+\\sin x)}",
+      "\\dfrac{2\\sin x}{1-\\sin^2x}",
+      "\\dfrac{2\\sin x}{\\cos^2x}",
+      "2\\dfrac{\\sin x}{\\cos x}\\dfrac{1}{\\cos x}",
+      "2\\tan x\\sec x"
+    ],
+    distractors: ["\\dfrac{2\\sin x}{1+\\sin^2x}", "2\\sin x\\cos x", "2\\tan x"]
+  },
+  {
+    title: "\\(\\dfrac{\\cos x}{1-\\sin^2x}\\equiv \\sec x\\)",
+    answer: [
+      "\\dfrac{\\cos x}{1-\\sin^2x}",
+      "\\dfrac{\\cos x}{\\cos^2x}",
+      "\\dfrac{1}{\\cos x}",
+      "\\sec x"
+    ],
+    distractors: ["\\dfrac{1}{\\sin x}", "\\dfrac{\\cos x}{\\sin^2x}", "\\csc x"]
+  },
+  {
+    title: "\\(\\dfrac{1+\\tan^2x}{\\sec x}\\equiv \\sec x\\)",
+    answer: [
+      "\\dfrac{1+\\tan^2x}{\\sec x}",
+      "\\dfrac{\\sec^2x}{\\sec x}",
+      "\\dfrac{\\frac{1}{\\cos^2x}}{\\frac{1}{\\cos x}}",
+      "\\dfrac{1}{\\cos x}",
+      "\\sec x"
+    ],
+    distractors: ["\\dfrac{1}{\\sec x}", "\\dfrac{\\tan^2x}{\\sec x}", "\\cos x"]
+  },
+  {
+    title: "\\(\\dfrac{\\sin^4x-\\cos^4x}{\\sin^2x-\\cos^2x}\\equiv 1\\)",
+    answer: [
+      "\\dfrac{\\sin^4x-\\cos^4x}{\\sin^2x-\\cos^2x}",
+      "\\dfrac{(\\sin^2x)^2-(\\cos^2x)^2}{\\sin^2x-\\cos^2x}",
+      "\\dfrac{(\\sin^2x-\\cos^2x)(\\sin^2x+\\cos^2x)}{\\sin^2x-\\cos^2x}",
+      "\\sin^2x+\\cos^2x",
+      "1"
+    ],
+    distractors: ["\\sin^2x-\\cos^2x", "\\sin^2x+\\cos^2x", "-1"]
+  }
+]);
+
+questions.push(...[
+  {
+    title: "\\(\\dfrac{1}{1-\\cos x}+\\dfrac{1}{1+\\cos x}\\equiv 2\\csc^2x\\)",
+    answer: [
+      "\\dfrac{1}{1-\\cos x}+\\dfrac{1}{1+\\cos x}",
+      "\\dfrac{(1+\\cos x)+(1-\\cos x)}{(1-\\cos x)(1+\\cos x)}",
+      "\\dfrac{2}{1-\\cos^2x}",
+      "\\dfrac{2}{\\sin^2x}",
+      "2\\csc^2x"
+    ],
+    distractors: ["\\dfrac{2}{\\cos^2x}", "2\\sec^2x", "\\dfrac{1}{\\sin^2x}"]
+  },
+  {
+    title: "\\(\\dfrac{\\sec x-\\cos x}{\\sin x}\\equiv \\tan x\\)",
+    answer: [
+      "\\dfrac{\\sec x-\\cos x}{\\sin x}",
+      "\\dfrac{\\frac{1}{\\cos x}-\\cos x}{\\sin x}",
+      "\\dfrac{\\frac{1-\\cos^2x}{\\cos x}}{\\sin x}",
+      "\\dfrac{\\sin^2x}{\\sin x\\cos x}",
+      "\\dfrac{\\sin x}{\\cos x}",
+      "\\tan x"
+    ],
+    distractors: ["\\dfrac{\\cos x}{\\sin x}", "\\dfrac{1}{\\sin x\\cos x}", "\\cot x"]
+  },
+  {
+    title: "\\(\\dfrac{\\csc x-\\sin x}{\\cos x}\\equiv \\cot x\\)",
+    answer: [
+      "\\dfrac{\\csc x-\\sin x}{\\cos x}",
+      "\\dfrac{\\frac{1}{\\sin x}-\\sin x}{\\cos x}",
+      "\\dfrac{\\frac{1-\\sin^2x}{\\sin x}}{\\cos x}",
+      "\\dfrac{\\cos^2x}{\\sin x\\cos x}",
+      "\\dfrac{\\cos x}{\\sin x}",
+      "\\cot x"
+    ],
+    distractors: ["\\tan x", "\\dfrac{\\sin x}{\\cos x}", "\\csc x"]
+  },
+  {
+    title: "\\(\\dfrac{\\tan x}{\\sec x-1}\\equiv \\dfrac{1+\\cos x}{\\sin x}\\)",
+    answer: [
+      "\\dfrac{\\tan x}{\\sec x-1}",
+      "\\dfrac{\\frac{\\sin x}{\\cos x}}{\\frac{1}{\\cos x}-1}",
+      "\\dfrac{\\frac{\\sin x}{\\cos x}}{\\frac{1-\\cos x}{\\cos x}}",
+      "\\dfrac{\\sin x}{1-\\cos x}",
+      "\\dfrac{\\sin x(1+\\cos x)}{(1-\\cos x)(1+\\cos x)}",
+      "\\dfrac{\\sin x(1+\\cos x)}{\\sin^2x}",
+      "\\dfrac{1+\\cos x}{\\sin x}"
+    ],
+    distractors: ["\\dfrac{1-\\cos x}{\\sin x}", "\\dfrac{\\sin x}{1+\\cos x}", "\\dfrac{1+\\cos x}{\\cos x}"]
+  },
+  {
+    title: "\\(\\dfrac{\\sin x\\cos x+\\tan x}{\\cos x+\\sec x}\\equiv \\sin x\\)",
+    answer: [
+      "\\dfrac{\\sin x\\cos x+\\tan x}{\\cos x+\\sec x}",
+      "\\dfrac{\\sin x\\cos x+\\frac{\\sin x}{\\cos x}}{\\cos x+\\frac{1}{\\cos x}}",
+      "\\dfrac{\\frac{\\sin x\\cos^2x+\\sin x}{\\cos x}}{\\frac{\\cos^2x+1}{\\cos x}}",
+      "\\dfrac{\\sin x(\\cos^2x+1)}{\\cos^2x+1}",
+      "\\sin x"
+    ],
+    distractors: ["\\dfrac{\\sin x(1+\\cos x)}{1+\\cos^2x}", "\\cos x", "\\tan x"]
+  },
+  {
+    title: "\\(\\dfrac{\\sin^2x}{1-\\cos x}\\equiv 1+\\cos x\\)",
+    answer: [
+      "\\dfrac{\\sin^2x}{1-\\cos x}",
+      "\\dfrac{1-\\cos^2x}{1-\\cos x}",
+      "\\dfrac{(1-\\cos x)(1+\\cos x)}{1-\\cos x}",
+      "1+\\cos x"
+    ],
+    distractors: ["1-\\cos x", "\\sin^2x", "\\dfrac{1}{1+\\cos x}"]
+  },
+  {
+    title: "\\(\\dfrac{1-\\sin x}{\\cos x}\\equiv \\dfrac{\\cos x}{1+\\sin x}\\)",
+    answer: [
+      "\\dfrac{1-\\sin x}{\\cos x}",
+      "\\dfrac{(1-\\sin x)(1+\\sin x)}{\\cos x(1+\\sin x)}",
+      "\\dfrac{1-\\sin^2x}{\\cos x(1+\\sin x)}",
+      "\\dfrac{\\cos^2x}{\\cos x(1+\\sin x)}",
+      "\\dfrac{\\cos x}{1+\\sin x}"
+    ],
+    distractors: ["\\dfrac{1+\\sin x}{\\cos x}", "\\dfrac{\\cos x}{1-\\sin x}", "\\dfrac{\\sin x}{1+\\cos x}"]
+  },
+  {
+    title: "\\(\\dfrac{\\tan^2x}{\\sec^2x-1}\\equiv 1\\)",
+    answer: [
+      "\\dfrac{\\tan^2x}{\\sec^2x-1}",
+      "\\dfrac{\\frac{\\sin^2x}{\\cos^2x}}{\\sec^2x-1}",
+      "\\dfrac{\\frac{\\sin^2x}{\\cos^2x}}{\\frac{1}{\\cos^2x}-1}",
+      "\\dfrac{\\frac{\\sin^2x}{\\cos^2x}}{\\frac{1-\\cos^2x}{\\cos^2x}}",
+      "\\dfrac{\\sin^2x}{\\sin^2x}",
+      "1"
+    ],
+    distractors: ["\\dfrac{\\cos^2x}{\\sin^2x}", "\\sec^2x", "\\tan^2x"]
+  },
+  {
+    title: "\\(\\dfrac{\\cos^3x+\\cos x\\sin^2x}{\\cos x}\\equiv 1\\)",
+    answer: [
+      "\\dfrac{\\cos^3x+\\cos x\\sin^2x}{\\cos x}",
+      "\\dfrac{\\cos x(\\cos^2x+\\sin^2x)}{\\cos x}",
+      "\\dfrac{\\cos x(1)}{\\cos x}",
+      "1"
+    ],
+    distractors: ["\\cos^2x+\\sin^2x", "\\dfrac{\\cos^2x+\\sin^2x}{\\cos x}", "\\cos x"]
+  }
+]);
+
+let currentIndex = 0;
+let score = 0;
+let currentStreak = 0;
+const completed = Array(questions.length).fill(false);
+const correctOnce = Array(questions.length).fill(false);
+const masteryLevels = Array(questions.length).fill(0);
+const retryQuestions = [];
+const modeState = { mode: 'quiz' };
+
+const sidebar = document.getElementById('sidebar');
+const mainArea = document.getElementById('mainArea');
+const toggleBtn = document.getElementById('toggleBtn');
+const navGrid = document.getElementById('navGrid');
+const bank = document.getElementById('bank');
+const dropzone = document.getElementById('dropzone');
+const questionBox = document.getElementById('questionBox');
+const questionBadge = document.getElementById('questionBadge');
+const statusBox = document.getElementById('statusBox');
+const feedbackPanel = document.getElementById('feedbackPanel');
+const progressFill = document.getElementById('progressFill');
+const progressText = document.getElementById('progressText');
+const streakText = document.getElementById('streakText');
+const retryStrip = document.getElementById('retryStrip');
+
+let mathScale = 1;
+
+function getQuestionHint(q) {
+  const title = q.title || '';
+  if (title.includes('1-\\sin^2x') || title.includes('1-\\cos^2x') || title.includes('\\sin^2x+\\cos^2x') || title.includes('\\cos^2x+\\sin^2x')) {
+    return 'Use the identity \\(\\sin^2x + \\cos^2x = 1\\) and simplify the expression with a common denominator.';
+  }
+  if (title.includes('\\tan x') || title.includes('\\cot x')) {
+    return 'Rewrite the quotient using \\(\\tan x = \\frac{\\sin x}{\\cos x}\\) or \\(\\cot x = \\frac{\\cos x}{\\sin x}\\).';
+  }
+  if (title.includes('1+\\cos x') || title.includes('1-\\cos x') || title.includes('1+\\sin x') || title.includes('1-\\sin x')) {
+    return 'Combine the rational expressions over a common denominator before simplifying.';
+  }
+  if (title.includes('\\sec x') || title.includes('\\csc x')) {
+    return 'Replace reciprocal trig functions with their definitions, such as \\(\\sec x = \\frac{1}{\\cos x}\\).';
+  }
+  if (title.includes('\\sin^4x-\\cos^4x') || title.includes('\\sin^2x-\\cos^2x')) {
+    return 'Look for a difference of squares before cancelling factors.';
+  }
+  return 'Look for a standard trig identity, then simplify by combining like terms or common denominators.';
+}
+
+function getQuestionExplanation(q) {
+  const hint = getQuestionHint(q);
+  const base = 'The correct order begins with the original expression, then applies a standard identity or common denominator, and finishes by simplifying to the target form.';
+  return `${base} <strong>Helpful identity:</strong> ${hint}`;
+}
+
+function getSolutionMarkup(q) {
+  return q.answer.map((step, idx) => `
+    <div class="solution-line">
+      <span>${idx + 1}.</span>
+      <span>\\(${step}\\)</span>
+    </div>
+  `).join('');
+}
+
+function renderFeedbackPanel() {
+  const q = questions[currentIndex];
+  const selectedMath = q.selected.map(id => q.pool.find(step => step.id === id)?.math || '');
+  const isCorrect = JSON.stringify(selectedMath) === JSON.stringify(q.answer);
+
+  if (!q.hasChecked) {
+    feedbackPanel.classList.add('hidden');
+    feedbackPanel.innerHTML = '';
+    return;
+  }
+
+  if (modeState.mode === 'study') {
+    const solutionMarkup = `
+      <div class="study-solution">
+        <strong>Worked solution:</strong>
+        ${getSolutionMarkup(q)}
+      </div>
+    `;
+
+    feedbackPanel.innerHTML = `
+      <div class="feedback-title">${isCorrect ? 'Correct sequence' : 'Approximate order'}</div>
+      <div class="feedback-text">${getQuestionExplanation(q)}</div>
+      <div class="feedback-hint"><strong>Hint:</strong> ${getQuestionHint(q)}</div>
+      ${solutionMarkup}
+    `;
+    feedbackPanel.classList.remove('hidden');
+    return;
+  }
+
+  if (isCorrect) {
+    feedbackPanel.innerHTML = `
+      <div class="feedback-title">Correct sequence</div>
+      <div class="feedback-text">${getQuestionExplanation(q)}</div>
+      <div class="feedback-hint"><strong>Hint:</strong> ${getQuestionHint(q)}</div>
+    `;
+    feedbackPanel.classList.remove('hidden');
+    return;
+  }
+
+  feedbackPanel.innerHTML = `
+    <div class="feedback-title">Next move</div>
+    <div class="feedback-text">${getQuestionExplanation(q)}</div>
+    <div class="feedback-hint"><strong>Hint:</strong> ${getQuestionHint(q)}</div>
+  `;
+  feedbackPanel.classList.remove('hidden');
+}
+
+function updateModeButtons() {
+  const buttons = document.querySelectorAll('.mode-dropdown-item');
+  const menuButton = document.getElementById('modeMenuButton');
+  const labelMap = {
+    quiz: 'Quiz mode',
+    study: 'Study mode',
+    challenge: 'Challenge mode'
+  };
+
+  buttons.forEach((btn) => {
+    btn.classList.toggle('active', modeState.mode === btn.dataset.mode);
+  });
+
+  menuButton.textContent = `${labelMap[modeState.mode]} ▾`;
+}
+
+function toggleModeMenu(forceOpen) {
+  const menu = document.getElementById('modeDropdown');
+  const isOpen = typeof forceOpen === 'boolean' ? forceOpen : menu.classList.contains('hidden');
+  menu.classList.toggle('hidden', !isOpen);
+  document.getElementById('modeMenuButton').setAttribute('aria-expanded', String(isOpen));
+}
+
+function updateRetryStrip() {
+  if (!retryQuestions.length) {
+    retryStrip.innerHTML = '<span class="footer-note">No missed questions yet.</span>';
+    return;
+  }
+
+  retryStrip.innerHTML = retryQuestions.map(index => `
+    <button class="retry-pill" type="button" data-retry-index="${index}">Retry Q${index + 1}</button>
+  `).join('');
+
+  retryStrip.querySelectorAll('.retry-pill').forEach(button => {
+    button.addEventListener('click', () => {
+      currentIndex = Number(button.dataset.retryIndex);
+      renderQuestion();
+    });
+  });
+}
+
+document.getElementById('totalCount').textContent = questions.length;
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function labelForIndex(index) {
+  let label = '';
+  let n = index;
+  while (n >= 0) {
+    label = String.fromCharCode(65 + (n % 26)) + label;
+    n = Math.floor(n / 26) - 1;
+  }
+  return label;
+}
+
+function initQuestions() {
+  questions.forEach((q, qi) => {
+    q.pool = shuffle([
+      ...q.answer.map((m, idx) => ({ id:`q${qi}_a${idx}`, math:m, correct:true })),
+      ...q.distractors.map((m, idx) => ({ id:`q${qi}_d${idx}`, math:m, correct:false }))
+    ]);
+    q.pool.forEach((step, index) => {
+      step.label = labelForIndex(index);
+    });
+    q.selected = [];
+  });
+}
+
+function renderNav() {
+  navGrid.innerHTML = '';
+  questions.forEach((_, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'nav-btn' + (i === currentIndex ? ' active' : '') + (completed[i] ? ' done' : '');
+    btn.textContent = i + 1;
+    btn.addEventListener('click', () => {
+      currentIndex = i;
+      renderQuestion();
+    });
+    navGrid.appendChild(btn);
+  });
+}
+
+function updateMathScale() {
+  document.documentElement.style.setProperty('--math-scale', mathScale);
+  document.querySelectorAll('.question-box, .step-card, .answer-card, .answer-math, .step-math').forEach(el => {
+    el.style.fontSize = `${mathScale}em`;
+  });
+}
+
+function renderQuestion() {
+  const q = questions[currentIndex];
+  questionBadge.textContent = `Question ${currentIndex + 1}`;
+  questionBox.innerHTML = q.title;
+
+  bank.innerHTML = '';
+  q.pool.forEach((step) => {
+    if (q.selected.includes(step.id)) return;
+    const card = document.createElement('div');
+    card.className = 'step-card';
+    card.draggable = true;
+    card.dataset.id = step.id;
+    card.innerHTML = `<span class="step-label">${step.label}</span><span class="step-math">\\(${step.math}\\)</span>`;
+    card.addEventListener('dragstart', onDragStart);
+    card.addEventListener('dragend', onDragEnd);
+    bank.appendChild(card);
+  });
+
+  dropzone.innerHTML = '';
+  q.selected.forEach((id, idx) => {
+    const step = q.pool.find(s => s.id === id);
+    const row = document.createElement('div');
+    row.className = 'answer-card';
+    row.draggable = true;
+    row.dataset.id = step.id;
+    row.innerHTML = `
+      <div class="answer-index">${step.label}</div>
+      <div class="answer-math">\\(${step.math}\\)</div>
+      <div class="order-controls">
+        <button class="order-btn" type="button" aria-label="Move step ${step.label} up" title="Move up" ${idx === 0 ? 'disabled' : ''}>↑</button>
+        <button class="order-btn" type="button" aria-label="Move step ${step.label} down" title="Move down" ${idx === q.selected.length - 1 ? 'disabled' : ''}>↓</button>
+      </div>
+      <button class="remove-btn" type="button" aria-label="Remove">×</button>
+    `;
+    row.addEventListener('dragstart', onDragStart);
+    row.addEventListener('dragend', onDragEnd);
+    row.querySelector('.remove-btn').addEventListener('click', () => removeAnswer(step.id));
+    const orderButtons = row.querySelectorAll('.order-btn');
+    orderButtons[0].addEventListener('click', () => moveAnswer(step.id, -1));
+    orderButtons[1].addEventListener('click', () => moveAnswer(step.id, 1));
+    dropzone.appendChild(row);
+  });
+
+  renderNav();
+  renderFeedbackPanel();
+  updateStats();
+  updateRetryStrip();
+  updateModeButtons();
+  clearStatus();
+  updateMathScale();
+  if (window.MathJax && MathJax.typesetPromise) {
+    MathJax.typesetPromise().then(() => updateMathScale());
+  }
+}
+
+function onDragStart(e) {
+  if (e.target.closest('button')) {
+    e.preventDefault();
+    return;
+  }
+  const card = e.currentTarget;
+  e.dataTransfer.setData('text/plain', card.dataset.id);
+  e.dataTransfer.setData('application/x-trig-quiz-source', card.classList.contains('answer-card') ? 'answer' : 'bank');
+  e.dataTransfer.effectAllowed = 'move';
+  card.classList.add('dragging');
+}
+
+function onDragEnd(e) {
+  e.currentTarget.classList.remove('dragging');
+}
+
+dropzone.addEventListener('dragover', (e) => {
+  e.preventDefault();
+  dropzone.classList.add('dragover');
+});
+dropzone.addEventListener('dragleave', () => dropzone.classList.remove('dragover'));
+dropzone.addEventListener('drop', (e) => {
+  e.preventDefault();
+  dropzone.classList.remove('dragover');
+  const id = e.dataTransfer.getData('text/plain');
+  const source = e.dataTransfer.getData('application/x-trig-quiz-source');
+  if (source === 'answer') {
+    const targetRow = e.target.closest('.answer-card');
+    moveAnswerBefore(id, targetRow ? targetRow.dataset.id : null);
+  } else {
+    addAnswer(id);
+  }
+});
+
+function moveAnswerBefore(id, targetId) {
+  if (id === targetId) return;
+  const selected = questions[currentIndex].selected;
+  const fromIndex = selected.indexOf(id);
+  if (fromIndex === -1) return;
+  selected.splice(fromIndex, 1);
+  const targetIndex = targetId ? selected.indexOf(targetId) : selected.length;
+  selected.splice(targetIndex === -1 ? selected.length : targetIndex, 0, id);
+  renderQuestion();
+}
+
+function moveAnswer(id, offset) {
+  const selected = questions[currentIndex].selected;
+  const fromIndex = selected.indexOf(id);
+  const toIndex = fromIndex + offset;
+  if (fromIndex === -1 || toIndex < 0 || toIndex >= selected.length) return;
+  [selected[fromIndex], selected[toIndex]] = [selected[toIndex], selected[fromIndex]];
+  renderQuestion();
+}
+
+function addAnswer(id) {
+  const q = questions[currentIndex];
+  if (!id || q.selected.includes(id)) {
+    showStatus('This step is already used.', false);
+    return;
+  }
+  q.selected.push(id);
+  q.hasChecked = false;
+  renderQuestion();
+}
+
+function removeAnswer(id) {
+  const q = questions[currentIndex];
+  q.selected = q.selected.filter(x => x !== id);
+  q.hasChecked = false;
+  renderQuestion();
+}
+
+function resetQuestion() {
+  questions[currentIndex].selected = [];
+  questions[currentIndex].hasChecked = false;
+  renderQuestion();
+}
+
+function checkAnswer() {
+  const q = questions[currentIndex];
+  q.hasChecked = true;
+  const selectedSteps = q.selected.map(id => q.pool.find(s => s.id === id).math);
+  const correct = JSON.stringify(selectedSteps) === JSON.stringify(q.answer);
+
+  dropzone.querySelectorAll('.answer-card').forEach(card => {
+    card.classList.remove('correct', 'incorrect');
+    if (correct) card.classList.add('correct');
+  });
+
+  if (correct) {
+    completed[currentIndex] = true;
+    masteryLevels[currentIndex] = Math.min(3, masteryLevels[currentIndex] + 1);
+    currentStreak += 1;
+    if (!correctOnce[currentIndex]) {
+      correctOnce[currentIndex] = true;
+      score += 1;
+    }
+    if (!retryQuestions.includes(currentIndex)) {
+      const wrongIndex = retryQuestions.indexOf(currentIndex);
+      if (wrongIndex !== -1) retryQuestions.splice(wrongIndex, 1);
+    }
+    showStatus('Correct order. Great job.', true);
+  } else {
+    currentStreak = 0;
+    if (!retryQuestions.includes(currentIndex)) {
+      retryQuestions.push(currentIndex);
+    }
+    showStatus('Incorrect order. Rearrange the expressions and try again.', false);
+    dropzone.querySelectorAll('.answer-card').forEach(card => card.classList.add('incorrect'));
+  }
+
+  renderNav();
+  renderFeedbackPanel();
+  updateStats();
+  updateRetryStrip();
+}
+
+function updateStats() {
+  const finished = completed.filter(Boolean).length;
+  const percent = questions.length ? Math.round((finished / questions.length) * 100) : 0;
+  progressFill.style.width = `${percent}%`;
+  progressText.textContent = `${finished}/${questions.length}`;
+  streakText.textContent = `Streak ${currentStreak}`;
+  document.getElementById('doneCount').textContent = finished;
+  document.getElementById('scoreCount').textContent = score;
+
+  const masteryText = masteryLevels[currentIndex] >= 2 ? 'Mastered' : 'Learning';
+  questionBadge.title = masteryText;
+  const masteryBadge = document.createElement('span');
+  masteryBadge.className = 'badge';
+  masteryBadge.textContent = masteryLevels[currentIndex] >= 2 ? 'Mastered' : 'Question ' + (currentIndex + 1);
+  if (questionBadge.dataset.masteryMode !== String(masteryLevels[currentIndex] >= 2)) {
+    questionBadge.textContent = masteryLevels[currentIndex] >= 2 ? 'Mastered' : `Question ${currentIndex + 1}`;
+    questionBadge.dataset.masteryMode = String(masteryLevels[currentIndex] >= 2);
+  }
+}
+
+function showStatus(message, ok) {
+  statusBox.textContent = message;
+  statusBox.className = 'status show ' + (ok ? 'good' : 'bad');
+}
+
+function clearStatus() {
+  statusBox.className = 'status';
+  statusBox.textContent = '';
+}
+
+document.getElementById('checkBtn').addEventListener('click', checkAnswer);
+document.getElementById('clearAnswerBtn').addEventListener('click', resetQuestion);
+document.getElementById('fontDownBtn').addEventListener('click', () => {
+  mathScale = Math.max(0.75, Number((mathScale - 0.1).toFixed(2)));
+  updateMathScale();
+});
+document.getElementById('fontUpBtn').addEventListener('click', () => {
+  mathScale = Math.min(1.6, Number((mathScale + 0.1).toFixed(2)));
+  updateMathScale();
+});
+document.getElementById('prevBtn').addEventListener('click', () => {
+  currentIndex = (currentIndex - 1 + questions.length) % questions.length;
+  renderQuestion();
+});
+document.getElementById('nextBtn').addEventListener('click', () => {
+  currentIndex = (currentIndex + 1) % questions.length;
+  renderQuestion();
+});
+document.getElementById('hintBtn').addEventListener('click', () => {
+  const q = questions[currentIndex];
+  const hint = getQuestionHint(q);
+  showStatus(`Hint: ${hint}`, true);
+  feedbackPanel.innerHTML = `
+    <div class="feedback-title">Helpful hint</div>
+    <div class="feedback-text">${getQuestionExplanation(q)}</div>
+    <div class="feedback-hint"><strong>Hint:</strong> ${hint}</div>
+  `;
+  feedbackPanel.classList.remove('hidden');
+});
+document.getElementById('showSolutionBtn').addEventListener('click', () => {
+  modeState.mode = 'study';
+  updateModeButtons();
+  renderQuestion();
+});
+
+document.getElementById('modeMenuButton').addEventListener('click', () => {
+  const menu = document.getElementById('modeDropdown');
+  toggleModeMenu(menu.classList.contains('hidden'));
+});
+
+document.querySelectorAll('.mode-dropdown-item').forEach(button => {
+  button.addEventListener('click', () => {
+    const nextMode = button.dataset.mode;
+    modeState.mode = nextMode;
+    if (nextMode === 'challenge') {
+      questions.sort(() => Math.random() - 0.5);
+      currentIndex = 0;
+    }
+    updateModeButtons();
+    toggleModeMenu(false);
+    renderQuestion();
+  });
+});
+
+document.addEventListener('click', (event) => {
+  const menu = document.getElementById('modeDropdown');
+  const trigger = document.getElementById('modeMenuButton');
+  if (!menu.contains(event.target) && !trigger.contains(event.target)) {
+    toggleModeMenu(false);
+  }
+});
+
+updateMathScale();
+
+toggleBtn.addEventListener('click', () => {
+  if (window.innerWidth <= 900) {
+    sidebar.classList.toggle('mobile-open');
+  } else {
+    sidebar.classList.toggle('hidden');
+    mainArea.classList.toggle('expanded');
+  }
+});
+
+document.getElementById('sidebarHideBtn').addEventListener('click', () => toggleBtn.click());
+
+window.addEventListener('resize', () => {
+  if (window.innerWidth > 900) {
+    sidebar.classList.remove('mobile-open');
+  }
+});
+
+initQuestions();
+renderQuestion();
+</script>
+</body>
+</html>

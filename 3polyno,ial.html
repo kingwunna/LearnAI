@@ -1,0 +1,491 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Chapter 3 Factors and Polynomials — Practice Quiz</title>
+<script>
+window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]}};
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+:root{
+ --paper:#f4f1ea; --card:#fffdf8; --ink:#20252d; --muted:#667085; --line:#d9d4ca;
+ --navy:#22324a; --soft:#edf0f4; --green:#287a58; --red:#a94343; --gold:#b88932;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);
+ font-family:"Cambria Math",Cambria,Georgia,"Times New Roman",serif;letter-spacing:.002em}
+header{background:var(--navy);color:white;padding:24px 18px}
+.wrap{max-width:900px;margin:auto}
+h1{font-size:30px;line-height:1.15;margin:0 0 7px;font-weight:700}
+header p{margin:0;color:#dce3ec;font-family:Arial,sans-serif}
+.status{position:sticky;top:0;z-index:8;background:rgba(255,253,248,.97);border-bottom:1px solid var(--line);backdrop-filter:blur(8px)}
+.status .wrap{padding:10px 18px}
+.row{display:flex;justify-content:space-between;gap:10px;font:700 14px Arial,sans-serif}
+.progress{height:7px;background:#e4e0d8;border-radius:99px;overflow:hidden;margin-top:8px}
+.fill{height:100%;background:var(--navy);width:0;transition:.2s}
+main{padding:28px 18px 60px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:25px;box-shadow:0 7px 22px rgba(35,45,60,.07)}
+.topline{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:17px}
+.badge,.type{font:700 12px Arial,sans-serif;text-transform:uppercase;letter-spacing:.08em;padding:6px 9px;border-radius:999px;background:var(--soft);color:#4c596d}
+.type{background:#f5ead4;color:#76591f}
+.question{font-size:20px;line-height:1.7;margin:8px 0 20px}
+.diagram-wrap{border:1px solid var(--line);border-radius:12px;background:#fff;margin:0 0 20px;padding:10px}
+.diagram-title{font:600 12px Arial,sans-serif;color:var(--muted);margin:0 0 5px}
+canvas{width:100%;height:230px;display:block}
+.options{display:grid;gap:10px}
+.option{width:100%;text-align:left;background:white;border:1.5px solid var(--line);border-radius:10px;padding:14px 15px;font:16px Georgia,serif;cursor:pointer;color:var(--ink)}
+.option:hover{border-color:#929aa7}.option.selected{border-color:var(--navy);box-shadow:0 0 0 1px var(--navy)}
+.option.correct{border-color:var(--green);background:#edf7f1}.option.wrong{border-color:var(--red);background:#fff0ef}
+.letter{display:inline-flex;width:28px;height:28px;border-radius:50%;align-items:center;justify-content:center;background:var(--soft);font:bold 13px Arial,sans-serif;margin-right:10px}
+.answerbox{display:flex;gap:10px;align-items:stretch}
+.answerbox input{flex:1;min-width:0;border:1.5px solid var(--line);border-radius:10px;padding:14px;font:18px Georgia,serif;background:#fff}
+.answerbox input:focus{outline:2px solid #aeb8c7;border-color:var(--navy)}
+.hint{font:13px Arial,sans-serif;color:var(--muted);margin-top:8px}
+.actions{display:flex;justify-content:space-between;gap:10px;margin-top:20px;flex-wrap:wrap}
+button.action{border:0;border-radius:9px;padding:11px 16px;font:700 14px Arial,sans-serif;cursor:pointer}
+.primary{background:var(--navy);color:#fff}.secondary{background:#e6e8eb;color:var(--ink)}
+.mapbtn{background:#ece4d5;color:#5f4a24} button:disabled{opacity:.45;cursor:not-allowed}
+.feedback{display:none;margin-top:20px;padding:16px;border-left:4px solid var(--navy);background:#f3f5f7;line-height:1.65}
+.feedback.show{display:block}.feedback.good{border-color:var(--green);background:#edf7f1}.feedback.bad{border-color:var(--red);background:#fff0ef}
+.feedback strong{font-family:Arial,sans-serif}.final{display:none;text-align:center}.final h2{font-size:34px}
+.overlay{display:none;position:fixed;inset:0;background:rgba(25,30,38,.55);z-index:20;padding:18px;overflow:auto}
+.overlay.show{display:block}.map-panel{max-width:760px;margin:4vh auto;background:var(--card);border-radius:14px;padding:22px}
+.map-head{display:flex;justify-content:space-between;align-items:center}.map-head h2{margin:0;font-size:25px}
+.close{border:0;background:#e8e8e8;border-radius:8px;padding:8px 11px;cursor:pointer}
+.legend{font:13px Arial,sans-serif;color:var(--muted);margin:12px 0}
+.qmap{display:grid;grid-template-columns:repeat(10,1fr);gap:7px}
+.qmap button{aspect-ratio:1;border:1px solid var(--line);border-radius:7px;background:white;font:bold 12px Arial,sans-serif;cursor:pointer}
+.qmap button.current{outline:2px solid var(--navy)}
+.qmap button.done{background:#e8f4ed;border-color:#8bb9a2}.qmap button.wrong{background:#f9e5e3;border-color:#d5a09b}
+.qmap button.unchecked{background:#f3ead9;border-color:#cfb77e}
+.section-label{grid-column:1/-1;font:bold 13px Arial,sans-serif;color:var(--muted);margin-top:8px}
+@media(max-width:620px){h1{font-size:25px}.qmap{grid-template-columns:repeat(6,1fr)}.card{padding:18px}.question{font-size:18px}}
+
+/* Teal and gold practice theme */
+:root{
+ --paper:#f4f7fa;--card:#fff;--ink:#172033;--muted:#657386;--line:#dce3eb;
+ --navy:#0f766e;--soft:#eef7f5;--green:#16865f;--red:#c94c5b;--gold:#b78618;
+}
+body{
+ background:radial-gradient(circle at 10% 0%,rgba(15,143,131,.08),transparent 27%),
+ radial-gradient(circle at 92% 0%,rgba(183,134,24,.09),transparent 25%),
+ linear-gradient(180deg,#fff 0%,#f7f9fc 48%,#f1f5f8 100%);
+ color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+ letter-spacing:0;-webkit-font-smoothing:antialiased
+}
+.wrap{max-width:1180px}
+header{
+ background:linear-gradient(115deg,#fff 0%,#fff 68%,#f5fbf9 100%);color:var(--ink);
+ padding:24px max(18px,calc((100vw - 1180px)/2));border-bottom:1px solid #e5ebef
+}
+h1{font-size:clamp(1.55rem,3vw,2.25rem);letter-spacing:0;margin:0 0 7px}
+header p{color:var(--muted);font:500 15px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+.status{background:rgba(255,255,255,.94);border-color:var(--line)}
+.status .wrap{padding:12px 18px}
+.row{font:800 14px/1.4 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+.progress{height:9px;background:#edf1f5;border:1px solid #e1e7ed}
+.fill{background:linear-gradient(90deg,#0f8f83,#d3a93f)}
+main{padding-top:28px}
+.card{
+ background:rgba(255,255,255,.97);border:1px solid #e1e7ee;border-radius:22px;
+ padding:clamp(20px,4vw,32px);box-shadow:0 20px 58px rgba(23,32,51,.10)
+}
+.topline{margin-bottom:20px}
+.badge,.type{
+ font:850 12px/1.2 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+ letter-spacing:.06em;padding:7px 10px;border:1px solid #d9e6e3;background:#f2fbf8;color:#17685f
+}
+.type{border-color:#eedcae;background:#fff9e8;color:#806012}
+.question{font:800 clamp(1.25rem,2.5vw,1.7rem)/1.5 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;margin:8px 0 21px}
+.diagram-wrap{border:1px solid #e0e6ed;border-radius:16px;background:#fbfcfe;padding:10px}
+.diagram-title{font:750 12px Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--muted)}
+.options{gap:11px}
+.option{
+ display:flex;align-items:flex-start;gap:12px;background:#fff;border:1px solid #d7e0e8;
+ border-radius:14px;padding:14px 15px;color:var(--ink);
+ font:600 16px/1.55 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+ box-shadow:0 4px 14px rgba(31,41,55,.035);transition:transform .16s ease,border-color .16s ease,background .16s ease
+}
+.option:hover:not(:disabled){transform:translateY(-1px);border-color:#8fb3d2;background:#f8fbff}
+.option:focus-visible,button.action:focus-visible,.qmap button:focus-visible,.close:focus-visible{
+ outline:3px solid rgba(37,99,235,.32);outline-offset:3px
+}
+.option.selected{border-color:#0f8f83;box-shadow:0 0 0 2px rgba(15,143,131,.12);background:#f2fbf8}
+.option.correct{border-color:#78bea4;background:#effaf5}
+.option.wrong{border-color:#df9ba5;background:#fff3f4}
+.letter{flex:0 0 30px;height:30px;border-radius:9px;background:#eef3f8;color:#28415b;border:1px solid #dde6ee;margin:0}
+.answerbox input{border-color:#d7e0e8;border-radius:12px;font:600 17px Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+.answerbox input:focus{outline:3px solid rgba(15,143,131,.18);border-color:#0f8f83}
+.hint{font:500 13px/1.55 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+.actions{align-items:center}
+button.action{
+ min-height:48px;border-radius:12px;padding:12px 16px;
+ font:850 14px Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;transition:filter .15s ease,transform .15s ease
+}
+button.action:hover:not(:disabled){filter:brightness(.97);transform:translateY(-1px)}
+.primary{background:linear-gradient(135deg,#d4a437,#f0ce72);color:#172033;box-shadow:0 7px 20px rgba(183,134,24,.16)}
+.secondary{background:#eef4f7;color:#173d3a;border:1px solid #cfe0df}
+.mapbtn{background:#fff;color:#30455f;border:1px solid #cfd9e4}
+.feedback{border:1px solid #d8e1e9;border-left:4px solid #0f8f83;border-radius:15px;background:#fbfcfe;padding:16px;line-height:1.65}
+.feedback.good{border-color:#a9d8c7;background:#effaf5}
+.feedback.bad{border-color:#efbdc4;background:#fff3f4}
+.feedback strong{font:850 14px Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+.final h2{font-size:clamp(1.7rem,4vw,2.35rem)}
+.overlay{background:rgba(23,32,51,.42);backdrop-filter:blur(4px)}
+.map-panel{border:1px solid #e1e7ee;border-radius:20px;box-shadow:0 24px 70px rgba(23,32,51,.2)}
+.map-head h2{font:850 1.4rem Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+.close{min-height:40px;border:1px solid #cfd9e4;background:#fff;color:#30455f;border-radius:10px;font-weight:800}
+.legend,.qmap button,.section-label{font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+.qmap button{border-color:#d6e0e8;border-radius:9px;background:#fff;color:#334155}
+.qmap button.current{outline:3px solid rgba(15,143,131,.22);border:2px solid #0f8f83}
+.qmap button.done{background:#edf9f4;border-color:#a9d8c7;color:#126147}
+.qmap button.wrong{background:#fff2f4;border-color:#e4a6b0;color:#a13243}
+.qmap button.unchecked{background:#fff8e8;border-color:#e5ca76;color:#8b6b10}
+@media(max-width:620px){
+ header{padding:20px 16px}
+ .status .wrap{padding:10px 16px}
+ main{padding:20px 12px 50px}
+ .card{border-radius:18px}
+ .actions{align-items:stretch}
+ .actions button.action{flex:1}
+}
+@media(prefers-reduced-motion:reduce){.option,.fill,button.action{transition:none}}
+
+/* Right-side timer and question navigator */
+.sideControls{position:relative;z-index:30}
+.sidePanel{position:fixed;top:20px;right:14px;width:min(330px,calc(100vw - 28px));max-height:calc(100dvh - 40px);overflow:auto;overscroll-behavior:contain;background:rgba(255,255,255,.985);border:1px solid #dfe6ed;border-radius:20px;box-shadow:0 20px 55px rgba(23,32,51,.18);z-index:31;transform:translateX(calc(100% + 32px));transition:transform .24s ease}
+.sidePanel.open{transform:translateX(0)}
+.sidePanelHead{position:sticky;top:0;z-index:2;display:flex;justify-content:space-between;align-items:flex-start;gap:10px;padding:14px 14px 12px;background:linear-gradient(180deg,#fff,#fbfcfe);border-bottom:1px solid #e4e9ef}
+.sidePanelTitle{font-weight:900;color:#172033}.sidePanelSub{margin-top:3px;color:#657386;font-size:.8rem;line-height:1.35}
+.sideHideBtn{min-height:38px;padding:7px 10px;border:1px solid #cfd9e4;border-radius:10px;background:#fff;color:#30455f;font:800 13px Inter,ui-sans-serif,system-ui,sans-serif;cursor:pointer}
+.sidePanelBody{display:grid;gap:12px;padding:12px}
+.edgeToggle{position:fixed;z-index:30;right:0;top:52%;min-height:46px;padding:10px 11px;border:1px solid #d5dee7;border-right:0;border-radius:12px 0 0 12px;background:rgba(255,255,255,.98);color:#17324d;box-shadow:0 8px 22px rgba(23,32,51,.14);font:850 13px Inter,ui-sans-serif,system-ui,sans-serif;cursor:pointer;transition:opacity .18s ease,transform .18s ease}
+.edgeToggle.tabHidden{opacity:0;pointer-events:none;transform:translateX(10px)}
+.timerGroup{display:flex;align-items:center;justify-content:center;gap:12px}
+.timerRing{--p:100;--ring:#0f8f83;position:relative;display:grid;place-items:center;width:82px;height:82px;flex:0 0 82px;border-radius:50%;background:conic-gradient(var(--ring) calc(var(--p)*1%),#e7edf3 0);box-shadow:0 4px 14px rgba(31,41,55,.08)}
+.timerRing:after{content:"";position:absolute;inset:7px;border-radius:50%;background:#fff}
+.timerText{position:relative;z-index:1;color:#172033;font-size:1.12rem;font-weight:900;font-variant-numeric:tabular-nums}
+.timerLabel{font-weight:900;color:#172033}.timerSub{margin-top:3px;color:#657386;font-size:.78rem;line-height:1.35}
+.timerRing.warn{--ring:#d69d20}.timerRing.danger{--ring:#c94c5b;animation:timerPulse .75s ease-in-out infinite}
+@keyframes timerPulse{50%{transform:scale(1.06);box-shadow:0 0 0 6px rgba(201,76,91,.1)}}
+.streakBox{display:flex;align-items:center;justify-content:center;gap:8px;min-height:42px;padding:8px 10px;border:1px solid #ecd38e;border-radius:12px;background:#fff9e8;color:#71550d;font-weight:850;font-size:.88rem}
+.streakCount{color:#9b6b09;font-size:1.1rem}
+.sideLegend{display:flex;flex-wrap:wrap;gap:7px 10px;margin:0 0 9px;color:#657386;font-size:.72rem}
+.sideLegendItem{display:inline-flex;align-items:center;gap:5px}.sideLegendDot{width:11px;height:11px;border:1px solid #cfd9e4;border-radius:3px;background:#fff}
+.sideLegendDot.done{background:#edf9f4;border-color:#a9d8c7}.sideLegendDot.wrong{background:#fff2f4;border-color:#e4a6b0}.sideLegendDot.unchecked{background:#fff8e8;border-color:#e5ca76}.sideLegendDot.current{border:2px solid #0f8f83;background:#eef8f6}
+.sideNavigatorGrid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
+.sideSectionLabel{grid-column:1/-1;margin-top:6px;color:#657386;font-size:.75rem;font-weight:850}
+.sideNavQ{min-width:0;height:34px;border:1px solid #d6e0e8;border-radius:8px;background:#fff;color:#334155;font:850 12px Inter,ui-sans-serif,system-ui,sans-serif;cursor:pointer}
+.sideNavQ:hover{border-color:#8fb3d2;background:#f8fbff}.sideNavQ.done{background:#edf9f4;border-color:#a9d8c7;color:#126147}.sideNavQ.wrong{background:#fff2f4;border-color:#e4a6b0;color:#a13243}.sideNavQ.unchecked{background:#fff8e8;border-color:#e5ca76;color:#8b6b10}.sideNavQ.current{outline:3px solid rgba(15,143,131,.2);border:2px solid #0f8f83}
+.sideNavQ:focus-visible,.edgeToggle:focus-visible,.sideHideBtn:focus-visible{outline:3px solid rgba(37,99,235,.32);outline-offset:2px}
+.overlay{z-index:40}
+@media(min-width:1180px){body.side-panel-open main.wrap{max-width:1480px;padding-right:350px}}
+@media(max-width:760px){.sidePanel{top:max(10px,env(safe-area-inset-top));right:8px;width:min(330px,calc(100vw - 16px));max-height:calc(100dvh - 20px);border-radius:18px}.edgeToggle{top:auto;bottom:max(86px,calc(env(safe-area-inset-bottom) + 72px));font-size:12px}}
+@media(max-width:390px){.sidePanelBody{padding:10px}.sideNavQ{height:32px;font-size:11px}}
+@media(prefers-reduced-motion:reduce){.sidePanel,.edgeToggle{transition:none!important}.timerRing.danger{animation:none!important}}
+.drKingBadge{position:fixed;right:max(12px,env(safe-area-inset-right));bottom:max(12px,env(safe-area-inset-bottom));z-index:60;display:flex;align-items:center;gap:9px;padding:8px 12px;border:1px solid rgba(11,122,117,.18);border-radius:999px;background:rgba(255,255,255,.98);box-shadow:0 10px 26px rgba(0,0,0,.14);color:#172033;font:850 13px Inter,ui-sans-serif,system-ui,sans-serif;white-space:nowrap}
+.drKingAvatar{width:34px;height:34px;display:grid;place-items:center;border-radius:50%;background:linear-gradient(145deg,#d7aa3b,#f4d77c);color:#172033;font-size:11px;font-weight:950}
+.drKingLight{width:10px;height:10px;border-radius:50%;background:#22c55e;box-shadow:0 0 0 0 rgba(34,197,94,.65);animation:badgePulse 1.4s infinite}
+@keyframes badgePulse{70%{box-shadow:0 0 0 7px rgba(34,197,94,0)}100%{box-shadow:0 0 0 0 rgba(34,197,94,0)}}
+@media(min-width:900px){body.side-panel-open .drKingBadge{right:360px}}
+@media(max-width:899px){body.side-panel-open .drKingBadge{left:max(12px,env(safe-area-inset-left));right:auto}}
+@media(prefers-reduced-motion:reduce){.drKingLight{animation:none}}
+</style>
+</head>
+<body>
+<header><div class="wrap"><h1>Chapter 3: Factors and Polynomials</h1><p>40 multiple-choice + 20 calculation questions • one question at a time</p></div></header>
+<div class="status"><div class="wrap"><div class="row"><span id="count"></span><span id="score">Score: 0</span></div><div class="progress"><div class="fill" id="fill"></div></div></div></div>
+<main class="wrap">
+<section class="card" id="quiz">
+ <div class="topline"><span class="badge" id="badge"></span><span class="type" id="type"></span></div>
+ <div class="question" id="question"></div>
+ <div id="diagram"></div>
+ <div id="response"></div>
+ <div class="feedback" id="feedback"></div>
+ <div class="actions">
+  <button class="action secondary" id="prev" onclick="prevQ()">← Previous</button>
+  <button class="action mapbtn" onclick="openMap()">Questions map</button>
+  <button class="action primary" id="check" onclick="checkAnswer()">Check answer</button>
+  <button class="action primary" id="next" onclick="nextQ()" style="display:none">Next →</button>
+ </div>
+</section>
+<section class="card final" id="final">
+ <h2>Practice complete</h2><p id="finalScore"></p>
+ <button class="action mapbtn" onclick="openMap()">Review Questions Map</button>
+ <button class="action primary" onclick="restart()">Restart</button>
+</section>
+</main>
+<div class="overlay" id="overlay"><div class="map-panel">
+ <div class="map-head"><h2>Questions Map</h2><button class="close" onclick="closeMap()">Close ✕</button></div>
+ <div class="legend">Green = correct · Red = incorrect · Gold = answered but not checked · White = unanswered · Outline = current</div>
+ <div class="qmap" id="qmap"></div>
+</div></div>
+<div class="sideControls hidden" id="sideControls">
+ <button aria-controls="sidePanel" aria-expanded="false" class="edgeToggle" id="sidePanelShow" type="button">☰ Panel</button>
+ <aside aria-label="Question timer and navigator" class="sidePanel" id="sidePanel">
+  <div class="sidePanelHead"><div><div class="sidePanelTitle">Timer + Navigator</div><div class="sidePanelSub">60 questions · 3 minutes each</div></div><button class="sideHideBtn" id="sidePanelHide" type="button">Hide</button></div>
+  <div class="sidePanelBody">
+   <div class="timerGroup"><div aria-label="Time remaining" class="timerRing" id="timerRing"><span class="timerText" id="timerText">3:00</span></div><div><div class="timerLabel">Question Timer</div><div class="timerSub" id="timerSub">Time to work on this question.</div></div></div>
+   <div class="streakBox">Current streak <span class="streakCount" id="streakCount">0</span></div>
+   <div><div class="sidePanelTitle" style="margin-bottom:3px">Question Navigator</div><div class="sidePanelSub" style="margin-bottom:9px">Select a number to jump to it.</div>
+    <div class="sideLegend"><span class="sideLegendItem"><i class="sideLegendDot done"></i>Correct</span><span class="sideLegendItem"><i class="sideLegendDot wrong"></i>Incorrect</span><span class="sideLegendItem"><i class="sideLegendDot unchecked"></i>Selected</span><span class="sideLegendItem"><i class="sideLegendDot current"></i>Current</span></div>
+    <div class="sideNavigatorGrid" id="sideNavigatorGrid"></div>
+   </div>
+  </div>
+ </aside>
+</div>
+  <div aria-label="Dr King Wunna, active" class="drKingBadge" id="drKingBadge"><span aria-hidden="true" class="drKingAvatar">DKW</span><span>Dr King Wunna</span><span aria-hidden="true" class="drKingLight"></span></div>
+<script>
+const qs=[{"n": 1, "topic": "Mappings", "q": "Classify the mapping \\(x\\mapsto 3x-2,\\ x\\in\\mathbb R\\) as one-one, many-one, or one-many.", "options": ["One-one.", "Many-one", "One-many", "Not a mapping"], "correct": 0, "answer": "One-one.", "explanation": "If two inputs \\(a,b\\) have the same output, then \\(3a-2=3b-2\\), so \\(a=b\\). Thus different inputs cannot produce the same output.", "type": "mcq", "accepted": [], "diagram": null}, {"n": 2, "topic": "Functions", "q": "Is the relation \\(x\\mapsto \\pm\\sqrt{x}\\), for \\(x\\ge0\\), a function?", "options": ["Yes, it is one-one", "Yes, it is many-one", "No.", "No, because no input has an output"], "correct": 2, "answer": "No.", "explanation": "For an input such as \\(x=4\\), the rule gives two outputs, \\(2\\) and \\(-2\\). A function must give exactly one output for each input.", "type": "mcq", "accepted": [], "diagram": null}, {"n": 3, "topic": "Domain & range", "q": "For \\(f(x)=2x+5\\) with \\(-2\\le x\\le4\\), find the range.", "options": ["\\(-2\\le f(x)\\le4\\)", "\\(1\\le f(x)\\le13\\).", "\\(-9\\le f(x)\\le3\\)", "\\(1< f(x)<13\\)"], "correct": 1, "answer": "\\(1\\le f(x)\\le13\\).", "explanation": "The function is increasing. Evaluate the endpoints: \\(f(-2)=1\\) and \\(f(4)=13\\).", "type": "mcq", "accepted": [], "diagram": null}, {"n": 4, "topic": "Composite functions", "q": "Given \\(f(x)=2x+1\\) and \\(g(x)=x^2\\), find \\(fg(3)\\).", "options": ["\\(9\\)", "\\(18\\)", "\\(19\\)", "\\(25\\)"], "correct": 2, "answer": "\\(19\\).", "explanation": "\\(g(3)=9\\), then \\(f(9)=2(9)+1=19\\). Here \\(fg(3)=f(g(3))\\).", "type": "typed", "accepted": ["19"], "diagram": null}, {"n": 5, "topic": "Composite functions", "q": "Given \\(f(x)=x-4\\) and \\(g(x)=3x\\), find \\(gf(x)\\).", "options": ["\\(3x-4\\)", "\\(gf(x)=3x-12\\).", "\\(3x+12\\)", "\\(x-12\\)"], "correct": 1, "answer": "\\(gf(x)=3x-12\\).", "explanation": "\\(gf(x)=g(f(x))=g(x-4)=3(x-4)=3x-12\\).", "type": "mcq", "accepted": [], "diagram": null}, {"n": 6, "topic": "Modulus", "q": "Solve \\(|2x-3|=7\\).", "options": ["\\(x=5\\) only", "\\(x=-2\\) only", "\\(x=5\\text{ or }x=-2\\)", "\\(x=2\\text{ or }x=-5\\)"], "correct": 2, "answer": "\\(x=5\\) or \\(x=-2\\).", "explanation": "Use \\(2x-3=7\\) or \\(2x-3=-7\\). These give \\(x=5\\) and \\(x=-2\\).", "type": "typed", "accepted": ["5,-2", "-2,5", "5 or -2", "-2 or 5", "5,- 2"], "diagram": null}, {"n": 7, "topic": "Modulus", "q": "Solve \\(|5-x|=3\\).", "options": ["\\(x=2\\text{ or }x=8\\)", "\\(x=-2\\text{ or }x=8\\)", "\\(x=2\\text{ or }x=-8\\)", "\\(x=3\\text{ or }x=7\\)"], "correct": 0, "answer": "\\(x=2\\) or \\(x=8\\).", "explanation": "Use \\(5-x=3\\) or \\(5-x=-3\\).", "type": "typed", "accepted": ["2,8", "8,2", "2 or 8", "8 or 2"], "diagram": {"kind": "abs_hline", "a": -1, "b": 5, "c": 3, "label": "y = |5 − x| and y = 3"}}, {"n": 8, "topic": "Inverse functions", "q": "Given \\(f(x)=4x-7\\), find \\(f^{-1}(x)\\).", "options": ["\\(f^{-1}(x)=4x+7\\)", "\\(f^{-1}(x)=\\frac{x-7}{4}\\)", "\\(f^{-1}(x)=\\dfrac{x+7}{4}\\).", "\\(f^{-1}(x)=\\frac{4}{x+7}\\)"], "correct": 2, "answer": "\\(f^{-1}(x)=\\dfrac{x+7}{4}\\).", "explanation": "Let \\(y=4x-7\\). Swap \\(x,y\\): \\(x=4y-7\\). Rearrange to \\(y=(x+7)/4\\).", "type": "mcq", "accepted": [], "diagram": null}, {"n": 9, "topic": "Inverse functions", "q": "If \\(f(x)=x+6\\), find \\(f^{-1}(10)\\).", "options": ["\\(2\\)", "\\(4\\)", "\\(6\\)", "\\(16\\)"], "correct": 1, "answer": "\\(4\\).", "explanation": "\\(f^{-1}(x)=x-6\\), so \\(f^{-1}(10)=10-6=4\\).", "type": "typed", "accepted": ["4"], "diagram": null}, {"n": 10, "topic": "Inverse graphs", "q": "The point \\((2,7)\\) lies on \\(y=f(x)\\). What corresponding point lies on \\(y=f^{-1}(x)\\)?", "options": ["\\((2,7)\\)", "\\((-2,-7)\\)", "\\((7,2)\\).", "\\((7,-2)\\)"], "correct": 2, "answer": "\\((7,2)\\).", "explanation": "A function and its inverse are reflections in \\(y=x\\), so the coordinates are interchanged.", "type": "mcq", "accepted": [], "diagram": null}, {"n": 11, "topic": "Domain & range", "q": "For \\(f(x)=(x-3)^2+2\\), \\(0\\le x\\le5\\), find the range.", "options": ["\\(\\text{No real solution}\\)", "\\(3\\le f(x)\\le11\\).", "\\(\\text{All real }x\\)", "\\(2\\le f(x)\\le11\\)."], "correct": 3, "answer": "\\(2\\le f(x)\\le11\\).", "explanation": "The minimum occurs at the vertex \\(x=3\\): \\(f(3)=2\\). Check endpoints: \\(f(0)=11\\), \\(f(5)=6\\). Hence the maximum is 11.", "type": "mcq", "accepted": [], "diagram": null}, {"n": 12, "topic": "Domain & range", "q": "For \\(f(x)=x^2-4x+7\\), \\(1\\le x\\le6\\), find the range.", "options": ["\\(3\\le f(x)\\le19\\).", "\\(\\text{No real solution}\\)", "\\(2\\le f(x)\\le19\\).", "\\(\\text{All real }x\\)"], "correct": 0, "answer": "\\(3\\le f(x)\\le19\\).", "explanation": "Complete the square: \\(f(x)=(x-2)^2+3\\). Minimum \\(3\\) occurs at \\(x=2\\). Endpoint values are \\(f(1)=4\\), \\(f(6)=19\\).", "type": "mcq", "accepted": [], "diagram": null}, {"n": 13, "topic": "Composite functions", "q": "Given \\(f(x)=3x-1\\), \\(g(x)=x^2+2\\), find \\(fg(x)\\) and \\(gf(x)\\).", "options": ["\\(fg(x)=3x^3+5\\), \\(gf(x)=9x^2-6x+3\\).", "\\(fg(x)=3x^2+5\\), \\(gf(x)=9x^2-6x+3\\).", "\\(fg(x)=3x^2-5\\), \\(gf(x)=9x^2-6x+3\\).", "\\(fg(x)=3x^2+5\\), \\(gf(x)=9x^2+6x+3\\)."], "correct": 1, "answer": "\\(fg(x)=3x^2+5\\), \\(gf(x)=9x^2-6x+3\\).", "explanation": "\\(fg=f(g(x))=3(x^2+2)-1\\). Also \\(gf=g(f(x))=(3x-1)^2+2\\).", "type": "mcq", "accepted": [], "diagram": null}, {"n": 14, "topic": "Composite functions", "q": "Given \\(f(x)=x+2\\) and \\(g(x)=2x^2-1\\), solve \\(fg(x)=19\\).", "options": ["\\(\\text{No real solution}\\)", "\\(\\text{All real }x\\)", "\\(x=\\pm3\\).", "\\(x=\\pm2\\)."], "correct": 2, "answer": "\\(x=\\pm3\\).", "explanation": "\\(fg(x)=2x^2-1+2=2x^2+1\\). Set \\(2x^2+1=19\\), so \\(x^2=9\\).", "type": "typed", "accepted": ["3,-3", "-3,3", "3 or -3", "-3 or 3", "±3", "+/-3"], "diagram": null}, {"n": 15, "topic": "Composite functions", "q": "Given \\(f(x)=2x+5\\), \\(g(x)=\\frac1x\\), \\(x\\ne0\\), solve \\(gf(x)=\\frac13\\).", "options": ["\\(x=+1\\).", "\\(x=--1\\).", "\\(x=1\\).", "\\(x=-1\\)."], "correct": 3, "answer": "\\(x=-1\\).", "explanation": "\\(gf(x)=1/(2x+5)\\). Set this equal to \\(1/3\\): \\(2x+5=3\\), so \\(x=-1\\).", "type": "typed", "accepted": ["-1"], "diagram": null}, {"n": 16, "topic": "Composite domain", "q": "Let \\(f(x)=\\sqrt{x-1}\\) and \\(g(x)=2x+3\\). Find the domain of \\(fg(x)\\).", "options": ["\\(x\\ge-1\\).", "\\(\\text{No real solution}\\)", "\\(\\text{All real }x\\)", "\\(\\text{None of these}\\)"], "correct": 0, "answer": "\\(x\\ge-1\\).", "explanation": "\\(fg(x)=\\sqrt{(2x+3)-1}=\\sqrt{2x+2}\\). Require \\(2x+2\\ge0\\), hence \\(x\\ge-1\\).", "type": "mcq", "accepted": [], "diagram": null}, {"n": 17, "topic": "Composite domain", "q": "Let \\(f(x)=\\frac1{x-2}\\) and \\(g(x)=x^2+1\\). Find the domain of \\(fg(x)\\).", "options": ["\\(\\text{No real solution}\\)", "\\(x\\in\\mathbb R,\\ x\\ne\\pm1\\).", "\\(x\\in\\mathbb R,\\ x=\\pm1\\).", "\\(x\\in\\mathbb R,\\ x\\ne\\pm-1\\)."], "correct": 1, "answer": "\\(x\\in\\mathbb R,\\ x\\ne\\pm1\\).", "explanation": "\\(fg(x)=1/(x^2+1-2)=1/(x^2-1)\\). The denominator cannot be zero, so \\(x\\ne\\pm1\\).", "type": "mcq", "accepted": [], "diagram": null}, {"n": 18, "topic": "Modulus", "q": "Solve \\(|3x-4|=x+2\\).", "options": ["\\(x=\\frac12\\) or \\(x=2\\).", "\\(x=\\frac-12\\) or \\(x=3\\).", "\\(x=\\frac12\\) or \\(x=3\\).", "\\(x=\\frac13\\) or \\(x=3\\)."], "correct": 2, "answer": "\\(x=\\frac12\\) or \\(x=3\\).", "explanation": "Since the right side must be nonnegative, \\(x\\ge-2\\). Cases: \\(3x-4=x+2\\Rightarrow x=3\\); \\(3x-4=-(x+2)\\Rightarrow4x=2\\Rightarrow x=1/2\\).", "type": "typed", "accepted": ["1/2,3", "3,1/2", "0.5,3", "3,0.5", "1/2 or 3", "3 or 1/2"], "diagram": {"kind": "abs_line", "a": 3, "b": -4, "m": 1, "c": 2, "label": "y = |3x − 4| and y = x + 2"}}, {"n": 19, "topic": "Modulus", "q": "Solve \\(|x+1|+2=6\\).", "options": ["\\(x=3\\) or \\(x=+5\\).", "\\(x=2\\) or \\(x=-5\\).", "\\(x=3\\) or \\(x=-4\\).", "\\(x=3\\) or \\(x=-5\\)."], "correct": 3, "answer": "\\(x=3\\) or \\(x=-5\\).", "explanation": "\\(|x+1|=4\\), so \\(x+1=4\\) or \\(x+1=-4\\).", "type": "typed", "accepted": ["3,-5", "-5,3", "3 or -5", "-5 or 3"], "diagram": null}, {"n": 20, "topic": "Modulus", "q": "Solve \\(|x^2-4|=5\\).", "options": ["\\(x=\\pm3\\).", "\\(x=\\pm2\\).", "\\(\\text{No real solution}\\)", "\\(\\text{All real }x\\)"], "correct": 0, "answer": "\\(x=\\pm3\\).", "explanation": "Cases: \\(x^2-4=5\\Rightarrow x^2=9\\), or \\(x^2-4=-5\\Rightarrow x^2=-1\\), which has no real solution.", "type": "typed", "accepted": ["3,-3", "-3,3", "±3", "+/-3", "3 or -3", "-3 or 3"], "diagram": null}, {"n": 21, "topic": "Modulus graph", "q": "For \\(y=|2x-6|\\), state the vertex and the intercepts with both axes.", "options": ["\\(\\text{No real solution}\\)", "Vertex \\((3,0)\\); x-intercept \\((3,0)\\); y-intercept \\((0,6)\\).", "\\(\\text{All real }x\\)", "Vertex \\((2,0)\\); x-intercept \\((3,0)\\); y-intercept \\((0,6)\\)."], "correct": 1, "answer": "Vertex \\((3,0)\\); x-intercept \\((3,0)\\); y-intercept \\((0,6)\\).", "explanation": "The inside is zero at \\(2x-6=0\\Rightarrow x=3\\). At \\(x=0\\), \\(y=|-6|=6\\).", "type": "mcq", "accepted": [], "diagram": {"kind": "abs", "a": 2, "b": -6, "label": "y = |2x − 6|"}}, {"n": 22, "topic": "Modulus graph", "q": "Find the range of \\(f(x)=|x-4|+3\\), for all real \\(x\\).", "options": ["\\(f(x)\\ge2\\).", "\\(\\text{No real solution}\\)", "\\(f(x)\\ge3\\).", "\\(f(x)\\le3\\)."], "correct": 2, "answer": "\\(f(x)\\ge3\\).", "explanation": "Because \\(|x-4|\\ge0\\), the least value is 3, attained at \\(x=4\\).", "type": "mcq", "accepted": [], "diagram": null}, {"n": 23, "topic": "Inverse functions", "q": "Given \\(f(x)=\\frac{x-3}{2}\\), find \\(f^{-1}(x)\\) and verify \\(ff^{-1}(x)=x\\).", "options": ["\\(f^{-1}(x)=2x-3\\).", "\\(\\text{No real solution}\\)", "\\(f^{-1}(x)=3x+3\\).", "\\(f^{-1}(x)=2x+3\\)."], "correct": 3, "answer": "\\(f^{-1}(x)=2x+3\\).", "explanation": "From \\(y=(x-3)/2\\), obtain \\(x=2y+3\\). Then \\(f(2x+3)=((2x+3)-3)/2=x\\).", "type": "mcq", "accepted": [], "diagram": null}, {"n": 24, "topic": "Inverse functions", "q": "Given \\(f(x)=(x-1)^2+4\\), \\(x\\ge1\\), find \\(f^{-1}(x)\\).", "options": ["\\(f^{-1}(x)=1+\\sqrt{x-4}\\), \\(x\\ge4\\).", "\\(f^{-1}(x)=1-\\sqrt{x-4}\\), \\(x\\ge4\\).", "\\(\\text{No real solution}\\)", "\\(f^{-1}(x)=1+\\sqrt{x-4}\\), \\(x\\le4\\)."], "correct": 0, "answer": "\\(f^{-1}(x)=1+\\sqrt{x-4}\\), \\(x\\ge4\\).", "explanation": "\\(y=(x-1)^2+4\\Rightarrow y-4=(x-1)^2\\). Since \\(x\\ge1\\), take the positive root: \\(x=1+\\sqrt{y-4}\\).", "type": "mcq", "accepted": [], "diagram": {"kind": "quad_inverse", "h": 1, "k": 4, "label": "f(x) = (x − 1)² + 4, x ≥ 1, and its inverse"}}, {"n": 25, "topic": "Inverse domain/range", "q": "For \\(f(x)=5-2x\\), \\(1\\le x\\le4\\), state the domain and range of \\(f^{-1}\\).", "options": ["Domain of \\(f^{-1}\\): \\([-3,3]\\); range of \\(f^{-1}\\): \\([1,5]\\).", "Domain of \\(f^{-1}\\): \\([-3,3]\\); range of \\(f^{-1}\\): \\([1,4]\\).", "\\(\\text{No real solution}\\)", "Domain of \\(f^{-1}\\): \\([-2,3]\\); range of \\(f^{-1}\\): \\([1,4]\\)."], "correct": 1, "answer": "Domain of \\(f^{-1}\\): \\([-3,3]\\); range of \\(f^{-1}\\): \\([1,4]\\).", "explanation": "\\(f(1)=3\\), \\(f(4)=-3\\). The inverse swaps the original domain and range.", "type": "mcq", "accepted": [], "diagram": null}, {"n": 26, "topic": "Inverse equation", "q": "Given \\(f(x)=3x+2\\), solve \\(f^{-1}(x)=5\\).", "options": ["\\(\\text{No real solution}\\)", "\\(\\text{All real }x\\)", "\\(x=17\\).", "\\(x=-17\\)."], "correct": 2, "answer": "\\(x=17\\).", "explanation": "\\(f^{-1}(x)=(x-2)/3\\). Set \\((x-2)/3=5\\), giving \\(x=17\\). Equivalently, \\(x=f(5)\\).", "type": "typed", "accepted": ["17"], "diagram": null}, {"n": 27, "topic": "Inverse graph", "q": "For \\(f(x)=x^2+1,\\ x\\ge0\\), find the x- and y-intercepts of \\(y=f^{-1}(x)\\).", "options": ["x-intercept \\((1,0)\\); no y-intercept.", "No x-intercept; y-intercept \\((0,1)\\).", "x-intercept \\((-1,0)\\); no y-intercept.", "No axis intercepts."], "correct": 0, "answer": "x-intercept \\((1,0)\\); no y-intercept.", "explanation": "\\(f^{-1}(x)=\\sqrt{x-1}\\) with domain \\(x\\ge1\\). Setting \\(y=0\\) gives \\(x=1\\), so the x-intercept is \\((1,0)\\). There is no y-intercept because \\(x=0\\) is outside the inverse's domain.", "type": "mcq", "accepted": [], "diagram": {"kind": "inverse_sqrt", "label": "y = √(x − 1)"}}, {"n": 28, "topic": "Inverse graph", "q": "For \\(f(x)=2x-4\\), find the point where the graphs of \\(y=f(x)\\) and \\(y=f^{-1}(x)\\) meet.", "options": ["\\((4,4)\\).", "\\((5,4)\\).", "\\(\\text{No real solution}\\)", "\\(\\text{All real }x\\)"], "correct": 0, "answer": "\\((4,4)\\).", "explanation": "Any intersection of a function and its inverse lies on \\(y=x\\). Solve \\(f(x)=x\\): \\(2x-4=x\\Rightarrow x=4\\), so \\(y=4\\).", "type": "typed", "accepted": ["(4,4)", "4,4"], "diagram": {"kind": "line_inverse", "m": 2, "c": -4, "label": "y = 2x − 4 and its inverse"}}, {"n": 29, "topic": "Self-inverse", "q": "Show that \\(f(x)=\\frac{5-x}{x+1}\\), \\(x\\ne-1\\), is self-inverse.", "options": ["\\(f^{1}(x)=f(x)\\).", "\\(f^{-1}(x)=f(x)\\).", "\\(\\text{No real solution}\\)", "\\(\\text{All real }x\\)"], "correct": 1, "answer": "\\(f^{-1}(x)=f(x)\\).", "explanation": "Let \\(y=(5-x)/(x+1)\\). Then \\(yx+y=5-x\\), so \\(x(y+1)=5-y\\), hence \\(x=(5-y)/(y+1)\\). Swapping variables gives the same formula.", "type": "mcq", "accepted": [], "diagram": null}, {"n": 30, "topic": "Mixed", "q": "Let \\(f(x)=2x-1\\), \\(g(x)=x+4\\). Find \\((fg)^{-1}(x)\\).", "options": ["\\((fg)^{-1}(x)=\\frac{x-7}{3}\\).", "\\(\\text{No real solution}\\)", "\\((fg)^{-1}(x)=\\frac{x-7}{2}\\).", "\\(\\text{All real }x\\)"], "correct": 2, "answer": "\\((fg)^{-1}(x)=\\frac{x-7}{2}\\).", "explanation": "\\(fg(x)=f(x+4)=2x+7\\). Invert \\(y=2x+7\\): \\(x=(y-7)/2\\).", "type": "mcq", "accepted": [], "diagram": null}, {"n": 31, "topic": "Composite + equation", "q": "Let \\(f(x)=2x^2-3\\) for \\(x\\ge0\\) and \\(g(x)=\\sqrt{x+1}\\). Solve \\(fg(x)=15\\), stating any restrictions used.", "options": ["\\(\\text{No real solution}\\)", "\\(\\text{All real }x\\)", "\\(\\text{Cannot be determined}\\)", "\\(x=8\\)."], "correct": 3, "answer": "\\(x=8\\).", "explanation": "\\(fg(x)=2(\\sqrt{x+1})^2-3=2x-1\\), requiring \\(x\\ge-1\\). Solve \\(2x-1=15\\Rightarrow x=8\\), which satisfies the restriction.", "type": "typed", "accepted": ["8"], "diagram": null}, {"n": 32, "topic": "Composite + domain/range", "q": "Let \\(f(x)=\\frac{x+1}{x-2}\\) and \\(g(x)=3x-4\\). Find \\(fg(x)\\), its domain, and solve \\(fg(x)=2\\).", "options": ["\\(fg(x)=\\frac{3x-3}{3x-6}=\\frac{x-1}{x-2}\\), domain \\(x\\ne2\\); solution \\(x=3\\).", "\\(fg(x)=\\frac{3x+3}{3x-6}=\\frac{x-1}{x-2}\\), domain \\(x\\ne2\\); solution \\(x=3\\).", "\\(fg(x)=\\frac{3x-3}{3x-6}=\\frac{x-1}{x-2}\\), domain \\(x=2\\); solution \\(x=3\\).", "\\(fg(x)=\\frac{3x-3}{3x-6}=\\frac{x-1}{x-3}\\), domain \\(x\\ne2\\); solution \\(x=3\\)."], "correct": 0, "answer": "\\(fg(x)=\\frac{3x-3}{3x-6}=\\frac{x-1}{x-2}\\), domain \\(x\\ne2\\); solution \\(x=3\\).", "explanation": "Substitute \\(g(x)\\) into \\(f\\): \\((3x-4+1)/(3x-4-2)\\). The denominator gives \\(x\\ne2\\). Then \\((x-1)/(x-2)=2\\Rightarrow x-1=2x-4\\Rightarrow x=3\\).", "type": "mcq", "accepted": [], "diagram": null}, {"n": 33, "topic": "Composite + quadratic", "q": "Given \\(f(x)=x^2-4x+5\\) and \\(g(x)=2x+1\\), solve \\(fg(x)=10\\).", "options": ["\\(x=2\\) or \\(x=--1\\).", "\\(x=2\\) or \\(x=-1\\).", "\\(x=2\\) or \\(x=+1\\).", "\\(x=3\\) or \\(x=-1\\)."], "correct": 1, "answer": "\\(x=2\\) or \\(x=-1\\).", "explanation": "\\(fg(x)=(2x+1)^2-4(2x+1)+5=4x^2-4x+2\\). Set equal to 10: \\(4x^2-4x-8=0\\), so \\(x^2-x-2=0=(x-2)(x+1)\\).", "type": "typed", "accepted": ["2,-1", "-1,2", "2 or -1", "-1 or 2"], "diagram": null}, {"n": 34, "topic": "Composite chain", "q": "Let \\(f(x)=x-2\\), \\(g(x)=x^2+1\\), \\(h(x)=3x\\). Find \\(fgh(x)\\), then solve \\(fgh(x)=26\\).", "options": ["\\(fgh(x)=9x^3-1\\); \\(x=\\pm\\sqrt3\\).", "\\(fgh(x)=9x^2-1\\); \\(x=\\pm\\sqrt2\\).", "\\(fgh(x)=9x^2-1\\); \\(x=\\pm\\sqrt3\\).", "\\(fgh(x)=9x^2+1\\); \\(x=\\pm\\sqrt3\\)."], "correct": 2, "answer": "\\(fgh(x)=9x^2-1\\); \\(x=\\pm\\sqrt3\\).", "explanation": "\\(h(x)=3x\\), \\(g(h(x))=9x^2+1\\), then \\(f(g(h(x)))=9x^2-1\\). Set \\(9x^2-1=26\\Rightarrow x^2=3\\).", "type": "mcq", "accepted": [], "diagram": null}, {"n": 35, "topic": "Composite domain", "q": "Let \\(f(x)=\\sqrt{5-x}\\) and \\(g(x)=x^2-4x\\). Find the domain of \\(fg(x)\\).", "options": ["\\(+1\\le x\\le5\\).", "\\(\\text{No real solution}\\)", "\\(-1\\le x\\le4\\).", "\\(-1\\le x\\le5\\)."], "correct": 3, "answer": "\\(-1\\le x\\le5\\).", "explanation": "\\(fg(x)=\\sqrt{5-(x^2-4x)}=\\sqrt{9-(x-2)^2}\\). Require \\(9-(x-2)^2\\ge0\\), hence \\(|x-2|\\le3\\), so \\(-1\\le x\\le5\\).", "type": "mcq", "accepted": [], "diagram": null}, {"n": 36, "topic": "Composite domain + rational", "q": "Let \\(f(x)=\\frac1{x+3}\\) and \\(g(x)=\\frac{2x-1}{x+1}\\). Find the domain of \\(fg(x)\\).", "options": ["\\(x\\ne-1,-\\frac25\\).", "\\(x\\ne+1,-\\frac25\\).", "\\(x=-1,-\\frac25\\).", "\\(x\\ne-1,-\\frac35\\)."], "correct": 0, "answer": "\\(x\\ne-1,-\\frac25\\).", "explanation": "First \\(g\\) requires \\(x\\ne-1\\). Also \\(g(x)+3\\ne0\\): \\((2x-1)/(x+1)+3=(5x+2)/(x+1)\\ne0\\), so \\(x\\ne-2/5\\).", "type": "mcq", "accepted": [], "diagram": null}, {"n": 37, "topic": "Composite range", "q": "Let \\(f(x)=x^2+4\\), \\(x\\ge0\\), and \\(g(x)=2x-3\\), \\(x\\ge2\\). Find the range of \\(fg\\).", "options": ["\\(\\text{No real solution}\\)", "\\(fg(x)\\ge5\\).", "\\(fg(x)\\le5\\).", "\\(fg(x)\\ge4\\)."], "correct": 1, "answer": "\\(fg(x)\\ge5\\).", "explanation": "For \\(x\\ge2\\), \\(g(x)=2x-3\\ge1\\). Then \\(fg(x)=(2x-3)^2+4\\), whose minimum on this domain occurs at \\(x=2\\): \\(1+4=5\\).", "type": "mcq", "accepted": [], "diagram": null}, {"n": 38, "topic": "Modulus multi-step", "q": "Solve \\(|2x-5|=|x+1|\\).", "options": ["\\(x=\\frac53\\) or \\(x=6\\).", "\\(\\text{No real solution}\\)", "\\(x=\\frac43\\) or \\(x=6\\).", "\\(x=\\frac42\\) or \\(x=6\\)."], "correct": 2, "answer": "\\(x=\\frac43\\) or \\(x=6\\).", "explanation": "Square both sides: \\((2x-5)^2=(x+1)^2\\). Difference of squares gives \\((x-6)(3x-4)=0\\).", "type": "typed", "accepted": ["4/3,6", "6,4/3", "4/3 or 6", "6 or 4/3"], "diagram": null}, {"n": 39, "topic": "Modulus multi-step", "q": "Solve \\(|x-2|+|x+1|=7\\).", "options": ["\\(x=4\\) or \\(x=+3\\).", "\\(x=4\\) or \\(x=-2\\).", "\\(x=5\\) or \\(x=-3\\).", "\\(x=4\\) or \\(x=-3\\)."], "correct": 3, "answer": "\\(x=4\\) or \\(x=-3\\).", "explanation": "Break at \\(x=-1,2\\). For \\(x\\ge2\\), sum \\(=2x-1=7\\Rightarrow x=4\\). For \\(-1\\le x<2\\), sum is 3, impossible. For \\(x<-1\\), sum \\(=-2x+1=7\\Rightarrow x=-3\\).", "type": "typed", "accepted": ["4,-3", "-3,4", "4 or -3", "-3 or 4"], "diagram": null}, {"n": 40, "topic": "Modulus quadratic", "q": "Solve \\(|x^2-5x+4|=2\\).", "options": ["\\(x=\\frac{5\\pm\\sqrt{17}}2,\\ 2,\\ 3\\).", "\\(x=\\frac{5\\pm\\sqrt{17}}3,\\ 2,\\ 3\\).", "\\(x=\\frac{5\\pm\\sqrt{17}}2,\\ 2,\\ 2\\).", "\\(x=\\frac{4\\pm\\sqrt{17}}2,\\ 2,\\ 3\\)."], "correct": 0, "answer": "\\(x=\\frac{5\\pm\\sqrt{17}}2,\\ 2,\\ 3\\).", "explanation": "Set \\(x^2-5x+4=2\\) giving \\(x^2-5x+2=0\\), or \\(x^2-5x+4=-2\\) giving \\(x^2-5x+6=0=(x-2)(x-3)\\).", "type": "mcq", "accepted": [], "diagram": null}, {"n": 41, "topic": "Modulus + parameter", "q": "Find all values of \\(k\\) for which \\(|x-3|=k\\) has exactly two distinct real solutions.", "options": ["\\(\\text{Cannot be determined}\\)", "\\(k>0\\).", "\\(\\text{No real solution}\\)", "\\(\\text{All real }x\\)"], "correct": 1, "answer": "\\(k>0\\).", "explanation": "If \\(k<0\\), no solution; if \\(k=0\\), one solution \\(x=3\\); if \\(k>0\\), \\(x=3\\pm k\\), two distinct solutions.", "type": "typed", "accepted": ["k>0", ">0"], "diagram": null}, {"n": 42, "topic": "Modulus graph + intersections", "q": "Find the coordinates of all intersections of \\(y=|2x-4|\\) and \\(y=x+2\\).", "options": ["\\((\\frac22,\\frac83)\\) and \\((6,8)\\).", "\\(\\text{No real solution}\\)", "\\((\\frac23,\\frac83)\\) and \\((6,8)\\).", "\\((\\frac33,\\frac83)\\) and \\((6,8)\\)."], "correct": 2, "answer": "\\((\\frac23,\\frac83)\\) and \\((6,8)\\).", "explanation": "Solve \\(|2x-4|=x+2\\). For \\(x\\ge2\\): \\(2x-4=x+2\\Rightarrow x=6,y=8\\). For \\(x<2\\): \\(4-2x=x+2\\Rightarrow x=2/3,y=8/3\\).", "type": "mcq", "accepted": [], "diagram": {"kind": "abs_line", "a": 2, "b": -4, "m": 1, "c": 2, "label": "y = |2x − 4| and y = x + 2"}}, {"n": 43, "topic": "Modulus graph + range", "q": "For \\(f(x)=|x-1|+|x-5|\\), find the minimum value and hence the range.", "options": ["Minimum \\(4\\); range \\(f(x)\\le4\\).", "Minimum \\(5\\); range \\(f(x)\\ge4\\).", "\\(\\text{No real solution}\\)", "Minimum \\(4\\); range \\(f(x)\\ge4\\)."], "correct": 3, "answer": "Minimum \\(4\\); range \\(f(x)\\ge4\\).", "explanation": "For \\(1\\le x\\le5\\), \\(f=(x-1)+(5-x)=4\\). Outside this interval the sum increases, so 4 is the minimum.", "type": "mcq", "accepted": [], "diagram": null}, {"n": 44, "topic": "Modulus simultaneous", "q": "Solve simultaneously \\(y=|x-4|\\) and \\(y=2x-1\\).", "options": ["\\((\\frac53,\\frac73)\\).", "\\((\\frac52,\\frac73)\\).", "\\((\\frac43,\\frac73)\\).", "\\(\\text{No real solution}\\)"], "correct": 0, "answer": "\\((\\frac53,\\frac73)\\).", "explanation": "Need \\(2x-1\\ge0\\). Solve \\(|x-4|=2x-1\\). The case \\(x\\ge4\\) gives \\(x-4=2x-1\\Rightarrow x=-3\\), invalid. For \\(x<4\\): \\(4-x=2x-1\\Rightarrow x=5/3\\), \\(y=7/3\\).", "type": "typed", "accepted": ["5/3,7/3", "(5/3,7/3)"], "diagram": {"kind": "abs_line", "a": 1, "b": -4, "m": 2, "c": -1, "label": "y = |x − 4| and y = 2x − 1"}}, {"n": 45, "topic": "Inverse rational", "q": "Given \\(f(x)=\\frac{3x+2}{x-1}\\), \\(x\\ne1\\), find \\(f^{-1}(x)\\) and state its domain.", "options": ["\\(f^{-1}(x)=\\frac{x+2}{x-3}\\), domain \\(x=3\\).", "\\(f^{-1}(x)=\\frac{x+2}{x-3}\\), domain \\(x\\ne3\\).", "\\(f^{-1}(x)=\\frac{x-2}{x-3}\\), domain \\(x\\ne3\\).", "\\(\\text{No real solution}\\)"], "correct": 1, "answer": "\\(f^{-1}(x)=\\frac{x+2}{x-3}\\), domain \\(x\\ne3\\).", "explanation": "Let \\(y=(3x+2)/(x-1)\\). Then \\(yx-y=3x+2\\), so \\(x(y-3)=y+2\\), hence \\(x=(y+2)/(y-3)\\).", "type": "mcq", "accepted": [], "diagram": null}, {"n": 46, "topic": "Inverse restricted quadratic", "q": "Given \\(f(x)=2(x-3)^2-5\\), \\(x\\ge3\\), find \\(f^{-1}(x)\\), its domain and range.", "options": ["\\(\\text{No real solution}\\)", "\\(\\text{All real }x\\)", "\\(f^{-1}(x)=3+\\sqrt{\\frac{x+5}{2}}\\); domain \\(x\\ge-5\\), range \\(x\\ge3\\).", "\\(\\text{None of these}\\)"], "correct": 2, "answer": "\\(f^{-1}(x)=3+\\sqrt{\\frac{x+5}{2}}\\); domain \\(x\\ge-5\\), range \\(x\\ge3\\).", "explanation": "Solve \\(y+5=2(x-3)^2\\). Since original \\(x\\ge3\\), choose the positive square root.", "type": "mcq", "accepted": [], "diagram": null}, {"n": 47, "topic": "Inverse + composite", "q": "Let \\(f(x)=3x-4\\) and \\(g(x)=\\frac{x+2}{5}\\). Find \\(f^{-1}g^{-1}(x)\\) and simplify.", "options": ["\\(f^{-1}g^{-1}(x)=\\frac{5x-2}{3}\\).", "\\(\\text{No real solution}\\)", "\\(f^{-1}g^{-1}(x)=\\frac{5x+3}{3}\\).", "\\(f^{-1}g^{-1}(x)=\\frac{5x+2}{3}\\)."], "correct": 3, "answer": "\\(f^{-1}g^{-1}(x)=\\frac{5x+2}{3}\\).", "explanation": "\\(g^{-1}(x)=5x-2\\) and \\(f^{-1}(x)=(x+4)/3\\). Hence \\(f^{-1}(g^{-1}(x))=(5x-2+4)/3=(5x+2)/3\\).", "type": "mcq", "accepted": [], "diagram": null}, {"n": 48, "topic": "Inverse + equation", "q": "Let \\(f(x)=\\frac{2x-1}{x+3}\\). Solve \\(f^{-1}(x)=4\\) without first finding the full inverse.", "options": ["\\(x=1\\).", "\\(x=-1\\).", "\\(\\text{No real solution}\\)", "\\(\\text{All real }x\\)"], "correct": 0, "answer": "\\(x=1\\).", "explanation": "If \\(f^{-1}(x)=4\\), apply \\(f\\) to both sides: \\(x=f(4)=(8-1)/(4+3)=1\\).", "type": "typed", "accepted": ["1"], "diagram": null}, {"n": 49, "topic": "Inverse + fixed point", "q": "For \\(f(x)=\\frac{x+6}{x-2}\\), find \\(f^{-1}(x)\\), then find all points where \\(y=f(x)\\) meets \\(y=f^{-1}(x)\\).", "options": ["\\(\\text{No real solution}\\)", "\\(f^{-1}(x)=\\frac{2x+6}{x-1}\\). The intersections are \\(\\left(\\frac{3+\\sqrt{33}}2,\\frac{3+\\sqrt{33}}2\\right)\\) and \\(\\left(\\frac{3-\\sqrt{33}}2,\\frac{3-\\sqrt{33}}2\\right)\\).", "\\(f^{-1}(x)=\\frac{2x-6}{x-1}\\). The intersections are \\(\\left(\\frac{3+\\sqrt{33}}2,\\frac{3+\\sqrt{33}}2\\right)\\) and \\(\\left(\\frac{3-\\sqrt{33}}2,\\frac{3-\\sqrt{33}}2\\right)\\).", "\\(\\text{All real }x\\)"], "correct": 1, "answer": "\\(f^{-1}(x)=\\frac{2x+6}{x-1}\\). The intersections are \\(\\left(\\frac{3+\\sqrt{33}}2,\\frac{3+\\sqrt{33}}2\\right)\\) and \\(\\left(\\frac{3-\\sqrt{33}}2,\\frac{3-\\sqrt{33}}2\\right)\\).", "explanation": "Invert: \\(y(x-2)=x+6\\Rightarrow x(y-1)=2y+6\\), so \\(f^{-1}(x)=\\frac{2x+6}{x-1}\\). For intersections, solve \\(f(x)=f^{-1}(x)\\): \\(\\frac{x+6}{x-2}=\\frac{2x+6}{x-1}\\), giving \\(x^2-3x-6=0\\). At these roots, \\(f(x)=x\\), so the points are \\(\\left(\\frac{3\\pm\\sqrt{33}}2,\\frac{3\\pm\\sqrt{33}}2\\right)\\).", "type": "mcq", "accepted": [], "diagram": null}, {"n": 50, "topic": "Inverse graph + intercepts", "q": "For \\(f(x)=(x+2)^2-1,\\ x\\ge-2\\), find \\(f^{-1}\\) and all axis intercepts of both graphs.", "options": ["\\(\\text{No real solution}\\)", "\\(f^{-1}(x)=-3+\\sqrt{x+1}\\). For \\(f\\): x-intercept \\((-1,0)\\), y-intercept \\((0,3)\\). For inverse: x-intercept \\((3,0)\\), y-intercept \\((0,-1)\\).", "\\(f^{-1}(x)=-2+\\sqrt{x+1}\\). For \\(f\\): x-intercept \\((-1,0)\\), y-intercept \\((0,3)\\). For inverse: x-intercept \\((3,0)\\), y-intercept \\((0,-1)\\).", "\\(f^{-1}(x)=-2-\\sqrt{x+1}\\). For \\(f\\): x-intercept \\((-1,0)\\), y-intercept \\((0,3)\\). For inverse: x-intercept \\((3,0)\\), y-intercept \\((0,-1)\\)."], "correct": 2, "answer": "\\(f^{-1}(x)=-2+\\sqrt{x+1}\\). For \\(f\\): x-intercept \\((-1,0)\\), y-intercept \\((0,3)\\). For inverse: x-intercept \\((3,0)\\), y-intercept \\((0,-1)\\).", "explanation": "Invert using the positive square root. Intercepts of inverse are coordinate-swaps of the original intercepts: \\((-1,0)\\leftrightarrow(0,-1)\\) and \\((0,3)\\leftrightarrow(3,0)\\).", "type": "mcq", "accepted": [], "diagram": {"kind": "quad_inverse2", "label": "f(x) = (x + 2)² − 1 and its inverse"}}, {"n": 51, "topic": "Mixed composite + inverse", "q": "Let \\(f(x)=2x+3\\) and \\(g(x)=x^2\\), \\(x\\ge0\\). Find \\((fg)^{-1}(x)\\) and state its domain.", "options": ["\\(\\text{No real solution}\\)", "\\((fg)^{-1}(x)=\\sqrt{\\frac{x-3}{2}}\\), domain \\(x\\le3\\).", "\\((fg)^{-1}(x)=\\sqrt{\\frac{x-3}{3}}\\), domain \\(x\\ge3\\).", "\\((fg)^{-1}(x)=\\sqrt{\\frac{x-3}{2}}\\), domain \\(x\\ge3\\)."], "correct": 3, "answer": "\\((fg)^{-1}(x)=\\sqrt{\\frac{x-3}{2}}\\), domain \\(x\\ge3\\).", "explanation": "\\(fg(x)=2x^2+3\\) for \\(x\\ge0\\), so its range is \\(x\\ge3\\). Solve \\(y=2x^2+3\\) with \\(x\\ge0\\).", "type": "mcq", "accepted": [], "diagram": null}, {"n": 52, "topic": "Mixed inverse identity", "q": "Let \\(f(x)=4x-7\\) and \\(g(x)=\\frac{x+7}{4}\\). Prove algebraically that \\(g=f^{-1}\\).", "options": ["\\(fg(x)=gf(x)=x\\), so \\(g=f^{-1}\\).", "\\(\\text{No real solution}\\)", "\\(\\text{All real }x\\)", "\\(fg(x)=gf(x)=x\\), so \\(g=f^{1}\\)."], "correct": 0, "answer": "\\(fg(x)=gf(x)=x\\), so \\(g=f^{-1}\\).", "explanation": "\\(f(g(x))=4((x+7)/4)-7=x\\). Also \\(g(f(x))=((4x-7)+7)/4=x\\).", "type": "mcq", "accepted": [], "diagram": null}, {"n": 53, "topic": "Range + inverse", "q": "Let \\(f(x)=x^2-6x+11\\), \\(x\\ge3\\). Find the range of \\(f\\), then find \\(f^{-1}\\).", "options": ["Range \\(f(x)\\le2\\); \\(f^{-1}(x)=3+\\sqrt{x-2}\\).", "Range \\(f(x)\\ge2\\); \\(f^{-1}(x)=3+\\sqrt{x-2}\\).", "Range \\(f(x)\\ge2\\); \\(f^{-1}(x)=3-\\sqrt{x-2}\\).", "\\(\\text{No real solution}\\)"], "correct": 1, "answer": "Range \\(f(x)\\ge2\\); \\(f^{-1}(x)=3+\\sqrt{x-2}\\).", "explanation": "Complete square: \\(f=(x-3)^2+2\\). On \\(x\\ge3\\), minimum is 2. Inverting gives \\(x=3+\\sqrt{y-2}\\).", "type": "mcq", "accepted": [], "diagram": null}, {"n": 54, "topic": "Composite + inverse equation", "q": "Let \\(f(x)=2x-5\\) and \\(g(x)=x^2+1,\\ x\\ge0\\). Solve \\(g^{-1}f(x)=3\\).", "options": ["\\(x=\\frac{14}{2}\\).", "\\(x=\\frac{-15}{2}\\).", "\\(x=\\frac{15}{2}\\).", "\\(x=\\frac{15}{3}\\)."], "correct": 2, "answer": "\\(x=\\frac{15}{2}\\).", "explanation": "\\(g^{-1}(u)=\\sqrt{u-1}\\). Thus \\(\\sqrt{(2x-5)-1}=3\\Rightarrow2x-6=9\\Rightarrow x=15/2\\).", "type": "typed", "accepted": ["15/2", "7.5"], "diagram": null}, {"n": 55, "topic": "Three-step composite", "q": "Let \\(f(x)=\\frac1x\\), \\(g(x)=x-2\\), \\(h(x)=x^2+1\\). Find \\(fgh(x)\\), its domain, and solve \\(fgh(x)=\\frac12\\).", "options": ["\\(fgh(x)=1/(x^2+1)\\), domain \\(x\\ne\\pm1\\); solutions \\(x=\\pm\\sqrt3\\).", "\\(fgh(x)=1/(x^2-1)\\), domain \\(x=\\pm1\\); solutions \\(x=\\pm\\sqrt3\\).", "\\(fgh(x)=1/(x^3-1)\\), domain \\(x\\ne\\pm1\\); solutions \\(x=\\pm\\sqrt3\\).", "\\(fgh(x)=1/(x^2-1)\\), domain \\(x\\ne\\pm1\\); solutions \\(x=\\pm\\sqrt3\\)."], "correct": 3, "answer": "\\(fgh(x)=1/(x^2-1)\\), domain \\(x\\ne\\pm1\\); solutions \\(x=\\pm\\sqrt3\\).", "explanation": "\\(h(x)=x^2+1\\), \\(g(h)=x^2-1\\), then \\(f=1/(x^2-1)\\). Set equal to \\(1/2\\): \\(x^2-1=2\\).", "type": "mcq", "accepted": [], "diagram": null}, {"n": 56, "topic": "Modulus + composite", "q": "Let \\(f(x)=|x-2|\\) and \\(g(x)=3x+1\\). Solve \\(fg(x)=7\\).", "options": ["\\(x=\\frac83\\) or \\(x=-2\\).", "\\(x=\\frac83\\) or \\(x=+2\\).", "\\(x=\\frac83\\) or \\(x=-3\\).", "\\(x=\\frac82\\) or \\(x=-2\\)."], "correct": 0, "answer": "\\(x=\\frac83\\) or \\(x=-2\\).", "explanation": "\\(fg(x)=|3x+1-2|=|3x-1|\\). Set \\(3x-1=7\\) or \\(-7\\).", "type": "mcq", "accepted": [], "diagram": null}, {"n": 57, "topic": "Modulus + inverse", "q": "Let \\(f(x)=|2x-6|\\) with domain \\(x\\ge3\\). Explain why \\(f^{-1}\\) exists and find it.", "options": ["\\(f^{-1}(x)=\\frac{x+6}{2}=\\frac x2+3,\\ x\\le0\\).", "\\(f^{-1}(x)=\\frac{x+6}{2}=\\frac x2+3,\\ x\\ge0\\).", "\\(f^{-1}(x)=\\frac{x-6}{2}=\\frac x2+3,\\ x\\ge0\\).", "\\(\\text{No real solution}\\)"], "correct": 1, "answer": "\\(f^{-1}(x)=\\frac{x+6}{2}=\\frac x2+3,\\ x\\ge0\\).", "explanation": "On \\(x\\ge3\\), \\(2x-6\\ge0\\), so \\(f(x)=2x-6\\), which is one-one. Its range is \\(x\\ge0\\). Invert the linear rule.", "type": "mcq", "accepted": [], "diagram": {"kind": "abs_restricted", "label": "f(x) = |2x − 6|, x ≥ 3"}}, {"n": 58, "topic": "Parameter + inverse", "q": "The function \\(f(x)=ax+4\\), \\(a\\ne0\\), satisfies \\(f^{-1}(10)=2\\). Find \\(a\\), then find \\(f^{-1}(x)\\).", "options": ["\\(a=2\\); \\(f^{-1}(x)=\\frac{x-4}{3}\\).", "\\(a=3\\); \\(f^{-1}(x)=\\frac{x-5}{3}\\).", "\\(a=3\\); \\(f^{-1}(x)=\\frac{x-4}{3}\\).", "\\(\\text{No real solution}\\)"], "correct": 2, "answer": "\\(a=3\\); \\(f^{-1}(x)=\\frac{x-4}{3}\\).", "explanation": "\\(f^{-1}(10)=2\\) means \\(f(2)=10\\). Hence \\(2a+4=10\\Rightarrow a=3\\).", "type": "mcq", "accepted": [], "diagram": null}, {"n": 59, "topic": "Parameter + composite", "q": "Given \\(f(x)=kx+1\\), \\(g(x)=2x-3\\), and \\(fg(4)=26\\), find \\(k\\). Then solve \\(gf(x)=15\\).", "options": ["\\(k=4\\); \\(x=\\frac85\\).", "\\(\\text{No real solution}\\)", "\\(\\text{All real }x\\)", "\\(k=5\\); \\(x=\\frac85\\)."], "correct": 3, "answer": "\\(k=5\\); \\(x=\\frac85\\).", "explanation": "\\(g(4)=5\\), so \\(f(5)=5k+1=26\\Rightarrow k=5\\). Then \\(gf(x)=g(5x+1)=10x-1\\). Set \\(10x-1=15\\), giving \\(x=8/5\\).", "type": "typed", "accepted": ["5,8/5", "k=5,x=8/5", "5;8/5"], "diagram": null}, {"n": 60, "topic": "Full mixed problem", "q": "Let \\(f(x)=x^2-4x+7\\), \\(x\\ge2\\), and \\(g(x)=2x-1\\). (a) Find the range of \\(f\\). (b) Find \\(f^{-1}(x)\\). (c) Find \\(f^{-1}g(x)\\). (d) Solve \\(f^{-1}g(x)=5\\).", "options": ["(a) \\(f(x)\\ge3\\). (b) \\(f^{-1}(x)=2+\\sqrt{x-3}\\). (c) \\(2+\\sqrt{2x-4}\\), requiring \\(x\\ge2\\). (d) \\(x=\\frac{13}{2}\\).", "(a) \\(f(x)\\ge3\\). (b) \\(f^{-1}(x)=2-\\sqrt{x-3}\\). (c) \\(2+\\sqrt{2x-4}\\), requiring \\(x\\ge2\\). (d) \\(x=\\frac{13}{2}\\).", "\\(\\text{No real solution}\\)", "(a) \\(f(x)\\le3\\). (b) \\(f^{-1}(x)=2+\\sqrt{x-3}\\). (c) \\(2+\\sqrt{2x-4}\\), requiring \\(x\\ge2\\). (d) \\(x=\\frac{13}{2}\\)."], "correct": 0, "answer": "(a) \\(f(x)\\ge3\\). (b) \\(f^{-1}(x)=2+\\sqrt{x-3}\\). (c) \\(2+\\sqrt{2x-4}\\), requiring \\(x\\ge2\\). (d) \\(x=\\frac{13}{2}\\).", "explanation": "\\(f=(x-2)^2+3\\). Invert using the positive root. Then \\(f^{-1}(g(x))=2+\\sqrt{(2x-1)-3}=2+\\sqrt{2x-4}\\). Set equal to 5: \\(\\sqrt{2x-4}=3\\Rightarrow2x=13\\).", "type": "mcq", "accepted": [], "diagram": null}];
+const M=(n,topic,q,options,correct,answer,explanation)=>({n,topic,q,options,correct,answer,explanation,type:'mcq',accepted:[],diagram:null});
+const T=(n,topic,q,answer,explanation,accepted=[answer])=>({n,topic,q,options:[],correct:0,answer,explanation,type:'typed',accepted,diagram:null});
+qs.splice(0,qs.length,...[
+ M(1,'Polynomial operations','Simplify: \\(3x+5x\\).',['8','\\(8x\\)','15x','2x'],1,'\\(8x\\)','Combine like terms: \\(3x+5x=8x\\).'),
+ M(2,'Polynomial operations','Simplify: \\(7x^2-3x^2\\).',['\\(4x^2\\)','10x^2','4x','21x^2'],0,'\\(4x^2\\)','Subtract the coefficients of the like terms.'),
+ M(3,'Expansion','Expand: \\(x(x+4)\\).',['\\(x^2+4\\)','\\(x^2+4x\\)','2x+4','\\(x^2+x+4\\)'],1,'\\(x^2+4x\\)','Distribute \\(x\\) across the bracket.'),
+ M(4,'Expansion','Expand: \\((x+2)(x+3)\\).',['\\(x^2+5x+6\\)','\\(x^2+6x+5\\)','\\(x^2+5\\)','\\(x^2+6\\)'],0,'\\(x^2+5x+6\\)','Multiply each term and collect like terms.'),
+ M(5,'Factors','Which is a factor of \\(x^2-9\\)?',['x+2','x-2','x+3','x+4'],2,'\\(x+3\\)','Use difference of squares: \\(x^2-9=(x-3)(x+3)\\).'),
+ M(6,'Factorisation','Factorise: \\(x^2+5x\\).',['\\(x(x+5)\\)','\\(x(x-5)\\)','5(x+1)','\\(x^2(5+x)\\)'],0,'\\(x(x+5)\\)','Take out the common factor \\(x\\).'),
+ M(7,'Function values','If \\(f(x)=x^2+2x+3\\), find \\(f(1)\\).',['4','5','6','7'],2,'6','Substitute \\(x=1\\): \\(1+2+3=6\\).'),
+ M(8,'Function values','If \\(f(x)=2x+5\\), find \\(f(3)\\).',['8','10','11','15'],2,'11','Substitute \\(x=3\\): \\(2(3)+5=11\\).'),
+ M(9,'Polynomial degree','The degree of \\(4x^3-2x+7\\) is:',['1','2','3','4'],2,'3','The highest power of \\(x\\) is 3.'),
+ M(10,'Polynomial degree','Which is a cubic polynomial?',['\\(x^2+3x+1\\)','\\(x^3-2x+5\\)','5x+1','\\(x^4+2\\)'],1,'\\(x^3-2x+5\\)','A cubic polynomial has degree 3.'),
+ M(11,'Factor theorem','If \\(x-2\\) is a factor of \\(f(x)\\), then:',['\\(f(0)=2\\)','\\(f(2)=0\\)','\\(f(-2)=0\\)','\\(f(2)=2\\)'],1,'\\(f(2)=0\\)','By the factor theorem, the corresponding root is \\(x=2\\).'),
+ M(12,'Remainder theorem','Find the remainder when \\(x^2+3x+1\\) is divided by \\(x-1\\).',['1','3','5','6'],2,'5','The remainder is \\(f(1)=1+3+1=5\\).'),
+ M(13,'Polynomial operations','Simplify: \\((5x^2+3x)-(2x^2+x)\\).',['\\(3x^2+2x\\)','\\(7x^2+4x\\)','\\(3x^2+4x\\)','\\(7x^2+2x\\)'],0,'\\(3x^2+2x\\)','Subtract corresponding coefficients.'),
+ M(14,'Expansion','Expand: \\((x-4)(x+4)\\).',['\\(x^2+16\\)','\\(x^2-8x+16\\)','\\(x^2-16\\)','\\(x^2+8x-16\\)'],2,'\\(x^2-16\\)','Use difference of squares.'),
+ M(15,'Quadratic roots','Which number is a root of \\(x^2-5x+6=0\\)?',['1','2','4','5'],1,'2','Factorise as \\((x-2)(x-3)=0\\).'),
+ T(16,'Polynomial operations','Simplify: \\((3x^2+4x+2)+(2x^2-x+5)\\).','\\(5x^2+3x+7\\)','Add like terms.'),
+ T(17,'Expansion','Expand: \\((x+5)(x-2)\\).','\\(x^2+3x-10\\)','Multiply the two binomials.'),
+ T(18,'Factorisation','Factorise completely: \\(x^2-7x+12\\).','\\((x-3)(x-4)\\)','Find two numbers with product 12 and sum -7.'),
+ T(19,'Function values','Given \\(f(x)=x^3+2x^2-x+4\\), calculate \\(f(2)\\).','18','Substitute 2: \\(8+8-2+4=18\\).'),
+ T(20,'Remainder theorem','Find the remainder when \\(2x^2+5x-3\\) is divided by \\(x-2\\).','15','Evaluate the polynomial at \\(x=2\\): \\(8+10-3=15\\).'),
+ M(21,'Polynomial operations','Simplify: \\((4x^3-2x^2+5x)-(x^3+3x^2-2x)\\).',['\\(3x^3-5x^2+7x\\)','\\(5x^3+x^2+3x\\)','\\(3x^3+x^2+3x\\)','\\(3x^3-5x^2+3x\\)'],0,'\\(3x^3-5x^2+7x\\)','Distribute the subtraction and combine like terms.'),
+ M(22,'Expansion','Expand: \\((2x-3)(x^2+x+4)\\).',['\\(2x^3-x^2+5x-12\\)','\\(2x^3-x^2+8x-12\\)','\\(2x^3+5x^2+5x-12\\)','\\(2x^3-x^2+11x-12\\)'],0,'\\(2x^3-x^2+5x-12\\)','Multiply \\(2x\\) and \\(-3\\) through the trinomial.'),
+ M(23,'Factor theorem','Which polynomial is divisible by \\(x-3\\)?',['\\(x^2-2x+3\\)','\\(x^2-5x+6\\)','\\(x^2+3x+1\\)','\\(x^2-4x+2\\)'],1,'\\(x^2-5x+6\\)','Substitution of \\(x=3\\) gives zero.'),
+ M(24,'Function values','If \\(f(x)=x^3-4x^2+x+6\\), then \\(f(2)\\) equals:',['-4','0','2','4'],1,'0','Evaluate: \\(8-16+2+6=0\\).'),
+ M(25,'Factors','Which is a factor of \\(x^3-6x^2+11x-6\\)?',['x+1','x-1','x+4','x-5'],1,'\\(x-1\\)','The value at \\(x=1\\) is zero.'),
+ M(26,'Factorisation','Factorise: \\(x^3-4x^2-x+4\\).',['\\((x-4)(x-1)(x+1)\\)','\\((x+4)(x-1)(x+1)\\)','\\((x-2)^2(x+1)\\)','\\(x(x-4)(x+1)\\)'],0,'\\((x-4)(x-1)(x+1)\\)','Group terms: \\(x^2(x-4)-(x-4)\\).'),
+ M(27,'Remainder theorem','Find the remainder when \\(x^3+2x^2-5x+1\\) is divided by \\(x+2\\).',['-1','3','7','11'],3,'11','Evaluate at \\(x=-2\\): \\(-8+8+10+1=11\\).'),
+ M(28,'Factor theorem','If \\(x+3\\) is a factor of \\(f(x)\\), then:',['\\(f(3)=0\\)','\\(f(-3)=0\\)','\\(f(0)=-3\\)','\\(f(-3)=3\\)'],1,'\\(f(-3)=0\\)','The corresponding root is \\(x=-3\\).'),
+ M(29,'Factor theorem','If \\(x^3+ax^2-4x+6\\) has factor \\(x-2\\), find \\(a\\).',['-1','-2','-3','-4'],0,'-1','Set \\(f(2)=8+4a-8+6=0\\), so \\(a=-1\\).'),
+ M(30,'Remainder theorem','If the remainder when \\(f(x)\\) is divided by \\(x-4\\) is 7, then:',['\\(f(4)=7\\)','\\(f(-4)=7\\)','\\(f(7)=4\\)','\\(f(4)=0\\)'],0,'\\(f(4)=7\\)','The remainder theorem gives remainder \\(f(4)\\).'),
+ M(31,'Polynomial division','Divide \\(x^2+5x+6\\) by \\(x+2\\).',['x+2','x+3','x+4','x-3'],1,'x+3','Since \\(x^2+5x+6=(x+2)(x+3)\\).'),
+ M(32,'Polynomial division','Divide \\(2x^2+7x+3\\) by \\(x+3\\).',['2x+1','2x+3','x+1','2x-1'],0,'2x+1','Multiply \\(x+3\\) by \\(2x+1\\).'),
+ M(33,'Factorisation','Which gives the complete factorisation of \\(x^3-9x\\)?',['\\(x(x-9)\\)','\\(x(x-3)(x+3)\\)','\\((x-3)(x+3)\\)','\\(x(x-3)^2\\)'],1,'\\(x(x-3)(x+3)\\)','Take out \\(x\\), then factor the difference of squares.'),
+ M(34,'Cubic equations','Solve: \\(x^3-4x=0\\).',['x=0,2','x=-2,2','x=-2,0,2','x=0,4'],2,'x=-2,0,2','Factor as \\(x(x-2)(x+2)=0\\).'),
+ M(35,'Cubic equations','Which is a root of \\(2x^3-3x^2-8x+12=0\\)?',['x=1','x=2','x=3','x=4'],1,'x=2','Substitution of \\(x=2\\) gives zero.'),
+ M(36,'Factor theorem','If \\(x-1\\) is a factor of \\(x^3+kx^2-5x+3\\), find \\(k\\).',['-1','0','1','2'],2,'1','Set \\(f(1)=1+k-5+3=0\\), giving \\(k=1\\).'),
+ M(37,'Remainder theorem','The remainder when \\(2x^3-x^2+4x-5\\) is divided by \\(x-1\\) is:',['-2','0','2','4'],1,'0','Evaluate at 1: \\(2-1+4-5=0\\).'),
+ M(38,'Remainder theorem','The remainder when \\(x^3-2x+5\\) is divided by \\(x+1\\) is:',['4','5','6','8'],2,'6','Evaluate at \\(x=-1\\): \\(-1+2+5=6\\).'),
+ M(39,'Factor theorem','If \\(f(x)=x^3+px+q\\) and \\(f(1)=0\\), then:',['\\(1+p+q=0\\)','\\(p+q=1\\)','\\(p-q=0\\)','\\(1-p-q=0\\)'],0,'\\(1+p+q=0\\)','Substitute \\(x=1\\) into \\(f(x)\\).'),
+ M(40,'Polynomial division','Which is the quotient of \\(x^3-8\\) divided by \\(x-2\\)?',['\\(x^2+2x+4\\)','\\(x^2-2x+4\\)','\\(x^2+4\\)','\\(x^2+4x+4\\)'],0,'\\(x^2+2x+4\\)','Use the difference of cubes identity.'),
+ M(41,'Difference of cubes','Factorise: \\(8x^3-27\\).',['\\((2x-3)(4x^2+6x+9)\\)','\\((2x+3)(4x^2-6x+9)\\)','\\((2x-3)(4x^2-6x+9)\\)','\\((8x-27)(x^2+1)\\)'],0,'\\((2x-3)(4x^2+6x+9)\\)','Use \\(a^3-b^3=(a-b)(a^2+ab+b^2)\\).'),
+ M(42,'Factor theorem','If \\(x^3-5x^2+mx+6\\) has factor \\(x-3\\), find \\(m\\).',['2','4','6','8'],1,'4','Set \\(f(3)=27-45+3m+6=0\\), so \\(m=4\\).'),
+ M(43,'Remainder theorem','Find the remainder when \\(3x^3-2x^2+x-7\\) is divided by \\(x-2\\).',['7','9','11','13'],2,'11','Evaluate at 2: \\(24-8+2-7=11\\).'),
+ M(44,'Factors','If \\(x+1\\) and \\(x-2\\) are factors of a cubic polynomial, which expression must divide it?',['\\(x^2-x-2\\)','\\(x^2+x-2\\)','\\(x^2-3x+2\\)','\\(x^2+3x+2\\)'],0,'\\(x^2-x-2\\)','Multiply the two known factors.'),
+ M(45,'Cubic equations','Solve: \\(x^3-2x^2-5x+6=0\\).',['x=-3,1,2','x=-2,1,3','x=-1,2,3','x=-3,-1,2'],1,'x=-2,1,3','The polynomial factors as \\((x+2)(x-1)(x-3)\\).'),
+ T(46,'Polynomial operations','Simplify: \\((5x^3-3x^2+4x-7)+(2x^3+6x^2-x+5)\\).','\\(7x^3+3x^2+3x-2\\)','Add like terms.'),
+ T(47,'Polynomial operations','Simplify: \\((7x^3+2x^2-5x+4)-(3x^3-4x^2+2x-6)\\).','\\(4x^3+6x^2-7x+10\\)','Distribute the subtraction before combining terms.'),
+ T(48,'Expansion','Expand completely: \\((2x-3)(x^2+4x-5)\\).','\\(2x^3+5x^2-22x+15\\)','Multiply both terms through the trinomial.'),
+ T(49,'Expansion','Expand completely: \\((x-2)(x+3)(x-4)\\).','\\(x^3-3x^2-10x+24\\)','First multiply two brackets, then multiply by the third.'),
+ T(50,'Polynomial division','Divide \\(x^3+2x^2-5x-6\\) by \\(x+3\\).','\\(x^2-x-2\\)','Synthetic division with root -3 gives the quotient.'),
+ T(51,'Polynomial division','Divide \\(2x^3-3x^2-8x+12\\) by \\(x-2\\).','\\(2x^2+x-6\\)','Synthetic division with root 2 gives the quotient.'),
+ T(52,'Factor theorem','Use the factor theorem to determine whether \\(x-3\\) is a factor of \\(2x^3-7x^2+4x+3\\).','No, because f(3)=6','Evaluate at 3: \\(54-63+12+3=6\\), not zero.',['No, because f(3)=6','No']),
+ T(53,'Factor theorem','Find \\(k\\) if \\(x-2\\) is a factor of \\(x^3+kx^2-2x-8\\).','k=1','Set \\(f(2)=8+4k-4-8=0\\).'),
+ T(54,'Factor theorem','Find \\(a\\) if \\(x+2\\) is a factor of \\(2x^3+ax^2-5x+6\\).','a=0','Set \\(f(-2)=-16+4a+10+6=0\\).'),
+ T(55,'Factorisation','Factorise completely: \\(x^3-4x^2-x+4\\).','\\((x-4)(x-1)(x+1)\\)','Group terms and then factor the difference of squares.'),
+ T(56,'Cubic equations','Solve: \\(x^3-6x^2+11x-6=0\\).','x=1,2,3','Factor as \\((x-1)(x-2)(x-3)=0\\).'),
+ T(57,'Cubic equations','Solve: \\(2x^3-5x^2-4x+3=0\\).','x=3,\\frac12,-1','Factor as \\((x-3)(2x-1)(x+1)=0\\).',['3,1/2,-1','3, 1/2, -1','-1,1/2,3']),
+ T(58,'Remainder theorem','Find the remainder when \\(3x^4-2x^3+5x^2-x+4\\) is divided by \\(x-2\\).','46','Evaluate at \\(x=2\\).'),
+ T(59,'Remainder theorem','Find the remainder when \\(2x^4+x^3-3x^2+5x-7\\) is divided by \\(x+2\\).','3','Evaluate at \\(x=-2\\).'),
+ T(60,'Factor theorem','A polynomial \\(f(x)=x^3+ax^2+bx+6\\) has factors \\(x-2\\) and \\(x+1\\). Find \\(a\\) and \\(b\\).','a=-4, b=1','Use \\(f(2)=0\\) and \\(f(-1)=0\\) to solve the simultaneous equations.',['a=-4,b=1','a=-4, b=1','-4,1'])
+]);
+let current=0,score=0,currentStreak=0,timerId=null;
+const state=qs.map(()=>({selected:null,text:'',checked:false,correct:false}));
+const QUESTION_SECONDS=180;
+const timeLeft=qs.map(()=>QUESTION_SECONDS);
+const letters=['A','B','C','D'];
+function difficulty(n){return n<=20?'Easy':'Hard'}
+function typeset(){if(window.MathJax?.typesetPromise)MathJax.typesetPromise();}
+function setSidePanel(open){
+ const panel=document.getElementById('sidePanel'),tab=document.getElementById('sidePanelShow');
+ panel.classList.toggle('open',open);tab.classList.toggle('tabHidden',open);
+ tab.setAttribute('aria-expanded',open?'true':'false');
+ document.body.classList.toggle('side-panel-open',open);
+}
+function showSideControls(){
+ document.getElementById('sideControls').classList.remove('hidden');
+ setSidePanel(window.innerWidth>=1280);
+}
+function hideSideControls(){
+ document.getElementById('sideControls').classList.add('hidden');
+ setSidePanel(false);
+}
+function stopCountdown(){if(timerId!==null){clearInterval(timerId);timerId=null}}
+function formatTime(seconds){return `${Math.floor(seconds/60)}:${String(seconds%60).padStart(2,'0')}`}
+function buildSideNavigator(){
+ const grid=document.getElementById('sideNavigatorGrid');grid.innerHTML='';
+ qs.forEach((question,index)=>{
+  if(index===0||index===20){const label=document.createElement('div');label.className='sideSectionLabel';label.textContent=index===0?'Easy (1–20)':'Hard (21–60)';grid.appendChild(label)}
+  const button=document.createElement('button');button.type='button';button.className='sideNavQ';button.textContent=index+1;
+  button.setAttribute('aria-label',`Go to question ${index+1}: ${question.topic}`);button.onclick=()=>jumpToQuestion(index);grid.appendChild(button);
+ });
+}
+function updateSidePanel(){
+ const seconds=timeLeft[current],ring=document.getElementById('timerRing');
+ document.getElementById('timerText').textContent=formatTime(seconds);
+ ring.style.setProperty('--p',Math.max(0,seconds/QUESTION_SECONDS*100));
+ ring.classList.toggle('warn',seconds<=60&&seconds>15);ring.classList.toggle('danger',seconds<=15);
+ document.getElementById('timerSub').textContent=state[current].checked?'Question completed.':seconds<=30?'Time is almost up.':'Time to work on this question.';
+ document.getElementById('streakCount').textContent=currentStreak;
+ const grid=document.getElementById('sideNavigatorGrid');if(!grid.childElementCount)buildSideNavigator();
+ [...grid.querySelectorAll('.sideNavQ')].forEach((button,index)=>{
+  const questionState=state[index];button.className='sideNavQ';
+  if(questionState.checked)button.classList.add(questionState.correct?'done':'wrong');
+  else if(questionState.selected!==null||questionState.text)button.classList.add('unchecked');
+  if(index===current)button.classList.add('current');
+ });
+}
+function startCountdown(){
+ stopCountdown();updateSidePanel();
+ if(state[current].checked||document.getElementById('quiz').style.display==='none'||document.hidden)return;
+ timerId=setInterval(()=>{
+  timeLeft[current]=Math.max(0,timeLeft[current]-1);updateSidePanel();
+  if(timeLeft[current]===0){stopCountdown();expireCurrentQuestion()}
+ },1000);
+}
+function expireCurrentQuestion(){
+ const q=qs[current],st=state[current];if(st.checked)return;
+ if(q.type==='typed'){const input=document.getElementById('typedInput');if(input)st.text=input.value;st.correct=typedCorrect(q,st.text)}
+ else st.correct=st.selected===q.correct;
+ st.checked=true;st.timedOut=true;
+ if(st.correct){score++;currentStreak++}else currentStreak=0;
+ render();
+}
+function norm(s){return (s||'').toLowerCase().replace(/\s+/g,'').replace(/−/g,'-').replace(/×/g,'*').replace(/[{}\\]/g,'').replace(/\$/g,'');}
+function typedCorrect(q,val){
+ if(!val.trim())return false;
+ let n=norm(val);
+ if(q.accepted.some(a=>norm(a)===n))return true;
+ // also compare with displayed answer after stripping common TeX wrappers
+ let ans=norm(q.answer).replace(/\(|\)/g,'').replace(/frac/g,'');
+ return n===ans;
+}
+function render(){
+ stopCountdown();
+ const q=qs[current],st=state[current];
+ document.getElementById('count').textContent=`Question ${current+1} of ${qs.length}`;
+ document.getElementById('score').textContent=`Score: ${score}`;
+ document.getElementById('fill').style.width=`${(current+1)/qs.length*100}%`;
+ document.getElementById('badge').textContent=`${difficulty(q.n)} • ${q.topic}`;
+ document.getElementById('type').textContent=q.type==='mcq'?'MCQ':'Calculate & type';
+ document.getElementById('question').textContent=q.q;
+ renderDiagram(q);
+ const r=document.getElementById('response');r.innerHTML='';
+ if(q.type==='mcq'){
+  let box=document.createElement('div');box.className='options';
+  q.options.forEach((o,i)=>{
+   let b=document.createElement('button');b.className='option';
+   if(st.selected===i)b.classList.add('selected');
+   if(st.checked&&i===q.correct)b.classList.add('correct');
+   if(st.checked&&st.selected===i&&i!==q.correct)b.classList.add('wrong');
+   b.disabled=st.checked;b.innerHTML=`<span class="letter">${letters[i]}</span>${o}`;
+   b.onclick=()=>{st.selected=i;render()};box.appendChild(b);
+  });r.appendChild(box);
+ }else{
+  r.innerHTML=`<div class="answerbox"><input id="typedInput" aria-label="Type your answer" placeholder="Type your calculated answer" value="${htmlEscape(st.text)}" ${st.checked?'disabled':''}></div>
+  <div class="hint">Calculate first, then type your final answer. For two solutions, separate them with a comma (for example: 2, -1).</div>`;
+  const inp=document.getElementById('typedInput');
+  if(inp)inp.oninput=e=>{st.text=e.target.value;document.getElementById('check').disabled=!st.text.trim();updateSidePanel()};
+ }
+ const fb=document.getElementById('feedback');
+ if(st.checked){
+  fb.className='feedback show '+(st.correct?'good':'bad');
+  fb.innerHTML=`<strong>${st.timedOut?'Time expired.':st.correct?'Correct.':'Incorrect.'}</strong><br><strong>Answer:</strong> ${htmlEscape(q.answer)}<div><strong>Working:</strong> ${htmlEscape(q.explanation)}</div>`;
+ }else{fb.className='feedback';fb.innerHTML=''}
+ document.getElementById('prev').disabled=current===0;
+ const has=q.type==='mcq'?st.selected!==null:!!st.text.trim();
+ document.getElementById('check').disabled=!has||st.checked;
+ document.getElementById('check').style.display=st.checked?'none':'inline-block';
+ document.getElementById('next').style.display=st.checked?'inline-block':'none';
+ document.getElementById('next').textContent=current===qs.length-1?'Finish':'Next →';
+ typeset();setTimeout(()=>drawDiagram(q),30);startCountdown();
+}
+function htmlEscape(s){return (s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;')}
+function checkAnswer(){
+ let q=qs[current],st=state[current];if(st.checked)return;
+ if(q.type==='typed'){let inp=document.getElementById('typedInput');st.text=inp?inp.value:st.text;st.correct=typedCorrect(q,st.text)}
+ else st.correct=st.selected===q.correct;
+ st.checked=true;st.timedOut=false;if(st.correct){score++;currentStreak++}else currentStreak=0;render();
+}
+function nextQ(){if(current===qs.length-1){showFinal();return}current++;render();scrollTo(0,0)}
+function prevQ(){if(current>0){current--;render();scrollTo(0,0)}}
+function showFinal(){stopCountdown();hideSideControls();document.getElementById('quiz').style.display='none';document.getElementById('final').style.display='block';document.getElementById('finalScore').innerHTML=`Score: <strong>${score}/${qs.length}</strong> (${Math.round(score/qs.length*100)}%)`;buildMap()}
+function restart(){stopCountdown();current=0;score=0;currentStreak=0;timeLeft.fill(QUESTION_SECONDS);state.forEach(s=>Object.assign(s,{selected:null,text:'',checked:false,correct:false,timedOut:false}));document.getElementById('final').style.display='none';document.getElementById('quiz').style.display='block';showSideControls();render()}
+function openMap(){buildMap();document.getElementById('overlay').classList.add('show')}
+function closeMap(){document.getElementById('overlay').classList.remove('show')}
+function jumpToQuestion(index){stopCountdown();current=index;closeMap();document.getElementById('final').style.display='none';document.getElementById('quiz').style.display='block';showSideControls();render();scrollTo(0,0)}
+function buildMap(){
+ const box=document.getElementById('qmap');box.innerHTML='';
+ qs.forEach((q,i)=>{
+  if(i===0||i===20){let l=document.createElement('div');l.className='section-label';l.textContent=i===0?'Easy (1–20)':'Hard (21–60)';box.appendChild(l)}
+  let b=document.createElement('button'),s=state[i];b.textContent=i+1;
+  if(i===current)b.classList.add('current');
+  if(s.checked)b.classList.add(s.correct?'done':'wrong');
+  else if(s.selected!==null||s.text)b.classList.add('unchecked');
+  b.onclick=()=>jumpToQuestion(i);box.appendChild(b)
+ })
+}
+function renderDiagram(q){
+ const d=document.getElementById('diagram');
+ d.innerHTML=q.diagram?`<div class="diagram-wrap"><div class="diagram-title">${q.diagram.label}</div><canvas id="graph" width="760" height="230"></canvas></div>`:'';
+}
+function drawDiagram(q){
+ if(!q.diagram)return;
+ const c=document.getElementById('graph'); if(!c)return;
+ const ctx=c.getContext('2d'), W=c.width, H=c.height;
+ const xmin=-6,xmax=8,ymin=-6,ymax=10;
+ const X=x=>(x-xmin)/(xmax-xmin)*W, Y=y=>H-(y-ymin)/(ymax-ymin)*H;
+ ctx.clearRect(0,0,W,H);
+ ctx.strokeStyle='#e0e3e8';ctx.lineWidth=1;
+ for(let x=Math.ceil(xmin);x<=xmax;x++){ctx.beginPath();ctx.moveTo(X(x),0);ctx.lineTo(X(x),H);ctx.stroke()}
+ for(let y=Math.ceil(ymin);y<=ymax;y++){ctx.beginPath();ctx.moveTo(0,Y(y));ctx.lineTo(W,Y(y));ctx.stroke()}
+ ctx.strokeStyle='#596474';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(X(0),0);ctx.lineTo(X(0),H);ctx.moveTo(0,Y(0));ctx.lineTo(W,Y(0));ctx.stroke();
+ function plot(fn,stroke='#22324a',dash=[]){
+   ctx.strokeStyle=stroke;ctx.lineWidth=3;ctx.setLineDash(dash);ctx.beginPath();let started=false;
+   for(let px=0;px<W;px++){const x=xmin+(xmax-xmin)*px/W,y=fn(x);
+     if(!Number.isFinite(y)||y<ymin-2||y>ymax+2){started=false;continue}
+     if(!started){ctx.moveTo(px,Y(y));started=true}else ctx.lineTo(px,Y(y));
+   }ctx.stroke();ctx.setLineDash([]);
+ }
+ const d=q.diagram;
+ if(d.kind==='abs') plot(x=>Math.abs(d.a*x+d.b));
+ if(d.kind==='abs_hline'){plot(x=>Math.abs(d.a*x+d.b));plot(x=>d.c,'#8b6c32',[8,6]);}
+ if(d.kind==='abs_line'){plot(x=>Math.abs(d.a*x+d.b));plot(x=>d.m*x+d.c,'#8b6c32',[8,6]);}
+ if(d.kind==='inverse_sqrt') plot(x=>x>=1?Math.sqrt(x-1):NaN);
+ if(d.kind==='line_inverse'){plot(x=>d.m*x+d.c);plot(x=>(x-d.c)/d.m,'#5d7b69');plot(x=>x,'#8b6c32',[8,6]);}
+ if(d.kind==='quad_inverse'){
+   plot(x=>x>=d.h?(x-d.h)*(x-d.h)+d.k:NaN);
+   plot(x=>x>=d.k?d.h+Math.sqrt(x-d.k):NaN,'#5d7b69');
+   plot(x=>x,'#8b6c32',[8,6]);
+ }
+ if(d.kind==='quad_inverse2'){
+   plot(x=>x>=-2?(x+2)*(x+2)-1:NaN);
+   plot(x=>x>=-1?-2+Math.sqrt(x+1):NaN,'#5d7b69');
+   plot(x=>x,'#8b6c32',[8,6]);
+ }
+ if(d.kind==='abs_restricted') plot(x=>x>=3?Math.abs(2*x-6):NaN);
+}
+document.getElementById('sidePanelShow').onclick=()=>setSidePanel(true);
+document.getElementById('sidePanelHide').onclick=()=>setSidePanel(false);
+document.addEventListener('visibilitychange',()=>document.hidden?stopCountdown():startCountdown());
+window.addEventListener('resize',()=>{
+ const open=document.getElementById('sidePanel').classList.contains('open');
+ document.body.classList.toggle('side-panel-open',open);
+});
+showSideControls();render();
+</script>
+</body></html>

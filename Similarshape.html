@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Similar Shapes Practice Tool</title>
+<style>
+:root{
+  --bg:#f5f8fb; --card:#ffffff; --ink:#183153; --muted:#6e7f91; --line:#dbe5ee;
+  --blue:#2f6fed; --green:#1f9d68; --red:#d94b4b; --gold:#f2b84b; --soft:#eef4ff;
+  --shadow:0 14px 36px rgba(27,49,79,.10);
+}
+*{box-sizing:border-box}
+body{
+  margin:0; background:linear-gradient(180deg,#f7fbff 0%,#f5f8fb 100%);
+  color:var(--ink); font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+  padding-bottom:5rem;
+}
+button,input,select{font:inherit}
+.app{max-width:1180px;margin:auto;padding:22px}
+.topbar{
+  display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap;
+  margin-bottom:18px;
+}
+.title-wrap h1{margin:0;font-size:clamp(26px,4vw,42px);letter-spacing:-.03em}
+.title-wrap p{margin:7px 0 0;color:var(--muted)}
+.stats{display:flex;gap:10px;flex-wrap:wrap}
+.stat{
+  background:var(--card);border:1px solid var(--line);border-radius:16px;padding:10px 14px;
+  box-shadow:var(--shadow);min-width:92px;text-align:center
+}
+.stat b{display:block;font-size:22px}
+.stat span{font-size:12px;color:var(--muted)}
+.layout{display:grid;grid-template-columns:290px 1fr;gap:18px}
+.panel{
+  background:rgba(255,255,255,.92);border:1px solid var(--line);border-radius:22px;
+  box-shadow:var(--shadow);padding:18px
+}
+.side h3{margin:0 0 12px}
+.mode-btn{
+  width:100%;text-align:left;border:1px solid var(--line);background:#fff;border-radius:14px;
+  padding:12px 13px;margin:6px 0;cursor:pointer;transition:.2s
+}
+.mode-btn:hover{transform:translateY(-1px);border-color:#b9cae0}
+.mode-btn.active{background:var(--soft);border-color:#8fb2ff;color:#184ea6;font-weight:700}
+.small-label{font-size:12px;color:var(--muted);margin-top:16px;margin-bottom:6px}
+.toggle{
+  display:flex;gap:8px;align-items:center;padding:9px 0;color:var(--muted);font-size:14px
+}
+.main{min-height:650px}
+.question-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap}
+.badge{
+  display:inline-flex;align-items:center;gap:6px;background:#eef4ff;color:#2256a7;
+  padding:7px 10px;border-radius:999px;font-size:13px;font-weight:700
+}
+.question{font-size:22px;font-weight:750;line-height:1.35;margin:14px 0 8px}
+.sub{color:var(--muted);font-size:14px}
+.diagram{
+  margin:16px 0;background:linear-gradient(180deg,#ffffff 0%,#f7fbff 100%);
+  border:1px solid #c8d7e8;border-radius:18px;padding:14px;
+  overflow:auto;min-height:310px;display:flex;align-items:center;justify-content:center;
+  position:relative
+}
+.diagram::before{
+  content:"DIAGRAM";position:absolute;top:10px;left:12px;
+  font-size:10px;letter-spacing:.12em;font-weight:800;color:#8ca0b5
+}
+svg{max-width:100%;height:auto;filter:drop-shadow(0 5px 10px rgba(30,70,110,.07))}
+.geom-label{font-weight:800;fill:#183153}
+.geom-dim{font-weight:700;fill:#263f59}
+.geom-note{fill:#7b8da0;font-size:13px}
+.geom-arrow{stroke:#2f6fed;stroke-width:2.5;fill:none}
+.geom-line{stroke:#24496f;stroke-width:3;fill:#fbfdff}
+.geom-soft{fill:#eef4ff;stroke:#24496f;stroke-width:3}
+.answer-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:16px}
+.answer-row input{
+  flex:1;min-width:180px;border:1px solid #bfcddd;border-radius:14px;padding:13px 14px;
+  outline:none;background:#fff
+}
+.answer-row input:focus{border-color:#7fa8ff;box-shadow:0 0 0 4px rgba(47,111,237,.10)}
+.btn{
+  border:none;border-radius:14px;padding:12px 16px;cursor:pointer;font-weight:750;
+  transition:.2s
+}
+.btn:hover{transform:translateY(-1px)}
+.primary{background:var(--blue);color:white}
+.secondary{background:#eef3f8;color:#28435f}
+.success{background:var(--green);color:#fff}
+.feedback{
+  display:none;margin-top:14px;border-radius:14px;padding:12px 14px;font-weight:650
+}
+.feedback.good{display:block;background:#e8f8f0;color:#177448;border:1px solid #b9e7d0}
+.feedback.bad{display:block;background:#fff0f0;color:#b33b3b;border:1px solid #f2c4c4}
+.solution{
+  display:none;margin-top:14px;padding:14px;border-radius:14px;background:#f8fafc;border:1px solid var(--line);
+  line-height:1.6
+}
+.solution.show{display:block}
+.solution code{background:#edf2f7;padding:2px 6px;border-radius:6px}
+.footer-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.progress{
+  height:10px;background:#e9eef4;border-radius:99px;overflow:hidden;margin-top:14px
+}
+.progress > div{height:100%;background:linear-gradient(90deg,#2f6fed,#1f9d68);width:0%}
+.kbd{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:#eef3f8;padding:2px 6px;border-radius:6px}
+.exam-note{margin-top:14px;font-size:13px;color:var(--muted)}
+.educator-brand{
+  position:fixed;right:16px;bottom:16px;z-index:10;display:flex;align-items:center;gap:9px;
+  max-width:calc(100vw - 32px);padding:10px 15px;border:1px solid rgba(255,255,255,.85);
+  border-radius:999px;background:rgba(255,255,255,.78);color:var(--ink);
+  box-shadow:0 8px 28px rgba(27,49,79,.16);backdrop-filter:blur(16px) saturate(135%);
+  -webkit-backdrop-filter:blur(16px) saturate(135%);pointer-events:none
+}
+.educator-brand strong{font-size:13px;overflow-wrap:anywhere}
+.educator-light{width:9px;height:9px;flex-shrink:0;border-radius:50%;background:#20b978;box-shadow:0 0 0 4px rgba(32,185,120,.14)}
+@media(max-width:860px){
+  .layout{grid-template-columns:1fr}
+  .side{order:2}
+  .main{order:1;min-height:auto}
+}
+</style>
+</head>
+<body>
+<div class="educator-brand" aria-label="Educator: Dr King Wunna"><span class="educator-light" aria-hidden="true"></span><strong>Dr King Wunna</strong></div>
+<div class="app">
+  <div class="topbar">
+    <div class="title-wrap">
+      <h1>Similar Shapes Practice Tool</h1>
+      <p>GCSE-style practice: scale factors, parallel lines, enlargement and area.</p>
+    </div>
+    <div class="stats">
+      <div class="stat"><b id="score">0</b><span>Score</span></div>
+      <div class="stat"><b id="streak">0</b><span>Streak</span></div>
+      <div class="stat"><b id="done">0</b><span>Completed</span></div>
+    </div>
+  </div>
+
+  <div class="layout">
+    <aside class="panel side">
+      <h3>Question type</h3>
+      <button class="mode-btn active" data-type="mixed">🎯 Mixed practice</button>
+      <button class="mode-btn" data-type="sides">📏 Corresponding sides</button>
+      <button class="mode-btn" data-type="parallel">🔺 Parallel-line triangles</button>
+      <button class="mode-btn" data-type="area">◻️ Area scale factor</button>
+      <button class="mode-btn" data-type="enlarge">🔍 Enlargement from a centre</button>
+      <button class="mode-btn" data-type="angles">📐 Similar triangle angles</button>
+      <button class="mode-btn" data-type="shaded">⬡ Shaded similar shapes</button>
+
+      <div class="small-label">Settings</div>
+      <label class="toggle"><input id="soundToggle" type="checkbox" checked> Sound effects</label>
+      <label class="toggle"><input id="autoSolution" type="checkbox"> Show solution after wrong answer</label>
+      <label class="toggle"><input id="examMode" type="checkbox"> Exam mode</label>
+
+      <div class="small-label">Quick keys</div>
+      <div class="sub"><span class="kbd">Enter</span> check answer<br><span class="kbd">N</span> next question</div>
+    </aside>
+
+    <main class="panel main">
+      <div class="question-head">
+        <div>
+          <span class="badge" id="topicBadge">Mixed practice</span>
+          <div class="question" id="questionText"></div>
+          <div class="sub" id="questionSub"></div>
+        </div>
+        <button class="btn secondary" id="newBtn">New Question</button>
+      </div>
+
+      <div class="diagram" id="diagram"></div>
+
+      <div class="answer-row">
+        <input id="answerInput" type="number" step="any" placeholder="Enter your answer" autocomplete="off">
+        <span id="unitLabel" class="sub"></span>
+        <button class="btn primary" id="checkBtn">Check</button>
+      </div>
+
+      <div id="feedback" class="feedback"></div>
+      <div id="solution" class="solution"></div>
+
+      <div class="footer-actions">
+        <button class="btn secondary" id="hintBtn">Hint</button>
+        <button class="btn secondary" id="solutionBtn">Show solution</button>
+        <button class="btn success" id="nextBtn">Next</button>
+      </div>
+
+      <div class="progress"><div id="progressBar"></div></div>
+      <div class="exam-note" id="examNote">Tip: corresponding lengths use the same scale factor; areas use the square of the scale factor.</div>
+    </main>
+  </div>
+</div>
+
+<script>
+const $ = s => document.querySelector(s);
+const rint = (a,b) => Math.floor(Math.random()*(b-a+1))+a;
+const pick = a => a[Math.floor(Math.random()*a.length)];
+const fmt = n => Number.isInteger(n) ? String(n) : String(Math.round(n*100)/100);
+
+let state = {type:'mixed', score:0, streak:0, done:0, q:null, locked:false};
+
+function beep(ok=true){
+  if(!$('#soundToggle').checked) return;
+  try{
+    const ctx = new (window.AudioContext||window.webkitAudioContext)();
+    const o = ctx.createOscillator(), g = ctx.createGain();
+    o.type='sine'; o.frequency.value=ok?660:220;
+    g.gain.setValueAtTime(.08,ctx.currentTime);
+    g.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+.16);
+    o.connect(g); g.connect(ctx.destination); o.start(); o.stop(ctx.currentTime+.17);
+  }catch(e){}
+}
+
+function triangleSVG(labels, inverted=false){
+  const a1={x:165,y:45}, b1={x:70,y:245}, c1={x:280,y:245};
+  const a2={x:455,y:85}, b2={x:385,y:245}, c2={x:555,y:245};
+  return `<svg viewBox="0 0 630 290" aria-label="similar triangle angle diagram">
+    <defs>
+      <marker id="arrowBlue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#2f6fed"/>
+      </marker>
+    </defs>
+    <polygon points="${a1.x},${a1.y} ${b1.x},${b1.y} ${c1.x},${c1.y}" class="geom-soft"/>
+    <polygon points="${a2.x},${a2.y} ${b2.x},${b2.y} ${c2.x},${c2.y}" class="geom-line"/>
+    <text x="154" y="34" class="geom-label">A</text>
+    <text x="52" y="263" class="geom-label">B</text>
+    <text x="286" y="263" class="geom-label">C</text>
+    <text x="445" y="74" class="geom-label">P</text>
+    <text x="366" y="263" class="geom-label">Q</text>
+    <text x="562" y="263" class="geom-label">R</text>
+
+    <path d="M145 78 Q165 58 185 78" stroke="#f2b84b" stroke-width="3" fill="none"/>
+    <path d="M435 112 Q455 93 475 112" stroke="#f2b84b" stroke-width="3" fill="none"/>
+    <path d="M83 221 Q98 232 111 241" stroke="#1f9d68" stroke-width="3" fill="none"/>
+    <path d="M397 221 Q412 232 425 241" stroke="#1f9d68" stroke-width="3" fill="none"/>
+
+    ${labels.map(x=>`<text x="${x.x}" y="${x.y}" text-anchor="middle" font-size="22" font-weight="800" fill="#183153">${x.t}</text>`).join('')}
+    <text x="396" y="282" class="geom-note">Corresponding angles are equal</text>
+  </svg>`;
+}
+function twoTrianglesSVG(L1,L2,S1,S2){
+  return `<svg viewBox="0 0 720 320" aria-label="two similar triangles">
+    <defs>
+      <marker id="dimA" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#2f6fed"/>
+      </marker>
+    </defs>
+    <polygon points="90,260 200,45 325,260" class="geom-soft"/>
+    <polygon points="420,260 500,105 600,260" class="geom-line"/>
+    <text x="193" y="34" class="geom-label">A</text>
+    <text x="68" y="279" class="geom-label">B</text>
+    <text x="331" y="279" class="geom-label">C</text>
+    <text x="493" y="94" class="geom-label">P</text>
+    <text x="401" y="279" class="geom-label">Q</text>
+    <text x="607" y="279" class="geom-label">R</text>
+
+    <line x1="102" y1="172" x2="180" y2="88" stroke="#2f6fed" stroke-width="2"/>
+    <text x="100" y="145" font-size="19" class="geom-dim">${L1}</text>
+    <text x="211" y="275" font-size="19" class="geom-dim">${L2}</text>
+
+    <text x="425" y="185" font-size="19" class="geom-dim">${S1}</text>
+    <text x="505" y="278" font-size="19" class="geom-dim">${S2}</text>
+
+    <path d="M165 76 l12 0" stroke="#f2b84b" stroke-width="4"/>
+    <path d="M475 127 l12 0" stroke="#f2b84b" stroke-width="4"/>
+    <path d="M110 247 l10 -9" stroke="#1f9d68" stroke-width="4"/>
+    <path d="M438 247 l10 -9" stroke="#1f9d68" stroke-width="4"/>
+    <text x="260" y="305" class="geom-note">The triangles are mathematically similar</text>
+  </svg>`;
+}
+function parallelSVG(ae,ed,cd,ab){
+  return `<svg viewBox="0 0 650 360" aria-label="parallel-line similar triangles">
+    <defs>
+      <marker id="arrP" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+        <path d="M0,0 L10,5 L0,10 z" fill="#2f6fed"/>
+      </marker>
+    </defs>
+    <polygon points="325,35 95,310 555,310" class="geom-line"/>
+    <polygon points="325,35 205,180 445,180" fill="#eef4ff" stroke="none"/>
+    <line x1="205" y1="180" x2="445" y2="180" stroke="#2f6fed" stroke-width="4"/>
+    <line x1="95" y1="310" x2="555" y2="310" stroke="#2f6fed" stroke-width="4"/>
+    <path d="M312 48 l12 8 l-12 8" stroke="#f2b84b" stroke-width="3" fill="none"/>
+    <path d="M195 191 l12 -8" stroke="#1f9d68" stroke-width="3"/>
+    <path d="M92 296 l12 -8" stroke="#1f9d68" stroke-width="3"/>
+
+    <text x="317" y="25" class="geom-label">A</text>
+    <text x="186" y="184" class="geom-label">B</text>
+    <text x="449" y="184" class="geom-label">E</text>
+    <text x="76" y="329" class="geom-label">C</text>
+    <text x="560" y="329" class="geom-label">D</text>
+
+    <text x="392" y="102" class="geom-dim">AE = ${ae} cm</text>
+    <text x="485" y="245" class="geom-dim">ED = ${ed} cm</text>
+    <text x="255" y="344" class="geom-dim">CD = ${cd} cm</text>
+    <text x="126" y="112" class="geom-dim">AB = ${ab} cm</text>
+
+    <line x1="245" y1="170" x2="280" y2="170" stroke="#2f6fed" stroke-width="2" marker-end="url(#arrP)"/>
+    <line x1="245" y1="300" x2="280" y2="300" stroke="#2f6fed" stroke-width="2" marker-end="url(#arrP)"/>
+    <text x="470" y="42" class="geom-note">BE ∥ CD</text>
+  </svg>`;
+}
+function enlargementSVG(oa,ap,oc,pr){
+  return `<svg viewBox="0 0 760 360" aria-label="enlargement from centre O">
+    <circle cx="65" cy="185" r="6" fill="#183153"/>
+    <text x="43" y="174" class="geom-label">O</text>
+
+    <polygon points="205,95 185,240 290,220" class="geom-soft"/>
+    <polygon points="500,30 450,320 700,270" fill="none" stroke="#2f6fed" stroke-width="4"/>
+
+    <line x1="65" y1="185" x2="500" y2="30" stroke="#9bb0c5" stroke-width="2" stroke-dasharray="7 6"/>
+    <line x1="65" y1="185" x2="700" y2="270" stroke="#9bb0c5" stroke-width="2" stroke-dasharray="7 6"/>
+
+    <text x="196" y="84" class="geom-label">A</text>
+    <text x="168" y="258" class="geom-label">B</text>
+    <text x="294" y="238" class="geom-label">C</text>
+    <text x="493" y="22" class="geom-label">P</text>
+    <text x="430" y="337" class="geom-label">Q</text>
+    <text x="705" y="288" class="geom-label">R</text>
+
+    <text x="105" y="112" class="geom-dim">OA = ${oa} cm</text>
+    <text x="286" y="74" class="geom-dim">AP = ${ap} cm</text>
+    <text x="111" y="238" class="geom-dim">OC = ${oc} cm</text>
+    <text x="565" y="175" class="geom-dim">PR = ${pr} cm</text>
+    <text x="482" y="350" class="geom-note">Same centre O, same scale factor</text>
+  </svg>`;
+}
+function areaSVG(smallArea,k){
+  return `<svg viewBox="0 0 700 330" aria-label="similar shapes area diagram">
+    <defs>
+      <marker id="arrD" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+        <path d="M0,0 L10,5 L0,10 z" fill="#2f6fed"/>
+      </marker>
+    </defs>
+    <rect x="80" y="115" width="150" height="100" rx="8" class="geom-soft"/>
+    <rect x="365" y="60" width="250" height="170" rx="8" class="geom-line"/>
+    <text x="116" y="169" font-size="22" class="geom-dim">${smallArea} cm²</text>
+    <text x="478" y="153" font-size="34" font-weight="900" fill="#2f6fed">?</text>
+
+    <line x1="80" y1="238" x2="230" y2="238" class="geom-arrow" marker-start="url(#arrD)" marker-end="url(#arrD)"/>
+    <line x1="365" y1="255" x2="615" y2="255" class="geom-arrow" marker-start="url(#arrD)" marker-end="url(#arrD)"/>
+    <text x="125" y="275" class="geom-note">small</text>
+    <text x="460" y="290" class="geom-note">large = ${k} × length</text>
+    <text x="235" y="315" class="geom-note">Area scale factor = ${k}²</text>
+  </svg>`;
+}
+function shadedSVG(smallArea,k){
+  return `<svg viewBox="0 0 680 350" aria-label="shaded similar shapes">
+    <defs>
+      <pattern id="shadeHatch" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+        <rect width="10" height="10" fill="#dfeaff"/>
+        <line x1="0" y1="0" x2="0" y2="10" stroke="#b7cdf7" stroke-width="4"/>
+      </pattern>
+    </defs>
+    <polygon points="340,25 590,115 530,315 150,315 90,115" fill="url(#shadeHatch)" stroke="#24496f" stroke-width="4"/>
+    <polygon points="340,100 445,140 410,245 270,245 235,140" fill="white" stroke="#24496f" stroke-width="3"/>
+    <text x="305" y="184" font-size="20" class="geom-dim">${smallArea} cm²</text>
+    <text x="448" y="90" font-size="18" font-weight="800" fill="#2f6fed">SHADED REGION</text>
+    <text x="250" y="338" class="geom-note">Outer length scale factor = ${k}</text>
+  </svg>`;
+}
+function genSides(){
+  const small = pick([3,4,5,6,7,8,9]);
+  const k = pick([1.5,2,2.5,3,4]);
+  const big = small*k;
+  const targetSmall = pick([4,5,6,7,8,10,12]);
+  const targetBig = targetSmall*k;
+  const askBig = Math.random()<.5;
+  return {
+    topic:'Corresponding sides',
+    q: askBig ? `Two triangles are similar. A side of ${small} cm corresponds to ${fmt(big)} cm. Another side of the smaller triangle is ${targetSmall} cm. Find the corresponding side of the larger triangle.` :
+                `Two triangles are similar. A side of ${small} cm corresponds to ${fmt(big)} cm. The matching side in the larger triangle is ${fmt(targetBig)} cm. Find the corresponding side in the smaller triangle.`,
+    sub:'Use one consistent length scale factor.',
+    ans: askBig?targetBig:targetSmall, unit:'cm',
+    hint:`Scale factor = ${fmt(big)} ÷ ${small} = ${fmt(k)}.`,
+    sol: askBig ? `${fmt(big)} ÷ ${small} = ${fmt(k)}<br>${targetSmall} × ${fmt(k)} = <b>${fmt(targetBig)} cm</b>` :
+                   `${fmt(big)} ÷ ${small} = ${fmt(k)}<br>${fmt(targetBig)} ÷ ${fmt(k)} = <b>${targetSmall} cm</b>`,
+    svg:twoTrianglesSVG(`${small} cm`,`${targetSmall} cm`,`${fmt(big)} cm`,askBig?'?':`${fmt(targetBig)} cm`)
+  };
+}
+
+function genParallel(){
+  const ae = pick([4,5,6]);
+  const ed = pick([2,3,4]);
+  const ad = ae+ed;
+  const cd = pick([4.8,5.6,6.4,7.2]);
+  const ab = pick([3.6,4.5,5.4,6.3]);
+  const k = ae/ad; // small/large
+  const be = cd*k;
+  const ac = ab/k;
+  const bc = ac-ab;
+  const ask = Math.random()<.5?'be':'bc';
+  return {
+    topic:'Parallel-line triangles',
+    q: ask==='be' ? `BE is parallel to CD. AE = ${ae} cm, ED = ${ed} cm and CD = ${cd} cm. Calculate BE.` :
+                    `BE is parallel to CD. AE = ${ae} cm, ED = ${ed} cm and AB = ${ab} cm. Calculate BC.`,
+    sub:'Triangles ABE and ACD are similar.',
+    ans: ask==='be'?be:bc, unit:'cm',
+    hint:`First find AD = ${ae}+${ed} = ${ad}. Small : large = ${ae}:${ad}.`,
+    sol: ask==='be'
+      ? `AD=${ad}<br>BE/CD = AE/AD = ${ae}/${ad}<br>BE = ${cd}×${ae}/${ad} = <b>${fmt(be)} cm</b>`
+      : `AD=${ad}<br>AB/AC = AE/AD = ${ae}/${ad}<br>AC = ${ab}×${ad}/${ae} = ${fmt(ac)}<br>BC = AC−AB = ${fmt(ac)}−${ab} = <b>${fmt(bc)} cm</b>`,
+    svg:parallelSVG(ae,ed,cd,ab)
+  }
+}
+
+function genArea(){
+  const area = pick([4,5,6,7,8,9,12]);
+  const k = pick([1.5,2,2.5,3,4]);
+  const ans = area*k*k;
+  return {
+    topic:'Area scale factor',
+    q:`Two shapes are mathematically similar. The smaller shape has area ${area} cm² and the length scale factor from small to large is ${k}. Find the area of the larger shape.`,
+    sub:'Area scale factor = (length scale factor)².',
+    ans,unit:'cm²',
+    hint:`Square the length scale factor: ${k}² = ${fmt(k*k)}.`,
+    sol:`Area factor = ${k}² = ${fmt(k*k)}<br>${area} × ${fmt(k*k)} = <b>${fmt(ans)} cm²</b>`,
+    svg:areaSVG(area,k)
+  }
+}
+
+function genEnlarge(){
+  const oa = pick([2,3,4]);
+  const k = pick([3,4,5]);
+  const op = oa*k;
+  const ap = op-oa;
+  const oc = pick([2.5,3,3.5,4]);
+  const or = oc*k;
+  const cr = or-oc;
+  const ac = pick([2.5,3,3.5,4]);
+  const pr = ac*k;
+  const ask = pick(['scale','cr','ac']);
+  if(ask==='scale') return {
+    topic:'Enlargement from a centre',
+    q:`Triangle PQR is an enlargement of triangle ABC, centre O. OA = ${oa} cm and AP = ${ap} cm. Find the scale factor.`,
+    sub:'O, A and P lie on the same straight line.',
+    ans:k,unit:'',
+    hint:`OP = OA + AP.`,
+    sol:`OP=${oa}+${ap}=${op}<br>Scale factor = OP/OA = ${op}/${oa} = <b>${k}</b>`,
+    svg:enlargementSVG(oa,ap,oc,pr)
+  };
+  if(ask==='cr') return {
+    topic:'Enlargement from a centre',
+    q:`Triangle PQR is an enlargement of triangle ABC, centre O. OA = ${oa} cm, AP = ${ap} cm and OC = ${oc} cm. Find CR.`,
+    sub:'First find the enlargement scale factor.',
+    ans:cr,unit:'cm',
+    hint:`Scale factor = (${oa}+${ap}) ÷ ${oa} = ${k}.`,
+    sol:`OR=${oc}×${k}=${fmt(or)}<br>CR=OR−OC=${fmt(or)}−${oc}=<b>${fmt(cr)} cm</b>`,
+    svg:enlargementSVG(oa,ap,oc,pr)
+  };
+  return {
+    topic:'Enlargement from a centre',
+    q:`Triangle PQR is an enlargement of triangle ABC, centre O. OA = ${oa} cm, AP = ${ap} cm and PR = ${fmt(pr)} cm. Find AC.`,
+    sub:'Use the enlargement scale factor.',
+    ans:ac,unit:'cm',
+    hint:`Scale factor = (${oa}+${ap}) ÷ ${oa} = ${k}.`,
+    sol:`AC=PR÷${k}=${fmt(pr)}÷${k}=<b>${fmt(ac)} cm</b>`,
+    svg:enlargementSVG(oa,ap,oc,pr)
+  }
+}
+
+function genAngles(){
+  const a = pick([42,48,52,56,63,68]);
+  const b = pick([30,37,44,56,63,72]);
+  if(a+b>=170) return genAngles();
+  const c=180-a-b;
+  const unknown=pick(['a','b','c']);
+  const map={a,b,c};
+  const ans=map[unknown];
+  return {
+    topic:'Similar triangle angles',
+    q:`Two triangles are similar. In the first triangle the angles are ${a}°, ${b}° and ${c}°. The matching angle in the second triangle is marked x. Find x.`,
+    sub:'Corresponding angles in similar shapes are equal.',
+    ans,unit:'°',
+    hint:`Match the same corner/position in both triangles.`,
+    sol:`Corresponding angles are equal, so <b>x = ${ans}°</b>.`,
+    svg:triangleSVG([
+      {x:165,y:98,t:`${unknown==='a'?'x':a+'°'}`},
+      {x:108,y:225,t:`${unknown==='b'?'x':b+'°'}`},
+      {x:250,y:225,t:`${unknown==='c'?'x':c+'°'}`},
+      {x:455,y:135,t:`${unknown==='a'?'x':a+'°'}`},
+      {x:420,y:225,t:`${unknown==='b'?'x':b+'°'}`},
+      {x:528,y:225,t:`${unknown==='c'?'x':c+'°'}`}
+    ])
+  }
+}
+
+function genShaded(){
+  const small = pick([4,5,6,7,8]);
+  const k = pick([2,2.5,3,4]);
+  const big = small*k*k;
+  const shaded = big-small;
+  return {
+    topic:'Shaded similar shapes',
+    q:`Two similar shapes are nested. The inner shape has area ${small} cm². The length scale factor from the inner shape to the outer shape is ${k}. Find the shaded area.`,
+    sub:'Shaded area = outer area − inner area.',
+    ans:shaded,unit:'cm²',
+    hint:`First find the outer area using an area scale factor of ${k}².`,
+    sol:`Outer area = ${small}×${k}² = ${small}×${fmt(k*k)} = ${fmt(big)} cm²<br>Shaded area = ${fmt(big)}−${small} = <b>${fmt(shaded)} cm²</b>`,
+    svg:shadedSVG(small,k)
+  }
+}
+
+const gens={sides:genSides,parallel:genParallel,area:genArea,enlarge:genEnlarge,angles:genAngles,shaded:genShaded};
+
+function makeQuestion(){
+  state.locked=false;
+  const t = state.type==='mixed' ? pick(Object.keys(gens)) : state.type;
+  state.q=gens[t]();
+  $('#topicBadge').textContent=state.q.topic;
+  $('#questionText').textContent=state.q.q;
+  $('#questionSub').textContent=state.q.sub;
+  $('#diagram').innerHTML=state.q.svg;
+  $('#unitLabel').textContent=state.q.unit;
+  $('#answerInput').value='';
+  $('#feedback').className='feedback';
+  $('#feedback').textContent='';
+  $('#solution').className='solution';
+  $('#solution').innerHTML=state.q.sol;
+  $('#answerInput').focus();
+}
+
+function check(){
+  if(state.locked) return;
+  const raw=$('#answerInput').value.trim();
+  if(raw==='') return;
+  const val=Number(raw);
+  const tol=Math.max(.01,Math.abs(state.q.ans)*.002);
+  const ok=Math.abs(val-state.q.ans)<=tol;
+  state.locked=true;
+  state.done++;
+  if(ok){
+    state.score+=10; state.streak++;
+    $('#feedback').className='feedback good';
+    $('#feedback').innerHTML=`Correct! <b>${fmt(state.q.ans)} ${state.q.unit}</b>`;
+    beep(true);
+  }else{
+    state.streak=0;
+    $('#feedback').className='feedback bad';
+    $('#feedback').innerHTML=`Not quite. Try comparing the corresponding parts carefully.`;
+    if($('#autoSolution').checked) $('#solution').classList.add('show');
+    beep(false);
+  }
+  updateStats();
+}
+
+function updateStats(){
+  $('#score').textContent=state.score;
+  $('#streak').textContent=state.streak;
+  $('#done').textContent=state.done;
+  $('#progressBar').style.width=Math.min(100,(state.done%10)*10)+'%';
+}
+
+function showHint(){
+  if($('#examMode').checked){
+    $('#feedback').className='feedback bad';
+    $('#feedback').textContent='Hints are hidden in Exam Mode.';
+    return;
+  }
+  $('#feedback').className='feedback good';
+  $('#feedback').innerHTML='Hint: '+state.q.hint;
+}
+function showSolution(){
+  if($('#examMode').checked){
+    $('#feedback').className='feedback bad';
+    $('#feedback').textContent='Solutions are hidden in Exam Mode.';
+    return;
+  }
+  $('#solution').classList.toggle('show');
+}
+function next(){ makeQuestion(); }
+
+document.querySelectorAll('.mode-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.mode-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    state.type=btn.dataset.type;
+    makeQuestion();
+  });
+});
+$('#checkBtn').onclick=check;
+$('#newBtn').onclick=makeQuestion;
+$('#nextBtn').onclick=next;
+$('#hintBtn').onclick=showHint;
+$('#solutionBtn').onclick=showSolution;
+$('#examMode').onchange=()=>{
+  $('#examNote').textContent=$('#examMode').checked
+    ? 'Exam mode: hints and worked solutions are disabled.'
+    : 'Tip: corresponding lengths use the same scale factor; areas use the square of the scale factor.';
+};
+document.addEventListener('keydown',e=>{
+  if(e.key==='Enter') check();
+  if((e.key==='n'||e.key==='N') && document.activeElement.tagName!=='INPUT') next();
+});
+
+makeQuestion();
+</script>
+</body>
+</html>
